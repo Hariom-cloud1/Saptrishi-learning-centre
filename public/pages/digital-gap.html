@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Digital Gap — Saptrishi Learning Centre</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&amp;family=Work+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#232323; --ink-soft:#4a463f; --paper:#FBF6EC; --paper-raised:#FFFDF8;
+    --indigo:#1B2A4A; --indigo-soft:#2A3D63; --marigold:#F2A93B; --marigold-deep:#D98A1E;
+    --leaf:#4C7A5E; --brick:#B4552F; --border:#E4DAC4;
+    --shadow:0 10px 30px rgba(27,42,74,0.10); --radius:14px; --max:820px;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:'Work Sans',sans-serif;line-height:1.7;}
+  h1,h2{font-family:'Baloo 2',sans-serif;font-weight:700;color:var(--indigo);}
+  .wrap{max-width:var(--max);margin:0 auto;padding:56px 24px 90px;}
+  .back-link{
+    display:inline-flex;align-items:center;gap:6px;text-decoration:none;color:var(--brick);
+    font-weight:700;font-size:0.92rem;margin-bottom:28px;
+  }
+  .back-link:hover{text-decoration:underline;}
+  .icon-badge{
+    width:60px;height:60px;border-radius:16px;background:var(--brick);color:#fff;
+    display:flex;align-items:center;justify-content:center;margin-bottom:22px;
+  }
+  h1{font-size:clamp(1.7rem,4vw,2.4rem);margin:0 0 20px;}
+  .lead{font-size:1.12rem;color:var(--ink-soft);margin-bottom:8px;}
+  .body-copy p{color:var(--ink-soft);font-size:1.03rem;margin-bottom:18px;}
+  .cta-box{
+    margin-top:40px;padding:26px;border-radius:var(--radius);background:var(--paper-raised);
+    border:1px solid var(--border);box-shadow:var(--shadow);
+  }
+  .cta-box p{margin:0 0 14px;color:var(--ink-soft);}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;padding:12px 26px;
+    border-radius:999px;font-weight:700;background:var(--marigold);color:var(--indigo);
+    text-decoration:none;box-shadow:0 8px 20px rgba(242,169,59,0.4);
+  }
+  footer{background:var(--indigo);color:#B9B29C;text-align:center;padding:26px;font-size:0.85rem;}
+  footer a{color:var(--marigold);text-decoration:none;}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <a href="../index.html#about" class="back-link">&larr; Back to Our Story</a>
+    <div class="icon-badge"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="4" y="4" width="16" height="12" rx="2"/><path d="M9 20h6M12 16v4"/></svg></div>
+    <h1>The Digital Gap</h1>
+    <p class="lead">Lack of access to devices or the internet keeps children a full generation behind.</p>
+    <div class="body-copy">
+      <p>Most children in the slum communities we work with have never touched a computer before joining our centres. Without a phone, laptop, or reliable internet at home, everyday tasks that other students take for granted — typing an assignment, researching a topic, taking an online test — remain completely out of reach.</p>
+      <p>This isn't just an inconvenience; it's a widening gap. As schools and workplaces move further online, children without digital exposure risk being locked out of opportunities long before they even finish their education.</p>
+      <p>That's why our centres provide shared Chromebooks and supervised digital literacy sessions — so a child's first experience with technology is safe, guided, and empowering rather than a barrier they hit later in life.</p>
+    </div>
+    <div class="cta-box">
+      <p>Help us close this gap for a child in Kanpur.</p>
+      <a href="../index.html#donate" class="btn">Donate Now</a>
+    </div>
+  </div>
+  <footer>
+    &copy; 2026 Saptrishi Learning Centre, Kanpur &middot; <a href="../index.html">Back to Home</a>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Saptrishi Learning Centre</title>
+<style>
+  body{font-family:'Work Sans',Arial,sans-serif;background:#FBF6EC;color:#232323;margin:0;padding:32px;}
+  h1{font-family:'Baloo 2',sans-serif;color:#1B2A4A;}
+  .key-bar{display:flex;gap:10px;margin-bottom:28px;flex-wrap:wrap;}
+  input{padding:10px 14px;border:1px solid #ccc;border-radius:8px;font-size:0.95rem;min-width:220px;}
+  button{padding:10px 18px;border:none;background:#1B2A4A;color:#fff;border-radius:8px;cursor:pointer;font-weight:700;}
+  button:hover{background:#2A3D63;}
+  table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;margin-bottom:36px;box-shadow:0 4px 14px rgba(0,0,0,0.06);}
+  th,td{padding:10px 12px;border-bottom:1px solid #eee;text-align:left;font-size:0.88rem;}
+  th{background:#1B2A4A;color:#fff;}
+  h2{font-family:'Baloo 2',sans-serif;color:#B4552F;margin-top:36px;}
+  .empty{color:#888;font-style:italic;padding:12px 0;}
+  .error{color:#B23A48;font-weight:700;}
+  .stat-cards{display:flex;gap:16px;margin-bottom:28px;flex-wrap:wrap;}
+  .stat-card{background:#fff;border-radius:10px;padding:16px 22px;box-shadow:0 4px 14px rgba(0,0,0,0.06);}
+  .stat-card b{display:block;font-size:1.6rem;color:#4C7A5E;}
+</style>
+</head>
+<body>
+  <h1>Saptrishi — Admin Dashboard</h1>
+  <div class="key-bar">
+    <input type="password" id="adminKey" placeholder="Enter admin key">
+    <button onclick="loadData()">Load Data</button>
+  </div>
+  <div id="msg"></div>
+  <div class="stat-cards" id="stats"></div>
+  <div id="content"></div>
+
+<script>
+  function saveKey(k){ sessionStorage.setItem('adminKey', k); }
+  document.getElementById('adminKey').value = sessionStorage.getItem('adminKey') || '';
+
+  async function loadData(){
+    const key = document.getElementById('adminKey').value.trim();
+    saveKey(key);
+    const msg = document.getElementById('msg');
+    const content = document.getElementById('content');
+    const statsEl = document.getElementById('stats');
+    msg.innerHTML = '';
+    content.innerHTML = '';
+    statsEl.innerHTML = '';
+    try{
+      const res = await fetch('/api/admin/data', { headers: { 'X-Admin-Key': key } });
+      const data = await res.json();
+      if(!res.ok){
+        msg.innerHTML = '<p class="error">'+(data.error || 'Failed to load')+'</p>';
+        return;
+      }
+      statsEl.innerHTML = `
+        <div class="stat-card"><b>${data.donations.length}</b>Donation intents</div>
+        <div class="stat-card"><b>${data.volunteers.length}</b>Volunteer signups</div>
+        <div class="stat-card"><b>${data.contacts.length}</b>Contact messages</div>
+      `;
+      content.innerHTML =
+        renderTable('Donations', data.donations, ['id','name','email','phone','amount','message','created_at']) +
+        renderTable('Volunteers', data.volunteers, ['id','name','email','phone','skills','message','created_at']) +
+        renderTable('Contact Messages', data.contacts, ['id','name','email','message','created_at']);
+    }catch(e){
+      msg.innerHTML = '<p class="error">Could not reach server: '+e.message+'</p>';
+    }
+  }
+
+  function renderTable(title, rows, cols){
+    if(!rows.length){
+      return `<h2>${title}</h2><p class="empty">No entries yet.</p>`;
+    }
+    let html = `<h2>${title} (${rows.length})</h2><table><thead><tr>`;
+    cols.forEach(c => html += `<th>${c}</th>`);
+    html += '</tr></thead><tbody>';
+    rows.forEach(r => {
+      html += '<tr>' + cols.map(c => `<td>${r[c] ?? ''}</td>`).join('') + '</tr>';
+    });
+    html += '</tbody></table>';
+    return html;
+  }
+
+  if(sessionStorage.getItem('adminKey')) loadData();
+</script>
+</body>
+</html>

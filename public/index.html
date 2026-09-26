@@ -1,0 +1,2006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saptrishi Learning Centre — Education &amp; Vocational Training, Kanpur</title>
+<meta name="description" content="Saptrishi Learning Centre brings bridge classrooms, nutrition, and vocational training to slum communities in Kanpur, India.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&amp;family=Work+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#232323;
+    --ink-soft:#4a463f;
+    --paper:#FBF6EC;
+    --paper-raised:#FFFDF8;
+    --rule-blue:#AFCBE8;
+    --margin-red:#B23A48;
+    --indigo:#1B2A4A;
+    --indigo-soft:#2A3D63;
+    --marigold:#F2A93B;
+    --marigold-deep:#D98A1E;
+    --leaf:#4C7A5E;
+    --brick:#B4552F;
+    --border:#E4DAC4;
+    --shadow: 0 10px 30px rgba(27,42,74,0.10);
+    --radius:14px;
+    --max:1180px;
+    font-size:16px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4,.display{
+    font-family:'Baloo 2', 'Work Sans', sans-serif;
+    font-weight:700;
+    color:var(--ink);
+    line-height:1.15;
+    margin:0;
+  }
+  a{color:inherit;}
+  img,svg{display:block;max-width:100%;}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px;}
+  section{padding:88px 0;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'Work Sans',sans-serif;font-weight:700;font-size:0.78rem;
+    letter-spacing:0.12em;text-transform:uppercase;color:var(--brick);
+    margin-bottom:14px;
+  }
+  .eyebrow::before{content:"";width:22px;height:2px;background:var(--marigold);display:inline-block;border-radius:2px;}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:14px 28px;border-radius:999px;font-weight:700;font-size:1rem;
+    font-family:'Work Sans',sans-serif;text-decoration:none;cursor:pointer;
+    background-color: var(--marigold); border:2px solid transparent;transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
+    min-height:48px;
+  }
+  .btn:active{transform:translateY(1px);}
+  .btn-primary{background:var(--marigold);color:var(--indigo);box-shadow:0 8px 20px rgba(242,169,59,0.45);}
+  .btn-primary:hover{background:var(--marigold-deep);box-shadow:0 10px 24px rgba(217,138,30,0.5);}
+  .btn-outline{background:transparent;border-color:var(--paper-raised);color:var(--paper-raised);}
+  .btn-outline:hover{background:rgba(255,255,255,0.12);}
+  .btn-ghost{background:transparent;border-color:var(--indigo);color:var(--indigo);}
+  .btn-ghost:hover{background:var(--indigo);color:#fff;}
+
+  .chalk{position:relative;white-space:nowrap;}
+  .chalk svg{position:absolute;left:-2%;bottom:-0.14em;width:104%;height:0.35em;}
+
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(251,246,236,0.92);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--border);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;max-width:var(--max);margin:0 auto;}
+  .logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+  .logo-mark{
+    width:38px;height:38px;border-radius:10px;background:var(--indigo);
+    display:flex;align-items:center;justify-content:center;color:var(--marigold);
+    font-family:'Baloo 2',sans-serif;font-weight:800;font-size:1.1rem;flex:none;
+  }
+  .logo-text{font-family:'Baloo 2',sans-serif;font-weight:700;color:var(--indigo);font-size:1.08rem;}
+  .logo-text span{display:block;font-family:'Work Sans',sans-serif;font-weight:500;font-size:0.68rem;color:var(--ink-soft);letter-spacing:0.04em;}
+  nav.links{display:flex;align-items:center;gap:28px;}
+  nav.links a{text-decoration:none;color:var(--ink);font-weight:600;font-size:0.95rem;position:relative;}
+  nav.links a::after{content:"";position:absolute;left:0;bottom:-6px;width:0;height:2px;background:var(--marigold);transition:width .2s ease;}
+  nav.links a:hover::after{width:100%;}
+  .nav-right{display:flex;align-items:center;gap:14px;}
+  .lang-toggle{
+    display:flex;border:1.5px solid var(--indigo);border-radius:999px;overflow:hidden;font-weight:700;font-size:0.78rem;
+  }
+  .lang-toggle button{
+    border:none;background:transparent;padding:6px 12px;cursor:pointer;color:var(--indigo);font-family:'Work Sans',sans-serif;font-weight:700;
+  }
+  .lang-toggle button.active{background:var(--indigo);color:#fff;}
+  .menu-btn{display:none;background:none;border:none;cursor:pointer;padding:6px;}
+  .menu-btn span{display:block;width:24px;height:2.5px;background:var(--indigo);margin:5px 0;border-radius:2px;}
+
+  .hero{
+    position:relative;overflow:hidden;
+    background:
+      linear-gradient(180deg, rgba(251,246,236,0) 60%, var(--paper) 100%),
+      radial-gradient(1100px 500px at 85% -10%, rgba(242,169,59,0.28), transparent 60%),
+      var(--paper);
+    padding:64px 0 40px;
+  }
+  .hero-grid{display:grid;grid-template-columns:1.05fr 0.95fr;gap:56px;align-items:center;}
+  .hero h1{font-size:clamp(2.2rem, 4.2vw, 3.4rem);margin-bottom:20px;}
+  .hero-sub{font-size:1.12rem;color:var(--ink-soft);max-width:52ch;margin-bottom:30px;}
+  .hero-ctas{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:26px;}
+  .hero-note{font-size:0.86rem;color:var(--ink-soft);display:flex;align-items:center;gap:8px;}
+  .hero-note svg{width:16px;height:16px;flex:none;}
+
+  .video-card{
+  position:relative;
+  width:100%;
+  max-width:400px;
+  height:500px;
+  border-radius:24px;
+  overflow:hidden;
+  background:#111;
+  box-shadow:0 18px 40px rgba(27,42,74,.22);
+}
+
+.ngo-video{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+  border-radius:24px;
+  background:#111;
+}
+
+.play-btn{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  width:72px;
+  height:72px;
+  border:none;
+  border-radius:50%;
+  background:var(--marigold);
+  color:var(--indigo);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  z-index:5;
+  box-shadow:0 10px 30px rgba(0,0,0,.35);
+  transition:transform .2s ease, opacity .2s ease, background .2s ease;
+}
+
+.play-btn:hover{
+  transform:translate(-50%,-50%) scale(1.08);
+  background:#ffc15c;
+}
+
+.play-btn svg{
+  width:32px;
+  height:32px;
+}
+
+.play-btn.hidden{
+  opacity:0;
+  pointer-events:none;
+}
+
+.video-caption{
+  position:absolute;
+  left:18px;
+  right:18px;
+  bottom:18px;
+  z-index:6;
+  color:#fff;
+  font-family:'Baloo 2',sans-serif;
+  font-size:1.05rem;
+  font-weight:600;
+  text-shadow:0 2px 10px rgba(0,0,0,.7);
+  pointer-events:none;
+}
+
+.video-card video::-webkit-media-controls{
+  z-index:10;
+}
+
+@media(max-width:768px){
+  .video-card{
+    max-width:100%;
+    height:420px;
+  }
+
+  .play-btn{
+    width:64px;
+    height:64px;
+  }
+}
+
+
+@media(max-width:980px){
+  nav.links.mobile-open{
+    display:flex;
+    position:absolute;
+    top:67px;
+    left:0;
+    right:0;
+    background:var(--paper);
+    flex-direction:column;
+    padding:20px 24px;
+    border-bottom:1px solid var(--border);
+    gap:16px;
+    box-shadow:0 10px 25px rgba(0,0,0,.12);
+  }
+}
+
+
+  .marquee-wrap{background:var(--indigo);color:#fff;overflow:hidden;padding:14px 0;}
+  .marquee{display:flex;width:max-content;animation:scroll 22s linear infinite;}
+  @keyframes scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+  .marquee span{
+    font-family:'Baloo 2',sans-serif;font-weight:600;font-size:1.05rem;color:var(--marigold);
+    padding:0 32px;white-space:nowrap;display:flex;align-items:center;gap:10px;
+  }
+  .marquee span::after{content:"✦";color:rgba(255,255,255,0.35);}
+
+  .section-head{max-width:640px;margin-bottom:48px;}
+  .section-head h2{font-size:clamp(1.7rem,3vw,2.4rem);margin-bottom:12px;}
+  .section-head p{color:var(--ink-soft);font-size:1.05rem;}
+
+  .stats-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:20px;}
+  .ruled-card{
+    position:relative;background:
+      repeating-linear-gradient(var(--paper-raised) 0 27px, var(--rule-blue) 27px 28px);
+    border:1px solid var(--border);border-radius:10px;
+    padding:26px 20px 22px 34px;box-shadow:var(--shadow);
+    min-height:190px;display:flex;flex-direction:column;justify-content:flex-end;
+    transform:translateY(14px);opacity:0;transition:transform .6s ease, opacity .6s ease;
+  }
+  .ruled-card::before{
+    content:"";position:absolute;left:20px;top:0;bottom:0;width:2px;background:var(--margin-red);opacity:0.55;
+  }
+  .ruled-card.in-view{transform:translateY(0);opacity:1;}
+  .ruled-card .num{
+    font-family:'Baloo 2',sans-serif;font-weight:800;font-size:2.5rem;color:var(--brick);line-height:1;
+  }
+  .ruled-card .label{font-weight:700;color:var(--indigo);margin-top:6px;font-size:0.95rem;}
+  .ruled-card .desc{color:var(--ink-soft);font-size:0.84rem;margin-top:4px;}
+
+  .story-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start;}
+  .story-grid p{color:var(--ink-soft);margin-bottom:16px;font-size:1.02rem;}
+  .pull-quote{
+    position:relative;font-family:'Baloo 2',sans-serif;font-weight:600;color:var(--indigo);
+    font-size:1.35rem;line-height:1.45;padding:6px 0 6px 24px;border-left:4px solid var(--marigold);margin:26px 0;
+  }
+  .challenge-list{display:flex;flex-direction:column;gap:16px;}
+  .challenge-item{
+    display:flex;gap:16px;padding:18px;border-radius:12px;background:var(--paper-raised);
+    border:1px solid var(--border);text-decoration:none;color:inherit;cursor:pointer;
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .challenge-item:hover{transform:translateY(-3px);box-shadow:0 12px 26px rgba(27,42,74,0.12);}
+  .challenge-item .icon{
+    width:42px;height:42px;border-radius:10px;background:rgba(180,85,47,0.12);color:var(--brick);
+    display:flex;align-items:center;justify-content:center;flex:none;
+  }
+  .challenge-item h4{font-size:1.02rem;margin-bottom:4px;}
+  .challenge-item p{margin:0;color:var(--ink-soft);font-size:0.94rem;}
+
+  .mv-section{background:var(--indigo);color:#EFE9DA;}
+  .mv-section .eyebrow{color:var(--marigold);}
+  .mv-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,0.14);border-radius:18px;overflow:hidden;}
+  .mv-card{background:var(--indigo-soft);padding:40px;}
+  .mv-card h3{color:var(--marigold);font-size:1.5rem;margin-bottom:14px;font-family:'Baloo 2',sans-serif;}
+  .mv-card p{color:#DCD6C6;font-size:1.06rem;margin:0;}
+
+  .approach-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;}
+  .approach-card{
+    background:var(--paper-raised);border:1px solid var(--border);border-radius:var(--radius);
+    padding:26px 22px;box-shadow:var(--shadow);cursor:pointer;
+    transition:transform .2s ease, box-shadow .2s ease;
+    display:block;text-decoration:none;color:inherit;
+  }
+  .approach-card:hover, .approach-card:focus-visible{
+    transform:translateY(-4px);box-shadow:0 16px 34px rgba(27,42,74,0.16);outline:none;
+  }
+  .approach-card .icon{
+    width:48px;height:48px;border-radius:12px;background:var(--leaf);color:#fff;
+    display:flex;align-items:center;justify-content:center;margin-bottom:16px;
+  }
+  .approach-card h4{font-size:1.08rem;margin-bottom:8px;}
+  .approach-card p{color:var(--ink-soft);font-size:0.92rem;margin:0;}
+  .card-more{
+    display:inline-block;margin-top:12px;font-weight:700;font-size:0.84rem;color:var(--brick);
+  }
+  .callout-strip{
+    margin-top:30px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+    background:linear-gradient(120deg, rgba(242,169,59,0.16), rgba(76,122,94,0.12));
+    border:1px dashed var(--marigold-deep);border-radius:var(--radius);padding:18px 22px;
+  }
+  .callout-strip .icon{width:36px;height:36px;flex:none;color:var(--brick);}
+  .callout-strip p{margin:0;font-weight:600;color:var(--indigo);}
+
+  .team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;}
+  .team-card{
+    background:var(--paper-raised);border:1px solid var(--border);border-radius:var(--radius);
+    padding:24px;box-shadow:var(--shadow);display:flex;flex-direction:column;
+  }
+  .avatar{
+    width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-family:'Baloo 2',sans-serif;font-weight:700;font-size:1.3rem;color:#9f3939;margin-bottom:14px;flex:none;
+  }
+  .team-card h4{font-size:1.08rem;margin-bottom:2px;}
+  .team-card .role{color:var(--brick);font-weight:700;font-size:0.82rem;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:12px;}
+  .team-card p{color:var(--ink-soft);font-size:0.92rem;margin: 0 0 10px;}
+  .team-card details{margin-top:auto;}
+  .team-card summary{cursor:pointer;color: rgb(158, 66, 9);font-weight:700;font-size:0.88rem;list-style:none; margin-top:12px;display:inline-flex;align-items:center;gap:6px;}
+  .team-card summary::-webkit-details-marker{display:none;}
+  .team-card summary::after{content:" →";}
+  .team-card details[open] summary::after{content:" ↑";}
+  .team-card details p{margin-top: 10px;}
+  
+
+  .trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-bottom:56px;}
+  .trust-card{
+    background:var(--paper-raised);border:1px solid var(--border);border-radius:var(--radius);
+    padding:26px;box-shadow:var(--shadow);
+  }
+  .trust-card .icon{width:40px;height:40px;color:var(--leaf);margin-bottom:14px;}
+  .trust-card h4{font-size:1.04rem;margin-bottom:6px;}
+  .trust-card p{color:var(--ink-soft);font-size:0.92rem;margin:0;}
+
+  .trust-split{display:grid;grid-template-columns:0.9fr 1.1fr;gap:56px;align-items:center;}
+  .donut-wrap{display:flex;flex-direction:column;align-items:center;gap:18px;}
+  .donut{
+    width:220px;height:220px;border-radius:50%;position:relative;
+    background:conic-gradient(var(--leaf) 0deg, var(--leaf) 0deg, var(--border) 0deg);
+    transition:background 1.4s ease;
+  }
+  .donut::before{
+    content:"";position:absolute;inset:26px;border-radius:50%;background:var(--paper);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .donut-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;}
+  .donut-center .big{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:1.9rem;color:var(--leaf);}
+  .donut-center .small{font-size:0.78rem;color:var(--ink-soft);font-weight:600;}
+  .donut-legend{display:flex;gap:18px;flex-wrap:wrap;justify-content:center;font-size:0.86rem;font-weight:600;}
+  .donut-legend span{display:inline-flex;align-items:center;gap:6px;}
+  .dot{width:10px;height:10px;border-radius:50%;display:inline-block;}
+  .trust-quote{
+    background:var(--indigo);color:#fff;border-radius:18px;padding:34px 36px;position:relative;
+  }
+  .trust-quote p{font-family:'Baloo 2',sans-serif;font-size:1.4rem;line-height:1.4;color:var(--marigold);margin:0 0 16px;}
+  .trust-quote span{color:#C9C2AE;font-size:0.9rem;}
+
+  .cta-section{
+    background:linear-gradient(135deg, var(--brick), var(--marigold-deep));
+    color:#fff;border-radius:26px;margin:0 24px;padding:56px 44px;
+    display:grid;grid-template-columns:1.3fr 1fr;gap:40px;align-items:center;
+  }
+  .cta-section h2{color:#fff;font-size:clamp(1.6rem,3vw,2.1rem);margin-bottom:14px;}
+  .cta-section p{color:rgba(255,255,255,0.9);margin-bottom:0;max-width:48ch;}
+  .cta-actions{display:flex;flex-direction:column;gap:12px;}
+  .cta-actions .btn{width:100%;}
+  .upi-badge{
+    display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.14);
+    border-radius:10px;padding:10px 14px;font-size:0.82rem;font-weight:600;
+  }
+  .qr-card{
+    background:#fff;border-radius:14px;padding:16px;display:flex;flex-direction:column;
+    align-items:center;gap:8px;box-shadow:0 8px 20px rgba(0,0,0,0.18);
+  }
+  .qr-image{width:150px;height:150px;object-fit:contain;border-radius:6px;}
+  .qr-label{margin:0;font-size:0.82rem;font-weight:700;color:var(--brick);}
+  .qr-card.qr-placeholder{
+    background:repeating-linear-gradient(135deg, #fff, #fff 10px, var(--border) 10px, var(--border) 11px);
+  }
+  .qr-card.qr-placeholder .qr-image{display:none;}
+  .qr-card.qr-placeholder::before{
+    content:"⬛ Add your UPI QR code here";width:150px;height:150px;
+    display:flex;align-items:center;justify-content:center;text-align:center;
+    color:var(--ink-soft);font-weight:600;font-size:0.8rem;padding:10px;
+    background:#040000;border-radius:6px;border:1px dashed var(--border);
+  }
+
+  footer{background:var(--indigo);color:#CFC9B8;padding:56px 0 26px;margin-top:88px;}
+  .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:36px;margin-bottom:40px;}
+  footer h5{color:#fff;font-family:'Baloo 2',sans-serif;font-size:1rem;margin-bottom:14px;}
+  footer p, footer a{color:#B9B29C;font-size:0.9rem;text-decoration:none;}
+  footer ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px;}
+  footer a:hover{color:var(--marigold);}
+  .legal-strip{
+    border-top:1px solid rgba(255,255,255,0.12);padding-top:22px;
+    display:flex;flex-wrap:wrap;justify-content:space-between;gap:14px;font-size:0.8rem;color:#8F896F;
+  }
+  .legal-strip .tags{display:flex;gap:10px;flex-wrap:wrap;}
+  .legal-strip .tags span{border:1px solid rgba(255,255,255,0.15);border-radius:999px;padding:4px 12px;}
+
+  .hero-slideshow{
+    position:relative;width:100%;height:auto;min-height:340px;max-height:600px;
+    overflow:hidden;background:linear-gradient(150deg, var(--indigo), var(--indigo-soft));
+  }
+  .hero-slideshow .slide{
+    position:absolute;inset:0;opacity:0;transition:opacity 1s ease;
+  }
+  .hero-slideshow .slide.active{opacity:1;}
+  .hero-slideshow .slide img{
+    width:100%;height:100%;object-fit:cover;display:block;
+  }
+  .hero-slideshow .slide.slide-placeholder{
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'><rect width='400' height='300' fill='%232A3D63'/><circle cx='338' cy='54' r='34' fill='%23F2A93B' opacity='0.9'/><path d='M0 218 Q100 188 200 213 T400 203 V300 H0Z' fill='%234C7A5E' opacity='0.55'/><path d='M0 244 Q120 224 240 244 T400 234 V300 H0Z' fill='%23345c46' opacity='0.7'/><g fill='%23FBF6EC' opacity='0.92'><circle cx='140' cy='214' r='12'/><rect x='130' y='226' width='20' height='34' rx='8'/><circle cx='200' cy='204' r='14'/><rect x='188' y='218' width='24' height='40' rx='9'/><circle cx='260' cy='216' r='11'/><rect x='250' y='227' width='19' height='32' rx='8'/></g></svg>");
+    background-size:cover;background-position:center;
+  }
+  .hero-slideshow .slide.slide-placeholder img{display:none;}
+  .hero-slideshow .slide.slide-placeholder::before{
+    content:"📷 Add your photos here";position:absolute;right:16px;top:16px;
+    background:rgba(16,22,43,0.65);color:#fff;font-weight:600;font-size:0.8rem;
+    padding:8px 14px;border-radius:999px;font-family:'Work Sans',sans-serif;
+  }
+  .hero-slideshow-overlay{
+    position:absolute;inset:0;background:linear-gradient(0deg, rgba(27,42,74,0.65), rgba(27,42,74,0.05) 55%);
+    pointer-events:none;
+  }
+  .hero-slideshow-caption{
+    position:absolute;left:24px;bottom:22px;color:#fff;font-family:'Baloo 2',sans-serif;
+    font-weight:600;font-size:clamp(1.1rem,2.4vw,1.6rem);text-shadow:0 2px 12px rgba(0,0,0,0.4);
+    max-width:80%;
+  }
+
+  .theme-menu-btn{
+    background:none;border:none;cursor:pointer;padding:6px;margin-left:10px;flex:none;
+  }
+  .theme-menu-btn span{
+    display:block;width:22px;height:2.5px;background:var(--indigo);margin:5px 0;border-radius:2px;
+    transition:background .3s ease;
+  }
+  .side-drawer-overlay{
+    position:fixed;inset:0;background:rgba(27,42,74,0.5);z-index:150;
+    opacity:0;pointer-events:none;transition:opacity .3s ease;
+  }
+  .side-drawer-overlay.open{opacity:1;pointer-events:auto;}
+  .side-drawer{
+    position:absolute;top:0;left:0;bottom:0;width:280px;max-width:82vw;
+    background:var(--paper);box-shadow:8px 0 30px rgba(0,0,0,0.25);
+    padding:30px 26px;transform:translateX(-100%);transition:transform .35s cubic-bezier(.22,.8,.32,1);
+    display:flex;flex-direction:column;gap:6px;
+  }
+  .side-drawer-overlay.open .side-drawer{transform:translateX(0);}
+  .drawer-title{font-family:'Baloo 2',sans-serif;color:var(--indigo);font-size:1.2rem;margin:0 0 20px;}
+  .drawer-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;}
+  .drawer-label{display:flex;align-items:center;gap:10px;font-weight:600;color:var(--ink);font-size:0.96rem;}
+  .drawer-divider{height:1px;background:var(--border);margin:14px 0;}
+  .drawer-link{
+    text-decoration:none;color:var(--ink-soft);font-weight:600;padding:10px 0;font-size:0.96rem;
+    border-bottom:1px solid var(--border);
+  }
+  .drawer-link:hover{color:var(--brick);}
+
+  .switch{position:relative;display:inline-block;width:46px;height:26px;flex:none;}
+  .switch input{opacity:0;width:0;height:0;}
+  .switch-slider{
+    position:absolute;cursor:pointer;inset:0;background:var(--border);border-radius:999px;
+    transition:background .3s ease;
+  }
+  .switch-slider::before{
+    content:"";position:absolute;height:20px;width:20px;left:3px;bottom:3px;
+    background:#fff;border-radius:50%;transition:transform .3s ease;box-shadow:0 2px 6px rgba(0,0,0,0.2);
+  }
+  .switch input:checked + .switch-slider{background:var(--indigo);}
+  .switch input:checked + .switch-slider::before{transform:translateX(20px);}
+
+  .form-card{
+    background:var(--paper-raised);border:1px solid var(--border);border-radius:var(--radius);
+    padding:30px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:14px;
+  }
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  input,textarea{
+    width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;
+    font-family:'Work Sans',sans-serif;font-size:0.95rem;background:#fff;color:var(--ink);resize:vertical;
+  }
+  input:focus,textarea:focus{outline:none;border-color:var(--marigold-deep);}
+  .form-status{margin:0;font-size:0.88rem;font-weight:600;min-height:1.2em;}
+  .form-status.ok{color:var(--leaf);}
+  .form-status.err{color:var(--margin-red);}
+
+  .modal-overlay{
+    display:none;position:fixed;inset:0;background:rgba(27,42,74,0.55);z-index:100;
+    align-items:center;justify-content:center;padding:20px;
+  }
+  .modal-overlay.open{display:flex;}
+  .modal-box{
+    background:var(--paper);border-radius:18px;padding:32px;max-width:460px;width:100%;
+    position:relative;box-shadow:0 24px 60px rgba(0,0,0,0.35);max-height:90vh;overflow-y:auto;
+  }
+  .modal-box form{display:flex;flex-direction:column;gap:12px;}
+  .modal-close{
+    position:absolute;top:14px;right:16px;background:none;border:none;font-size:1.6rem;
+    cursor:pointer;color:var(--ink-soft);line-height:1;
+  }
+
+  .btn-nav{padding:10px 20px;font-size:0.88rem;}
+  .hero--tight{padding-top:56px;}
+  .section-alt{background:var(--paper-raised);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+  .mb-18{margin-bottom:18px;}
+  .mb-32{margin-bottom:32px;}
+  .challenge-title{font-size:1.3rem;margin-bottom:18px;}
+  .mv-heading{color:#fff;font-size:clamp(1.7rem,3vw,2.3rem);margin-bottom:36px;}
+  .avatar-indigo{background:var(--indigo);}
+  .avatar-brick{background:var(--brick);}
+  .avatar-leaf{background:var(--leaf);}
+  .avatar-marigold{background:var(--marigold-deep);}
+  .avatar-indigo-soft{background:var(--indigo-soft);}
+  .dot-leaf{background:var(--leaf);}
+  .dot-marigold{background:var(--marigold);}
+  .dot-border{background:var(--border);}
+  .donut-caption{text-align:center;color:var(--ink-soft);font-size:0.85rem;max-width:36ch;margin-left:auto;margin-right:auto;}
+  .eyebrow-light{color:#FFE7C2;}
+  .btn-cta-white{background:#fff;color:var(--brick);border-color:#fff;}
+  .wrap-narrow{max-width:640px;}
+  .modal-title{margin-bottom:6px;}
+  .modal-desc{color:var(--ink-soft);font-size:0.92rem;margin-bottom:18px;}
+  .btn-block{width:100%;}
+  .footer-logo{margin-bottom:14px;}
+  .footer-logo-text{color:#fff;}
+  .footer-logo-sub{color:#8F896F;}
+
+  .gallery-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:start;
+  }
+  .gallery-item{
+    position:relative;aspect-ratio:3/2;border-radius:14px;overflow:hidden;
+    cursor:pointer;box-shadow:var(--shadow);border:1px solid var(--border);
+    background:var(--paper-raised);
+  }
+  .gallery-item img{
+    width:100%;height:100%;object-fit:cover;display:block;
+    transition:transform .35s ease;
+  }
+  .gallery-item:hover img{transform:scale(1.05);}
+  .gallery-item::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(0deg, rgba(27,42,74,0.28), transparent 50%);
+    opacity:0;transition:opacity .25s ease;
+  }
+  .gallery-item:hover::after{opacity:1;}
+  .gallery-item.gallery-placeholder{
+    display:flex;align-items:center;justify-content:center;
+    background:repeating-linear-gradient(135deg, var(--paper-raised), var(--paper-raised) 12px, var(--border) 12px, var(--border) 13px);
+  }
+  .gallery-item.gallery-placeholder img{display:none;}
+  .gallery-item.gallery-placeholder::before{
+    content:"📷 Add photo";color:var(--ink-soft);font-weight:600;font-size:0.85rem;
+  }
+
+  .lightbox-box{
+    position:relative;max-width:90vw;max-height:85vh;background:transparent;padding:0;
+  }
+  .lightbox-box img{max-width:90vw;max-height:85vh;border-radius:12px;display:block;}
+  .lightbox-close{
+    position:absolute;top:-14px;right:-14px;background:#fff;border-radius:50%;
+    width:36px;height:36px;display:flex;align-items:center;justify-content:center;
+  }
+
+  .contact-boxes {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.contact-box {
+  flex: 1;
+  min-width: 220px;
+  padding: 16px 18px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  transition: 0.3s ease;
+}
+
+.contact-box:hover {
+  transform: translateY(-3px);
+  border-color: #ff9f1c;
+}
+
+.contact-role {
+  color: #e51111;
+  font-weight: 600;
+  font-size: 15px;
+  margin-bottom: 8px;
+}
+
+.contact-number {
+  color: #ff9f1c;
+  font-weight: 700;
+  font-size: 16px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.contact-number:hover {
+  text-decoration: underline;
+}
+
+  [data-reveal]{opacity:0;transform:translateY(28px) scale(0.98);transition:opacity .8s cubic-bezier(.22,.8,.32,1), transform .8s cubic-bezier(.22,.8,.32,1);}
+  [data-reveal].in-view{opacity:1;transform:translateY(0) scale(1);}
+  .stats-grid [data-reveal]:nth-child(1),.approach-grid [data-reveal]:nth-child(1),.team-grid [data-reveal]:nth-child(1),.gallery-grid .gallery-item:nth-child(1){transition-delay:0s;}
+  .stats-grid [data-reveal]:nth-child(2),.approach-grid [data-reveal]:nth-child(2),.team-grid [data-reveal]:nth-child(2),.gallery-grid .gallery-item:nth-child(2){transition-delay:.08s;}
+  .stats-grid [data-reveal]:nth-child(3),.approach-grid [data-reveal]:nth-child(3),.team-grid [data-reveal]:nth-child(3),.gallery-grid .gallery-item:nth-child(3){transition-delay:.16s;}
+  .stats-grid [data-reveal]:nth-child(4),.approach-grid [data-reveal]:nth-child(4),.team-grid [data-reveal]:nth-child(4),.gallery-grid .gallery-item:nth-child(4){transition-delay:.24s;}
+  .stats-grid [data-reveal]:nth-child(5),.team-grid [data-reveal]:nth-child(5),.gallery-grid .gallery-item:nth-child(5){transition-delay:.32s;}
+  .team-grid [data-reveal]:nth-child(6),.gallery-grid .gallery-item:nth-child(6){transition-delay:.4s;}
+  .challenge-list .challenge-item:nth-child(1){transition-delay:0s;}
+  .challenge-list .challenge-item:nth-child(2){transition-delay:.1s;}
+  .challenge-list .challenge-item:nth-child(3){transition-delay:.2s;}
+
+  body{animation:pageFadeIn .6s ease both;}
+  @keyframes pageFadeIn{from{opacity:0;}to{opacity:1;}}
+
+  .scroll-progress{
+    position:fixed;top:0;left:0;height:3px;background:var(--marigold);
+    width:0%;z-index:200;transition:width .1s linear;
+  }
+
+  .btn{transition:transform .18s ease, box-shadow .18s ease, background .18s ease;}
+  .btn:hover{transform:translateY(-2px) scale(1.02);}
+  .btn:active{transform:translateY(0) scale(0.97);}
+
+  .approach-card,.challenge-item,.team-card,.trust-card,.gallery-item,.qr-card{
+    transition:transform .28s cubic-bezier(.22,.8,.32,1), box-shadow .28s ease;
+  }
+  .approach-card:hover,.team-card:hover,.trust-card:hover{
+    transform:translateY(-6px);box-shadow:0 18px 36px rgba(27,42,74,0.16);
+  }
+
+  .approach-card .icon,.challenge-item .icon{transition:transform .3s ease;}
+  .approach-card:hover .icon{transform:scale(1.12) rotate(-4deg);}
+  .challenge-item:hover .icon{transform:scale(1.12) rotate(4deg);}
+
+  .avatar{transition:transform .25s ease;}
+  .team-card:hover .avatar{transform:scale(1.08);}
+
+  .play-btn{animation:playPulse 2.4s ease-in-out infinite;}
+  @keyframes playPulse{
+    0%,100%{box-shadow:0 10px 30px rgba(0,0,0,0.35), 0 0 0 0 rgba(242,169,59,0.55);}
+    50%{box-shadow:0 10px 30px rgba(0,0,0,0.35), 0 0 0 14px rgba(242,169,59,0);}
+  }
+
+  .marquee-wrap:hover .marquee{animation-play-state:paused;}
+  [data-reveal].in-view{opacity:1;transform:translateY(0);}
+
+  .lang-hi{display:none;}
+  html[data-lang="hi"] .lang-en{display:none;}
+  html[data-lang="hi"] .lang-hi{display:inline;}
+
+  /* ============================================================
+     DARK MODE - IMPROVED FOR READABILITY & ATTRACTIVE LOOK
+     ============================================================ */
+  html.dark-mode {
+    --ink: #EDEAE0;
+    --ink-soft: #fbfaf6;
+    --paper: black;
+    --paper-raised: #060917;
+    --border: #2E3A60;
+    --shadow: 0 10px 30px rgba(0,0,0,0.5);
+  }
+
+  html.dark-mode body {
+    background: var(--paper);
+    color: var(--ink);
+  }
+
+  html.dark-mode header {
+    background: rgba(0, 3, 13, 0.95);
+    border-bottom-color: var(--border);
+  }
+
+  html.dark-mode .logo-text {
+    color: #b9b6aa;
+  }
+
+  html.dark-mode .hero {
+    background: var(--paper);
+  }
+
+  html.dark-mode .section-alt {
+    background: var(--paper-raised);
+    border-color: var(--border);
+  }
+
+  html.dark-mode .ruled-card {
+    background: repeating-linear-gradient(var(--paper-raised) 0 27px, #2A3A60 27px 28px);
+    border-color: var(--border);
+  }
+
+  html.dark-mode .ruled-card .num {
+    color: #F2A93B;
+  }
+
+  html.dark-mode .ruled-card .label {
+    color: #EDEAE0;
+  }
+
+  html.dark-mode .ruled-card .desc {
+    color: #B9B29C;
+  }
+
+  html.dark-mode .approach-card,
+  html.dark-mode .team-card,
+  html.dark-mode .trust-card,
+  html.dark-mode .challenge-item {
+    background: var(--paper-raised);
+    border-color: var(--border);
+    color: rgb(214 122 127);
+  }
+
+  html.dark-mode .approach-card p,
+  html.dark-mode .team-card p,
+  html.dark-mode .trust-card p,
+  html.dark-mode .challenge-item p {
+    color: var(--ink-soft);
+  }
+
+  html.dark-mode .approach-card h4,
+  html.dark-mode .team-card h4,
+  html.dark-mode .trust-card h4,
+  html.dark-mode .challenge-item h4 {
+    color: #fffefb;
+  }
+
+  html.dark-mode .mv-section {
+    background: #0A0F20;
+  }
+
+  html.dark-mode .mv-card {
+    background: #141E3A;
+  }
+
+  html.dark-mode .mv-card p {
+    color: #C5C0B0;
+  }
+
+  /* CONTACT SECTION - DARK MODE */
+  html.dark-mode .form-card {
+    background: var(--paper-raised);
+    border-color: var(--border);
+  }
+
+  html.dark-mode input,
+  html.dark-mode textarea {
+    background: #0E1428;
+    color: #e9c917;
+    border-color: #2E3A60;
+  }
+
+  html.dark-mode input::placeholder,
+  html.dark-mode textarea::placeholder {
+    color: #6A6F8A;
+  }
+
+  html.dark-mode input:focus,
+  html.dark-mode textarea:focus {
+    border-color: #F2A93B;
+    box-shadow: 0 0 0 3px rgba(242, 169, 59, 0.2);
+  }
+
+  html.dark-mode .btn-ghost {
+    border-color: #EDEAE0;
+    color: #EDEAE0;
+  }
+
+  html.dark-mode .btn-ghost:hover {
+    background: #EDEAE0;
+    color: #0E1428;
+  }
+
+  html.dark-mode .cta-section {
+    background: linear-gradient(135deg, #1A2A4A, #2A1A3A);
+  }
+
+  html.dark-mode .cta-section h2 {
+    color: #EDEAE0;
+  }
+
+  html.dark-mode .cta-section p {
+    color: #B9B29C;
+  }
+
+  html.dark-mode .btn-outline {
+    border-color: #EDEAE0;
+    color: #EDEAE0;
+  }
+
+  html.dark-mode .btn-outline:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  html.dark-mode .btn-cta-white {
+    background: #F2A93B;
+    color: #0E1428;
+    border-color: #F2A93B;
+  }
+
+  html.dark-mode .btn-cta-white:hover {
+    background: #D98A1E;
+    border-color: #D98A1E;
+  }
+
+  html.dark-mode .upi-badge {
+    background: rgba(255, 255, 255, 0.08);
+    color: #EDEAE0;
+  }
+
+  html.dark-mode .qr-card {
+    background: #2c3c52;
+    border-color: var(--border);
+  }
+
+  html.dark-mode .qr-label {
+    color: #EDEAE0;
+  }
+
+  html.dark-mode .modal-box {
+    background: var(--paper);
+    color: var(--ink);
+  }
+
+  html.dark-mode .modal-close {
+    color: #f1eee4;
+  }
+
+  html.dark-mode .modal-desc {
+    color: var(--ink-soft);
+  }
+
+  html.dark-mode .trust-quote {
+    background: #1a2342;
+  }
+
+  html.dark-mode .trust-quote p {
+    color: #F2A93B;
+  }
+
+  html.dark-mode .trust-quote span {
+    color: #B9B29C;
+  }
+
+  html.dark-mode footer {
+    background: #0A0F20;
+  }
+
+  html.dark-mode footer p,
+  html.dark-mode footer a {
+    color: #B9B29C;
+  }
+
+  html.dark-mode footer h5 {
+    color: #EDEAE0;
+  }
+
+  html.dark-mode .legal-strip {
+    border-color: rgba(255, 255, 255, 0.1);
+    color: #8F896F;
+  }
+
+  html.dark-mode .legal-strip .tags span {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  html.dark-mode .drawer-title {
+    color: #EDEAE0;
+  }
+
+  html.dark-mode .drawer-link {
+    color: #C5C0B0;
+    border-color: var(--border);
+  }
+
+  html.dark-mode .drawer-link:hover {
+    color: #F2A93B;
+  }
+
+  html.dark-mode .drawer-label {
+    color: #EDEAE0;
+  }
+
+  html.dark-mode .side-drawer {
+    background: var(--paper);
+  }
+
+  html.dark-mode .lang-toggle button {
+    color: #EDEAE0;
+  }
+
+  html.dark-mode .lang-toggle button.active {
+    background: #F2A93B;
+    color: #0E1428;
+  }
+
+  html.dark-mode .lang-toggle {
+    border-color: #2E3A60;
+  }
+
+  html.dark-mode .theme-menu-btn span,
+  html.dark-mode .menu-btn span {
+    background: #EDEAE0;
+  }
+
+  html.dark-mode .section-head h2 {
+    color: #EDEAE0;
+  }
+
+  html.dark-mode .section-head p {
+    color: var(--ink-soft);
+  }
+
+  html.dark-mode .hero-sub {
+    color: var(--ink-soft);
+  }
+
+  html.dark-mode .hero h1 {
+    color: #EDEAE0;
+  }
+
+  html.dark-mode .chalk svg path {
+    stroke: #F2A93B;
+  }
+
+  html.dark-mode .gallery-item {
+    background: var(--paper-raised);
+    border-color: var(--border);
+  }
+
+  html.dark-mode .gallery-item.gallery-placeholder::before {
+    color: #313c7c;
+  }
+
+  html.dark-mode .pull-quote {
+    color: #EDEAE0;
+    border-color: #F2A93B;
+  }
+
+  html.dark-mode .callout-strip {
+    background: rgba(242, 169, 59, 0.1);
+    border-color: #F2A93B;
+  }
+
+  html.dark-mode .callout-strip p {
+    color: #EDEAE0;
+  }
+
+  html.dark-mode .donut-center .big {
+    color: #F2A93B;
+  }
+
+  html.dark-mode .donut-center .small {
+    color: #B9B29C;
+  }
+
+  html.dark-mode .donut-caption {
+    color: #B9B29C;
+  }
+
+  html.dark-mode .donut-legend {
+    color: #EDEAE0;
+  }
+
+  html.dark-mode .scroll-progress {
+    background: #F2A93B;
+  }
+
+  html.dark-mode .form-status.ok {
+    color: #4C7A5E;
+  }
+
+  html.dark-mode .form-status.err {
+    color: #B23A48;
+  }
+
+  html.dark-mode .video-caption {
+    color: #EDEAE0;
+  }
+
+  html.dark-mode .hero-slideshow-overlay {
+    background: linear-gradient(0deg, rgba(10, 15, 32, 0.7), rgba(10, 15, 32, 0.1) 55%);
+  }
+
+  html.dark-mode .hero-slideshow-caption {
+    color: #EDEAE0;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+  }
+
+  html.dark-mode .marquee-wrap {
+    background: #0A0F20;
+  }
+
+  html.dark-mode .marquee span {
+    color: #F2A93B;
+  }
+
+  html.dark-mode .marquee span::after {
+    color: rgba(255, 255, 255, 0.2);
+  }
+
+  html.dark-mode .btn-primary {
+    background: #F2A93B;
+    color: #0E1428;
+  }
+
+  html.dark-mode .btn-primary:hover {
+    background: #D98A1E;
+  }
+
+  /* ============================================================ */
+
+  @media (max-width:980px){
+    .hero-slideshow{height:40vh;min-height:280px;}
+    .hero-grid{grid-template-columns:1fr;}
+    .video-card{order:-1;max-width:420px;margin:0 auto;}
+    .stats-grid{grid-template-columns:repeat(2,1fr);}
+    .story-grid{grid-template-columns:1fr;gap:40px;}
+    .mv-grid{grid-template-columns:1fr;}
+    .approach-grid{grid-template-columns:repeat(2,1fr);}
+    .team-grid{grid-template-columns:repeat(2,1fr);}
+    .trust-grid{grid-template-columns:1fr;}
+    .trust-split{grid-template-columns:1fr;}
+    .gallery-grid{grid-template-columns:repeat(2,1fr);}
+    .cta-section{grid-template-columns:1fr;}
+    .footer-grid{grid-template-columns:1fr 1fr;}
+    nav.links{display:none;}
+    .menu-btn{display:block;}
+  }
+  @media (max-width:560px){
+    .hero-slideshow{height:260px;min-height:220px;}
+    section{padding:60px 0;}
+    .stats-grid{grid-template-columns:1fr 1fr;}
+    .approach-grid{grid-template-columns:1fr;}
+    .team-grid{grid-template-columns:1fr;}
+    .footer-grid{grid-template-columns:1fr 1fr;}
+    .gallery-grid{grid-template-columns:1fr 1fr;}
+    .cta-section{padding:36px 24px;margin:0 14px;}
+    .wrap{padding:0 18px;}
+    .form-row{grid-template-columns:1fr;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none !important;transition:none !important;}
+  }
+</style>
+</head>
+<body>
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<div class="side-drawer-overlay" id="sideDrawerOverlay" onclick="if(event.target===this) closeDrawer()">
+  <div class="side-drawer" id="sideDrawer">
+    <button class="modal-close" onclick="closeDrawer()" aria-label="Close menu">&times;</button>
+    <h3 class="drawer-title">Settings</h3>
+    <div class="drawer-row">
+      <span class="drawer-label">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+        Dark Mode
+      </span>
+      <label class="switch">
+        <input type="checkbox" id="darkModeToggle" aria-label="Toggle dark mode" onchange="toggleDarkMode()" >
+        <span class="switch-slider"></span>
+      </label>
+    </div>
+    <div class="drawer-divider"></div>
+    <a href="#top" class="drawer-link" onclick="closeDrawer()">Home</a>
+    <a href="#about" class="drawer-link" onclick="closeDrawer()">Our Story</a>
+    <a href="#approach" class="drawer-link" onclick="closeDrawer()">Approach</a>
+    <a href="#team" class="drawer-link" onclick="closeDrawer()">Team</a>
+    <a href="#gallery" class="drawer-link" onclick="closeDrawer()">Gallery</a>
+    <a href="#trust" class="drawer-link" onclick="closeDrawer()">Why Trust Us</a>
+  </div>
+</div>
+
+<header>
+  <div class="nav">
+    <a href="#top" class="logo">
+      <span class="logo-mark">S</span>
+      <span class="logo-text">Saptrishi Learning Centre<span>Kanpur, India</span></span>
+    </a>
+    <button class="theme-menu-btn" id="themeMenuBtn" aria-label="Open settings menu"><span></span><span></span><span></span></button>
+    <nav class="links">
+      <a href="#about"><span class="lang-en">Our Story</span><span class="lang-hi">हमारी कहानी</span></a>
+      <a href="#approach"><span class="lang-en">Approach</span><span class="lang-hi">दृष्टिकोण</span></a>
+      <a href="#team"><span class="lang-en">Team</span><span class="lang-hi">टीम</span></a>
+      <a href="#gallery"><span class="lang-en">Gallery</span><span class="lang-hi">गैलरी</span></a>
+      <a href="#trust"><span class="lang-en">Why Trust Us</span><span class="lang-hi">भरोसा क्यों करें</span></a>
+    </nav>
+    <div class="nav-right">
+      <div class="lang-toggle" role="group" aria-label="Language">
+        <button type="button" class="active" data-lang-btn="en">EN</button>
+        <button type="button" data-lang-btn="hi">हिं</button>
+      </div>
+      <button type="button" class="btn btn-primary btn-nav" onclick="openModal('donateModal')">
+        <span class="lang-en">Donate Now</span><span class="lang-hi">दान करें</span>
+      </button>
+      <button class="menu-btn" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- ===== TOP PHOTO SLIDESHOW ===== -->
+<div class="hero-slideshow" id="heroSlideshow">
+  <div class="slide active"><img src="images/slideshow/kid1.jpg" alt="Child at Saptrishi Learning Centre" loading="eager" onerror="this.parentElement.classList.add('slide-placeholder')"></div>
+  <div class="slide"><img src="images/slideshow/kid2.jpg" alt="Children in bridge classroom" loading="lazy" onerror="this.parentElement.classList.add('slide-placeholder')"></div>
+  <div class="slide"><img src="images/slideshow/kid3.jpg" alt="Student learning" loading="lazy" onerror="this.parentElement.classList.add('slide-placeholder')"></div>
+  <div class="slide"><img src="images/slideshow/kid4.jpg" alt="Children during meal time" loading="lazy" onerror="this.parentElement.classList.add('slide-placeholder')"></div>
+  <div class="slide"><img src="images/slideshow/kid5.jpg" alt="Vocational training session" loading="lazy" onerror="this.parentElement.classList.add('slide-placeholder')"></div>
+  <div class="hero-slideshow-overlay"></div>
+  <div class="hero-slideshow-caption">
+    <span class="lang-en">Every child deserves a chance to learn</span>
+    <span class="lang-hi">हर बच्चे को सीखने का मौका मिलना चाहिए</span>
+  </div>
+</div>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero hero--tight">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="eyebrow">Kanpur, India · Established 2023</div>
+        <h1>
+          <span class="lang-en">Transforming Lives:<br>Education &amp; <span class="chalk">Vocational Training<svg viewBox="0 0 300 20" preserveAspectRatio="none"><path d="M2,14 C40,4 80,18 120,10 C160,2 200,16 240,8 C260,4 280,12 298,8" fill="none" stroke="#F2A93B" stroke-width="5" stroke-linecap="round"/></svg></span> for a Brighter Tomorrow.</span>
+          <span class="lang-hi">जीवन बदलना: एक उज्जवल कल के लिए शिक्षा और व्यावसायिक प्रशिक्षण।</span>
+        </h1>
+        <p class="hero-sub lang-en">We exist to ignite the spark of possibility in every child living in the shadows of our cities. Through holistic education and community support, we transform slum neighbourhoods into hubs of learning and hope.</p>
+        <p class="hero-sub lang-hi">हम अपने शहरों की छाया में रहने वाले हर बच्चे में संभावनाओं की चिंगारी जगाने के लिए यहाँ हैं।</p>
+        <div class="hero-ctas">
+          <button type="button" class="btn btn-primary" onclick="openModal('donateModal')">
+            <span class="lang-en">Donate Now</span><span class="lang-hi">दान करें</span>
+          </button>
+          <button type="button" class="btn btn-ghost" onclick="openModal('volunteerModal')">
+            <span class="lang-en">Become a Volunteer</span><span class="lang-hi">स्वयंसेवक बनें</span>
+          </button>
+        </div>
+        <div class="hero-note">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+          80G &amp; 12A certified — your donation is tax-exempt
+        </div>
+      </div>
+
+      <div class="video-card" id="videoCard">
+        <video class="ngo-video" autoplay muted loop playsinline controls poster="images/video-poster.jpg">
+          <source src="images/videos/impact.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>  
+        <div class="play-btn" role="button" aria-label="Play video" tabindex="0">
+          <svg viewBox="0 0 24 24" fill="#1B2A4A"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <div class="video-caption">
+          <span class="lang-en">Watch: A year in the life of our learning centres</span>
+          <span class="lang-hi">देखें: हमारे शिक्षा केंद्रों का एक वर्ष</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="marquee-wrap">
+    <div class="marquee">
+      <span>200+ lives transformed</span><span>50+ students educated</span><span>6 slum communities reached</span>
+      <span>85% school retention</span><span>200+ lives transformed</span><span>50+ students educated</span>
+      <span>6 slum communities reached</span><span>85% school retention</span>
+    </div>
+  </div>
+
+  <!-- IMPACT -->
+  <section id="impact">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">The Pulse of Our Impact</div>
+        <h2>Numbers tell the story of the lives we've touched</h2>
+      </div>
+      <div class="stats-grid">
+        <div class="ruled-card" data-reveal><div class="num" data-count="200" data-suffix="+">0</div><div class="label">Children Empowered</div><div class="desc">Active students currently enrolled in our bridge classrooms.</div></div>
+        <div class="ruled-card" data-reveal><div class="num" data-count="6" data-suffix="">0</div><div class="label">Slum Communities</div><div class="desc">Neighbourhoods where we've established safe learning hubs.</div></div>
+        <div class="ruled-card" data-reveal><div class="num" data-count="85" data-suffix="%">0</div><div class="label">School Retention</div><div class="desc">Children who stayed in school instead of dropping out to work.</div></div>
+        <div class="ruled-card" data-reveal><div class="num" data-count="100" data-suffix="%">0</div><div class="label">Nutritious Meals</div><div class="desc">Snacks served twice a month so students are healthy and ready to learn.</div></div>
+        <div class="ruled-card" data-reveal><div class="num" data-count="25" data-suffix="%">0</div><div class="label">School Admissions</div><div class="desc">Out-of-school children enrolled in formal schools, given the support and confiddence to build a brighter future. </div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT / STORY -->
+  <section id="about" class="section-alt">
+    <div class="wrap story-grid">
+      <div data-reveal>
+        <div class="eyebrow">Our Story</div>
+        <h2 class="mb-18">From a Small Spark to a Movement</h2>
+        <p>Founded in 2023, Saptrishi Learning Centre began when a group of educators noticed a stark reality: while the city of Kanpur grew vertically, the children in the surrounding slum communities were being left behind. We realised that for these children, a school bag isn't just a kit — it's a ticket out of the cycle of poverty.</p>
+        <div class="pull-quote">"Education is not a luxury; it is the fundamental right of every child, regardless of the pincode they are born in."</div>
+        <p>With your support, we turn that belief into bridge classrooms, meals, mentors and machines — the everyday tools a child needs to stay in school and imagine a different future.</p>
+      </div>
+      <div data-reveal>
+        <div class="eyebrow">The Challenge We Face</div>
+        <h3 class="challenge-title">In Kanpur's urban slums, children face three overlapping barriers</h3>
+        <div class="challenge-list">
+          <a class="challenge-item" data-reveal href="pages/digital-gap.html">
+            <div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="12" rx="2"/><path d="M9 20h6M12 16v4"/></svg></div>
+            <div><h4>The Digital Gap</h4><p>Lack of access to devices or the internet keeps children a full generation behind.</p><span class="card-more">Learn more →</span></div>
+          </a>
+          <a class="challenge-item" data-reveal href="pages/survival-gap.html">
+            <div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2M3 12h18"/></svg></div>
+            <div><h4>The Survival Gap</h4><p>Many children leave school early to support their family's income.</p><span class="card-more">Learn more →</span></div>
+          </a>
+          <a class="challenge-item" data-reveal href="pages/guidance-gap.html">
+            <div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20l9-5-9-5-9 5 9 5z"/><path d="M12 10L3 5l9-5 9 5-9 5z"/></svg></div>
+            <div><h4>The Guidance Gap</h4><p>First-generation learners often lack academic support at home.</p><span class="card-more">Learn more →</span></div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MISSION / VISION -->
+  <section class="mv-section">
+    <div class="wrap">
+      <div class="eyebrow">Where We're Headed</div>
+      <h2 class="mv-heading">Mission &amp; Vision</h2>
+      <div class="mv-grid">
+        <div class="mv-card" data-reveal>
+          <h3>Our Mission</h3>
+          <p>To provide high-quality, holistic education and life-skills training to 1,000+ children living in urban slums by 2027.</p>
+        </div>
+        <div class="mv-card" data-reveal>
+          <h3>Our Vision</h3>
+          <p>An India where a child's potential is limited only by their imagination, not their circumstances.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- APPROACH -->
+  <section id="approach">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">The "How"</div>
+        <h2>We don't just teach — we build an ecosystem of support</h2>
+        <p>How we achieve our goals, one classroom, one meal, one mentor at a time.</p>
+      </div>
+      <div class="approach-grid">
+        <a class="approach-card" href="pages/bridge-classrooms.html" data-reveal>
+          <div class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M3 9l9-6 9 6-9 6-9-6z"/><path d="M3 9v6l9 6 9-6V9"/></svg></div>
+          <h4>Bridge Classrooms</h4>
+          <p>We bring the school to the slum, setting up learning centres within walking distance of children's homes.</p>
+          <span class="card-more">Learn more →</span>
+        </a>
+        <a class="approach-card" href="pages/nutritional-support.html" data-reveal>
+          <div class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 3c-3 3-3 7 0 10 3-3 3-7 0-10z"/><path d="M12 13v8M8 21h8"/></svg></div>
+          <h4>Nutritional Support</h4>
+          <p>A hungry child cannot focus. We provide regular meals and snacks for physical and mental growth.</p>
+          <span class="card-more">Learn more →</span>
+        </a>
+        <a class="approach-card" href="pages/community-integration.html" data-reveal>
+          <div class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="10" r="2.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M14 20c0-2.2 1-4.2 3-5.4 2 1.2 3 3.2 3 5.4"/></svg></div>
+          <h4>Community Integration</h4>
+          <p>We work closely with parents, especially mothers, so they become advocates for their children's education.</p>
+          <span class="card-more">Learn more →</span>
+        </a>
+        <a class="approach-card" href="pages/technology-for-all.html" data-reveal>
+          <div class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="4" y="4" width="16" height="12" rx="2"/><path d="M9 20h6M12 16v4"/></svg></div>
+          <h4>Technology for All</h4>
+          <p>Through Chromebooks and shared devices, we make sure "slum" never means "offline."</p>
+          <span class="card-more">Learn more →</span>
+        </a>
+      </div>
+      <div class="callout-strip" data-reveal>
+        <div class="icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg></div>
+        <p>Alongside academics, we run dedicated <strong>women's vocational training</strong> — sewing, crafts and small enterprise skills that help mothers become self-reliant.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAM -->
+  <section id="team" class="section-alt">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">The People Behind Saptrishi</div>
+        <h2>Meet the Team</h2>
+        <p>Educators, volunteers and founders who show up for these children every single day.</p>
+      </div>
+      <div class="team-grid">
+
+        <div class="team-card" data-reveal>
+        <div class="gallery-item" data-reveal onclick="openLightbox(this)">
+          <img src="images/team/chinki-bhatia.jpg" alt="Chinki Bhatia, Founder" loading="lazy" onerror="this.parentElement.classList.add('gallery-placeholder')">
+        </div>
+          <h4>Chinki Bhatia</h4>
+          <div class="role">Founder</div>
+          <p>A pharmacist by profession and neuroscientist by training, raised in Bahrain, with a PhD in neuroscience from the U.S. Now based in the U.S. and a mother of an 11-year-old, she brings creative, experience-based teaching methods to Saptrishi.</p>
+          <details>
+            <summary>Read full story</summary>
+            <p>My path reflects both intellectual curiosity and a deep commitment to human potential. My work is grounded in clinical knowledge and a profound love for children's development. I've discovered that some of the most meaningful learning happens beyond textbooks — a realisation that inspired me to develop creative, curiosity-led ways of teaching. Outside of work, I find joy in swimming, travelling and exploring cultures, especially in India, a place that continues to inspire my perspective.</p>
+          </details>
+        </div>
+
+        <div class="team-card" data-reveal>
+          <div class="gallery-item" data-reveal onclick="openLightbox(this)">
+          <img src="images/team/pradeep-shukla.jpg" alt="Pradeep Shukla, Co-founder" loading="lazy" onerror="this.parentElement.classList.add('gallery-placeholder')">
+        </div>
+          <h4>Pradeep Shukla</h4>
+          <div class="role">Co-founder &amp; Manager</div>
+          <p>Born into humble circumstances, Pradeep began his working life as an auto-rickshaw driver before an NGO connection turned into his life's purpose. Today he manages a learning centre in a slum community.</p>
+          <details>
+            <summary>Read full story</summary>
+            <p>The work as a driver taught me resilience, patience and the value of hard work. I dreamed of a better future — not just for my family, but for others too. Over time, through dedication, I was given more responsibility, and today I work closely with children to support their education and encourage them to believe in their potential. Outside of work, I find peace serving at temples and spending time with family.</p>
+          </details>
+        </div>
+
+        <div class="team-card" data-reveal>
+          <div class="gallery-item" data-reveal onclick="openLightbox(this)">
+          <img src="images/team/abhi-trivedi.jpg" alt="Abhi Trivedi, Volunteer" loading="lazy" onerror="this.parentElement.classList.add('gallery-placeholder')">
+        </div>
+          <h4>Abhi Trivedi</h4>
+          <div class="role">Volunteer</div>
+          <p>I am a prossionate reader who loves exploring books, learning new ideas, and sharing knowledge with children. I enjoy reading stories with them and teaching through simple,meaningful conversations.</p>
+          <details>
+            <summary>Read full story</summary>
+            <p>I believe books can inspire young minds, build confidence, and open the door to a brighter future. My hope is to ignite a love for reading in every child I meet.</p>
+          </details>
+        </div>
+
+        <div class="team-card" data-reveal>
+          <div class="gallery-item" data-reveal onclick="openLightbox(this)">
+          <img src="images/team/sagar-singh.jpg" alt="Sagar Singh, Volunteer" loading="lazy" onerror="this.parentElement.classList.add('gallery-placeholder')">
+        </div>
+          <h4>Sagar Singh</h4>
+          <div class="role">Volunteer</div>
+          <p>A Medical Representative with a background in pharmacy, Sagar volunteers to teach science — helping children understand concepts in simple, practical, curiosity-sparking ways.</p>
+          <details>
+            <summary>Read full story</summary>
+            <p>I believe that with the right guidance, mentorship and access to resources, every child has the potential to rise above their circumstances. My goal is to equip children with not just academic knowledge, but the confidence and tools to build a brighter future. Outside of work, I love travelling and exploring new places on bikes — every child in the slums carries a spark, and I'm here to help turn that spark into a flame.</p>
+          </details>
+        </div>
+
+        <div class="team-card" data-reveal>
+          <div class="gallery-item" data-reveal onclick="openLightbox(this)">
+          <img src="images/team/ankur-shukla.jpg" alt="Ankur Shukla, Volunteer" loading="lazy" onerror="this.parentElement.classList.add('gallery-placeholder')">
+        </div>
+          <h4>Ankur Shukla</h4>
+          <div class="role">Volunteer</div>
+          <p>Part of the dedicated volunteer network that keeps Saptrishi's classrooms, events and community drives running.</p>
+          <details>
+            <summary>Read full story</summary>
+            <p>My journey as a volunteer has been deeply rewarding. I have witnessed firsthand the transformative power of education and community support. By contributing my time and skills, I aim to create an environment where children can thrive academically and personally. Outside of volunteering, I enjoy reading and engaging in community service projects that uplift those around me.</p>
+          </details>
+          </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST -->
+  <section id="trust">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">Why Trust Us</div>
+        <h2>Transparency is at the core of our operations</h2>
+      </div>
+      <div class="trust-grid">
+        <div class="trust-card" data-reveal>
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg></div>
+          <h4>80G &amp; 12A Certified</h4>
+          <p>Your donations are tax-exempt under Indian law.</p>
+        </div>
+        <div class="trust-card" data-reveal>
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h7l-1 8 11-14h-7l1-6z"/></svg></div>
+          <h4>Direct Impact</h4>
+          <p>100% of sponsored funds go directly toward student kits, teacher salaries and centre rent.</p>
+        </div>
+        <div class="trust-card" data-reveal>
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
+          <h4>Open Books</h4>
+          <p>Our annual financial reports are available for public viewing upon request.</p>
+        </div>
+      </div>
+
+      <div class="trust-split">
+        <div class="donut-wrap" data-reveal>
+          <div class="donut" id="donut">
+            <div class="donut-center"><span class="big">85%</span><span class="small">to education</span></div>
+          </div>
+          <div class="donut-legend">
+            <span><i class="dot dot-leaf"></i>Education 85%</span>
+            <span><i class="dot dot-marigold"></i>Food 10%</span>
+            <span><i class="dot dot-border"></i>Admin 5%</span>
+          </div>
+          <p class="donut-caption">Where does your donation go? A simple breakdown of every rupee.</p>
+        </div>
+        <div class="trust-quote" data-reveal>
+          <p>"Your ₹500 could be the reason a child learns to read today."</p>
+          <span>Every contribution, big or small, funds a real school bag, a real meal, a real Chromebook hour.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="gallery">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">In Pictures</div>
+        <h2>Moments from our classrooms</h2>
+        <p>A glimpse of the children, teachers and everyday moments that make Saptrishi what it is.</p>
+      </div>
+
+      <div class="gallery-grid">
+        <div class="gallery-item" data-reveal onclick="openLightbox(this)">
+          <img src="images/gallery/photo1.jpg" alt="Children in a bridge classroom session" loading="lazy" onerror="this.parentElement.classList.add('gallery-placeholder')">
+        </div>
+        <div class="gallery-item" data-reveal onclick="openLightbox(this)">
+          <img src="images/gallery/photo2.jpg" alt="Students during a meal break" loading="lazy" onerror="this.parentElement.classList.add('gallery-placeholder')">
+        </div>
+        <div class="gallery-item" data-reveal onclick="openLightbox(this)">
+          <img src="images/gallery/photo3.jpg" alt="Vocational training session" loading="lazy" onerror="this.parentElement.classList.add('gallery-placeholder')">
+        </div>
+        <div class="gallery-item" data-reveal onclick="openLightbox(this)">
+          <img src="images/gallery/photo4.jpg" alt="Teacher helping a student" loading="lazy" onerror="this.parentElement.classList.add('gallery-placeholder')">
+        </div>
+        <div class="gallery-item" data-reveal onclick="openLightbox(this)">
+          <img src="images/gallery/photo5.jpg" alt="Community event day" loading="lazy" onerror="this.parentElement.classList.add('gallery-placeholder')">
+        </div>
+        <div class="gallery-item" data-reveal onclick="openLightbox(this)">
+          <img src="images/gallery/photo6.jpg" alt="Children with their school kits" loading="lazy" onerror="this.parentElement.classList.add('gallery-placeholder')">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIGHTBOX -->
+  <div class="modal-overlay" id="lightboxModal" onclick="if(event.target===this) closeModal('lightboxModal')">
+    <div class="lightbox-box">
+      <button class="modal-close lightbox-close" onclick="closeModal('lightboxModal')" aria-label="Close">&times;</button>
+      <img id="lightboxImg" src="" alt="">
+    </div>
+  </div>
+
+  <!-- DONATE CTA -->
+  <section id="donate">
+    <div class="cta-section">
+      <div>
+        <div class="eyebrow eyebrow-light">Join Our Mission</div>
+        <h2>With your support, we turn a spark into a future.</h2>
+        <p>Every gift — cash, time, or skills — becomes a school bag, a meal, or a mentor for a child who needs one.</p>
+      </div>
+
+      <div class="cta-actions">
+        <button type="button" class="btn btn-outline btn-cta-white" onclick="openModal('donateModal')">Donate Now</button>
+        <button type="button" class="btn btn-outline" onclick="openModal('volunteerModal')">Become a Volunteer</button>
+        <div class="upi-badge">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg>
+          UPI accepted — GPay, PhonePe &amp; more
+        </div>
+
+        <div class="qr-card">
+          <img src="images/upi-qr.png" alt="Scan to donate via UPI" class="qr-image" onerror="this.parentElement.classList.add('qr-placeholder')">
+          <p class="qr-label">Scan to donate via UPI</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="wrap wrap-narrow">
+      <div class="section-head mb-32">
+        <div class="eyebrow">Get In Touch</div>
+        <h2>Send us a message</h2>
+        <p>Questions about visiting a centre, partnerships, or anything else — we'll write back.</p>
+      </div>
+      <form id="contactForm" class="form-card" onsubmit="return submitForm(event,'contactForm','/api/contact')">
+        <div class="form-row">
+          <input type="text" name="name" placeholder="Your name" required>
+          <input type="email" name="email" placeholder="Your email" required>
+        </div>
+        <textarea name="message" rows="4" placeholder="Your message" required></textarea>
+        <button type="submit" class="btn btn-primary">Send Message</button>
+        <p class="form-status" id="contactForm-status"></p>
+      </form>
+    <div class="contact-boxes">
+
+      <div class="contact-box">
+        <div class="contact-role">Co-founder & Manager</div>
+        <a href="tel:+918353968403" class="contact-number">📞 +91 83539 68403</a>
+      </div>
+
+      <div class="contact-box">
+        <div class="contact-role">Volunteer Coordinator</div>
+        <a href="tel:+918933051780" class="contact-number">📞 +91 89330 51780</a>
+      </div>
+
+    </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===== MODALS ===== -->
+<div class="modal-overlay" id="donateModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('donateModal')" aria-label="Close">&times;</button>
+    <div class="eyebrow">Donate Now</div>
+    <h3 class="modal-title">Make a donation</h3>
+    <p class="modal-desc">Fill in your details, choose a payment method, and get your 80G tax receipt by email.</p>
+    <form id="donateForm" onsubmit="return false;">
+      <div class="form-row">
+        <input type="text" name="name" id="donateName" placeholder="Full name" aria-label="Full name" required>
+        <input type="email" name="email" id="donateEmail" placeholder="Email" aria-label="Email" required>
+      </div>
+      <div class="form-row">
+        <input type="tel" name="phone" id="donatePhone" placeholder="Phone number" aria-label="Phone number">
+        <input type="number" name="amount" id="donateAmount" placeholder="Amount in rupees" aria-label="Donation amount in rupees" min="1" required>
+      </div>
+      <textarea name="message" id="donateMessage" rows="2" placeholder="Anything you'd like us to know (optional)" aria-label="Additional message (optional)"></textarea>
+
+      <div class="pay-btn-group">
+        <button type="button" class="btn btn-pay btn-pay-razorpay" onclick="payWithRazorpay()">
+          Pay with Razorpay
+        </button>
+      </div>
+      <p class="form-status" id="donateForm-status"></p>
+
+      <div class="drawer-divider"></div>
+      <p class="pay-alt-note">Prefer to pay via UPI/bank transfer instead? <a href="javascript:void(0)" onclick="submitDonateIntent()">Notify us — no online payment</a></p>
+    </form>
+  </div>
+</div>
+
+<div class="modal-overlay" id="volunteerModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('volunteerModal')" aria-label="Close">&times;</button>
+    <div class="eyebrow">Become a Volunteer</div>
+    <h3 class="modal-title">Join our team</h3>
+    <p class="modal-desc">Teaching, events, fundraising, skills training — tell us how you'd like to contribute.</p>
+    <form id="volunteerForm" onsubmit="return submitForm(event,'volunteerForm','/api/volunteer')">
+      <div class="form-row">
+        <input type="text" name="name" placeholder="Full name" required>
+        <input type="email" name="email" placeholder="Email" required>
+      </div>
+      <div class="form-row">
+        <input type="tel" name="phone" placeholder="Phone number">
+        <input type="text" name="skills" placeholder="Skills (e.g. teaching, design)">
+      </div>
+      <textarea name="message" rows="3" placeholder="Why do you want to volunteer? (optional)"></textarea>
+      <button type="submit" class="btn btn-primary btn-block">Submit</button>
+      <p class="form-status" id="volunteerForm-status"></p>
+    </form>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="logo footer-logo">
+          <span class="logo-mark">S</span>
+          <span class="logo-text footer-logo-text">Saptrishi Learning Centre<span class="footer-logo-sub">Kanpur, India</span></span>
+        </div>
+        <p>We exist to ignite the spark of possibility in every child living in the shadows of our cities.</p>
+      </div>
+      <div>
+        <h5>Explore</h5>
+        <ul>
+          <li><a href="#about">Our Story</a></li>
+          <li><a href="#approach">Our Approach</a></li>
+          <li><a href="#team">Meet the Team</a></li>
+          <li><a href="#trust">Why Trust Us</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Get Involved</h5>
+        <ul>
+          <li><a href="javascript:void(0)" onclick="openModal('donateModal')">Donate Now</a></li>
+          <li><a href="javascript:void(0)" onclick="openModal('volunteerModal')">Become a Volunteer</a></li>
+          <li><a href="#">Field Trips &amp; Events</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Legal &amp; Contact</h5>
+        <ul>
+          <li><a href="#">80G / 12A Certificate</a></li>
+          <li><a href="#">PAN &amp; Financial Reports</a></li>
+          <li><a href="#contact">Contact Us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="legal-strip">
+      <span>© 2026 Saptrishi Learning Centre. All rights reserved.</span>
+      <div class="tags">
+        <span>80G Certified</span>
+        <span>12A Registered</span>
+        <span>Kanpur, Uttar Pradesh</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function openDrawer(){
+    document.getElementById('sideDrawerOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeDrawer(){
+    document.getElementById('sideDrawerOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  const themeMenuBtn = document.getElementById('themeMenuBtn');
+  if(themeMenuBtn) themeMenuBtn.addEventListener('click', openDrawer);
+
+  function toggleDarkMode(){
+    document.documentElement.classList.toggle('dark-mode');
+    const isDark = document.documentElement.classList.contains('dark-mode');
+    try{ localStorage.setItem('saptrishi-dark-mode', isDark ? '1' : '0'); }catch(e){}
+  }
+  (function(){
+    try{
+      if(localStorage.getItem('saptrishi-dark-mode') === '1'){
+        document.documentElement.classList.add('dark-mode');
+        const cb = document.getElementById('darkModeToggle');
+        if(cb) cb.checked = true;
+      }
+    }catch(e){}
+  })();
+
+  const scrollProgress = document.getElementById('scrollProgress');
+  function updateScrollProgress(){
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    if(scrollProgress) scrollProgress.style.width = pct + '%';
+  }
+  window.addEventListener('scroll', updateScrollProgress, { passive: true });
+  updateScrollProgress();
+
+  // show a message if redirected back from Paytm
+  (function(){
+    const params = new URLSearchParams(window.location.search);
+    const paymentResult = params.get('payment');
+    if(paymentResult === 'success'){
+      alert('Thank you! Your Paytm payment was received. 🙏');
+      history.replaceState(null, '', window.location.pathname);
+    } else if(paymentResult === 'failed'){
+      alert('Your Paytm payment could not be completed. Please try again.');
+      history.replaceState(null, '', window.location.pathname);
+    }
+  })();
+
+  document.querySelectorAll('[data-lang-btn]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.documentElement.setAttribute('data-lang', btn.dataset.langBtn);
+      document.querySelectorAll('[data-lang-btn]').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
+const menuBtn = document.querySelector('.menu-btn');
+const navLinks = document.querySelector('nav.links');
+
+if(menuBtn && navLinks){
+
+  menuBtn.addEventListener('click',function(){
+
+    const isOpen = navLinks.classList.toggle('mobile-open');
+
+    menuBtn.setAttribute(
+      'aria-expanded',
+      isOpen ? 'true' : 'false'
+    );
+
+  });
+
+  navLinks.querySelectorAll('a').forEach(link=>{
+    link.addEventListener('click',()=>{
+      navLinks.classList.remove('mobile-open');
+      menuBtn.setAttribute('aria-expanded','false');
+    });
+  });
+}
+
+  const revealEls = document.querySelectorAll('[data-reveal], .ruled-card');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('in-view'); }
+    });
+  }, {threshold:0.15});
+  revealEls.forEach(el=>io.observe(el));
+
+  const counters = document.querySelectorAll('.num[data-count]');
+  const counterIO = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        const el = entry.target;
+        const target = parseInt(el.dataset.count, 10);
+        const suffix = el.dataset.suffix || '';
+        let cur = 0;
+        const step = Math.max(1, Math.round(target/40));
+        const tick = ()=>{
+          cur += step;
+          if(cur >= target){ el.textContent = target + suffix; }
+          else { el.textContent = cur + suffix; requestAnimationFrame(tick); }
+        };
+        tick();
+        counterIO.unobserve(el);
+      }
+    });
+  }, {threshold:0.4});
+  counters.forEach(c=>counterIO.observe(c));
+
+  const donut = document.getElementById('donut');
+  const donutIO = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        donut.style.background = 'conic-gradient(var(--leaf) 0deg 306deg, var(--marigold) 306deg 342deg, var(--border) 342deg 360deg)';
+        donutIO.unobserve(donut);
+      }
+    });
+  }, {threshold:0.4});
+  if(donut) donutIO.observe(donut);
+
+  (function(){
+    const slides = document.querySelectorAll('#heroSlideshow .slide');
+    if(!slides.length) return;
+    let current = 0;
+    setInterval(()=>{
+      slides[current].classList.remove('active');
+      current = (current + 1) % slides.length;
+      slides[current].classList.add('active');
+    }, 2000);
+  })();
+
+  function openLightbox(item){
+    if(item.classList.contains('gallery-placeholder')) return;
+    const img = item.querySelector('img');
+    const lb = document.getElementById('lightboxImg');
+    lb.src = img.src;
+    lb.alt = img.alt;
+    openModal('lightboxModal');
+  }
+
+  function openModal(id){
+    document.getElementById(id).classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(id){
+    document.getElementById(id).classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.querySelectorAll('.modal-overlay').forEach(overlay=>{
+    overlay.addEventListener('click', (e)=>{ if(e.target === overlay) closeModal(overlay.id); });
+  });
+  document.addEventListener('keydown', (e)=>{
+    if(e.key === 'Escape') document.querySelectorAll('.modal-overlay.open').forEach(m=>closeModal(m.id));
+  });
+
+  // ---- Donate: payment methods ----
+  function getDonateFormData(){
+    return {
+      name: document.getElementById('donateName').value.trim(),
+      email: document.getElementById('donateEmail').value.trim(),
+      phone: document.getElementById('donatePhone').value.trim(),
+      amount: document.getElementById('donateAmount').value.trim(),
+      message: document.getElementById('donateMessage').value.trim(),
+    };
+  }
+  function validateDonateForm(data){
+    const statusEl = document.getElementById('donateForm-status');
+    if(!data.name || !data.email || !data.amount || Number(data.amount) <= 0){
+      statusEl.textContent = 'Please fill in your name, email and a valid amount first.';
+      statusEl.className = 'form-status err';
+      return false;
+    }
+    return true;
+  }
+
+  async function payWithRazorpay(){
+    const data = getDonateFormData();
+    if(!validateDonateForm(data)) return;
+    const statusEl = document.getElementById('donateForm-status');
+    statusEl.textContent = 'Opening Razorpay...';
+    statusEl.className = 'form-status';
+
+    let config;
+    try{
+      config = await (await fetch('/api/payment-config')).json();
+    }catch(e){
+      statusEl.textContent = 'Could not reach the server. Please try again.';
+      statusEl.className = 'form-status err';
+      return;
+    }
+    if(!config.razorpayKeyId || config.razorpayKeyId.includes('REPLACE_ME')){
+      statusEl.textContent = 'Online payments are being set up — please use "Notify us" below for now.';
+      statusEl.className = 'form-status err';
+      return;
+    }
+
+    const options = {
+      key: config.razorpayKeyId,
+      amount: Math.round(Number(data.amount) * 100), // paise
+      currency: 'INR',
+      name: 'Saptrishi Learning Centre',
+      description: 'Donation',
+      prefill: { name: data.name, email: data.email, contact: data.phone || '' },
+      theme: { color: '#1B2A4A' },
+      handler: async function(response){
+        statusEl.textContent = 'Payment successful! Recording your donation...';
+        statusEl.className = 'form-status ok';
+        try{
+          await fetch('/api/donate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              ...data,
+              paymentMethod: 'razorpay',
+              paymentStatus: 'paid',
+              paymentRef: response.razorpay_payment_id,
+            }),
+          });
+        }catch(e){ /* payment already succeeded; logging failure is non-fatal */ }
+        statusEl.textContent = 'Thank you! Your payment was received. 🙏';
+        setTimeout(() => closeModal('donateModal'), 1800);
+      },
+      modal: {
+        ondismiss: function(){
+          statusEl.textContent = 'Payment window closed.';
+          statusEl.className = 'form-status';
+        }
+      }
+    };
+
+    if(typeof Razorpay === 'undefined'){
+      statusEl.textContent = 'Payment system failed to load. Check your internet connection.';
+      statusEl.className = 'form-status err';
+      return;
+    }
+    const rzp = new Razorpay(options);
+    rzp.on('payment.failed', function(){
+      statusEl.textContent = 'Payment failed. Please try again.';
+      statusEl.className = 'form-status err';
+    });
+    rzp.open();
+  }
+
+  async function payWithPaytm(){
+    const data = getDonateFormData();
+    if(!validateDonateForm(data)) return;
+    const statusEl = document.getElementById('donateForm-status');
+    statusEl.textContent = 'Connecting to Paytm...';
+    statusEl.className = 'form-status';
+
+    try{
+      const res = await fetch('/api/paytm/initiate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      const result = await res.json();
+      if(!res.ok || !result.ok){
+        statusEl.textContent = result.error || 'Paytm is not set up yet — please use "Notify us" below for now.';
+        statusEl.className = 'form-status err';
+        return;
+      }
+      // Auto-submit a hidden form to Paytm's secure payment page
+      const f = document.createElement('form');
+      f.method = 'POST';
+      f.action = result.txnUrl;
+      ['mid', 'orderId', 'txnToken'].forEach((key) => {
+        const inp = document.createElement('input');
+        inp.type = 'hidden';
+        inp.name = key;
+        inp.value = result[key];
+        f.appendChild(inp);
+      });
+      document.body.appendChild(f);
+      f.submit();
+    }catch(e){
+      statusEl.textContent = 'Could not reach the server. Please try again.';
+      statusEl.className = 'form-status err';
+    }
+  }
+
+  async function submitDonateIntent(){
+    const data = getDonateFormData();
+    const statusEl = document.getElementById('donateForm-status');
+    if(!data.name || !data.email){
+      statusEl.textContent = 'Please fill in your name and email first.';
+      statusEl.className = 'form-status err';
+      return;
+    }
+    statusEl.textContent = 'Sending...';
+    statusEl.className = 'form-status';
+    try{
+      const res = await fetch('/api/donate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...data, paymentMethod: 'unpaid', paymentStatus: 'pending' }),
+      });
+      const result = await res.json();
+      if(res.ok && result.ok){
+        statusEl.textContent = result.message;
+        statusEl.className = 'form-status ok';
+        document.getElementById('donateForm').reset();
+      } else {
+        statusEl.textContent = result.error || 'Something went wrong.';
+        statusEl.className = 'form-status err';
+      }
+    }catch(e){
+      statusEl.textContent = 'Could not reach the server. Please try again.';
+      statusEl.className = 'form-status err';
+    }
+  }
+
+  async function submitForm(event, formId, endpoint){
+    event.preventDefault();
+    const form = document.getElementById(formId);
+    const statusEl = document.getElementById(formId + '-status');
+    const data = Object.fromEntries(new FormData(form).entries());
+    statusEl.textContent = 'Sending...';
+    statusEl.className = 'form-status';
+    try{
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      const result = await res.json();
+      if(res.ok && result.ok){
+        statusEl.textContent = result.message || 'Thank you!';
+        statusEl.classList.add('ok');
+        form.reset();
+      } else {
+        statusEl.textContent = result.error || 'Something went wrong. Please try again.';
+        statusEl.classList.add('err');
+      }
+    }catch(err){
+      statusEl.textContent = 'Could not reach the server. Please try again later.';
+      statusEl.classList.add('err');
+    }
+    return false;
+  }
+
+  /* =========================
+   VIDEO PLAYER
+========================= */
+(function(){
+  const videoCard = document.getElementById('videoCard');
+
+  if(!videoCard) return;
+
+  const video = videoCard.querySelector('.ngo-video');
+  const playBtn = videoCard.querySelector('.play-btn');
+
+  if(!video || !playBtn) return;
+
+  function updatePlayButton(){
+    if(video.paused){
+      playBtn.classList.remove('hidden');
+      playBtn.setAttribute('aria-label','Play video');
+    }else{
+      playBtn.classList.add('hidden');
+      playBtn.setAttribute('aria-label','Pause video');
+    }
+  }
+
+  async function toggleVideo(){
+    try{
+      if(video.paused){
+        await video.play();
+      }else{
+        video.pause();
+      }
+    }catch(error){
+      console.log('Video playback error:', error);
+    }
+
+    updatePlayButton();
+  }
+
+  playBtn.addEventListener('click',toggleVideo);
+
+  playBtn.addEventListener('keydown',function(e){
+    if(e.key === 'Enter' || e.key === ' '){
+      e.preventDefault();
+      toggleVideo();
+    }
+  });
+
+  video.addEventListener('play',updatePlayButton);
+  video.addEventListener('pause',updatePlayButton);
+  video.addEventListener('ended',updatePlayButton);
+
+  video.addEventListener('click',toggleVideo);
+
+  updatePlayButton();
+})();
+</script>
+
+</body>
+</html>
