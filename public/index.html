@@ -1237,6 +1237,86 @@
       </div>
     </div>
   </section>
+<!-- archive section -->
+  <section id="archive-section">
+  <div class="archive-header">
+    <div>
+      <h2 class="archive-title">Archives &amp; Titles</h2>
+      <p class="archive-subtitle">Teachers ke likhe hue articles</p>
+    </div>
+    <div class="header-actions">
+      <button id="themeToggle" title="Dark/Light mode">🌙 Theme</button>
+      <button id="adminToggle">🔒 Admin Login</button>
+      <button id="addArticleBtn" class="btn-primary" style="display:none;">+ Naya Article</button>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <input type="text" id="archiveSearch" placeholder="Search by title or teacher name...">
+    <select id="categoryFilter"><option value="">Sabhi Subjects</option></select>
+    <select id="sortSelect">
+      <option value="newest">Newest First</option>
+      <option value="oldest">Oldest First</option>
+      <option value="az">Title A-Z</option>
+    </select>
+  </div>
+
+  <div id="archiveGrid" class="archive-grid"></div>
+  <div class="pagination">
+    <button id="loadMoreBtn" style="display:none;">Load More</button>
+  </div>
+</section>
+
+<!-- View Article Modal -->
+<div id="articleModal" class="article-modal">
+  <div class="article-modal-content">
+    <span class="close-btn" id="closeModal">&times;</span>
+    <span class="tag" id="modalCategory"></span>
+    <h3 id="modalTitle"></h3>
+    <p id="modalMeta"></p>
+    <p id="modalStats"></p>
+    <img id="modalImg" src="" alt="">
+    <div id="modalBody"></div>
+    <div class="modal-actions">
+      <button id="printBtn">🖨️ Print</button>
+      <button id="shareBtn">🔗 Share</button>
+      <button id="editBtn" style="display:none;">✏️ Edit</button>
+      <button id="deleteBtn" class="btn-danger" style="display:none;">🗑️ Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add/Edit Form Modal -->
+<div id="formModal" class="article-modal">
+  <div class="article-modal-content form-modal-content">
+    <span class="close-btn" id="closeFormModal">&times;</span>
+    <h3 id="formModalTitle">Naya Article Add Karein</h3>
+    <div class="form-group">
+      <label>Teacher Name</label>
+      <input type="text" id="fTeacher" placeholder="e.g. Mrs. Sharma">
+    </div>
+    <div class="form-group">
+      <label>Article Title</label>
+      <input type="text" id="fTitle" placeholder="e.g. Importance of Moral Education">
+    </div>
+    <div class="form-group">
+      <label>Subject / Category</label>
+      <input type="text" id="fCategory" placeholder="e.g. Moral Science, English, Science">
+    </div>
+    <div class="form-group">
+      <label>Image URL (optional)</label>
+      <input type="text" id="fImage" placeholder="https://example.com/photo.jpg">
+    </div>
+    <div class="form-group">
+      <label>Article Content</label>
+      <textarea id="fBody" placeholder="Full article likhein..."></textarea>
+    </div>
+    <div class="form-error" id="formError">Teacher name, title aur content bharna zaroori hai.</div>
+    <div class="modal-actions">
+      <button id="saveArticleBtn" class="btn-primary">Save Article</button>
+    </div>
+  </div>
+</div>
 
   <!-- APPROACH -->
   <section id="approach">
