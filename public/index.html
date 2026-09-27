@@ -530,6 +530,162 @@
   .footer-logo-text{color:#fff;}
   .footer-logo-sub{color:#8F896F;}
 
+  /* archive css */
+  :root {
+    --bg: #f5f6fa;
+    --card-bg: #ffffff;
+    --text: #1a1a2e;
+    --text-muted: #666;
+    --border: #e5e5e5;
+    --accent: #3b5bdb;
+    --accent-light: #eef1fd;
+    --danger: #d63b3b;
+  }
+  /* [data-theme="dark"] {
+    --bg: #14151f;
+    --card-bg: #1e2030;
+    --text: #eaeaf0;
+    --text-muted: #a0a0b0;
+    --border: #33344a;
+    --accent: #6c8cff;
+    --accent-light: #232640;
+    --danger: #ff6b6b;
+  } */
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    margin: 0;
+    transition: background 0.3s, color 0.3s;
+  }
+  #archive-section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 30px 20px 60px;
+  }
+  .archive-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .archive-title { font-size: 28px; font-weight: 700; margin: 0 0 4px; }
+  .archive-subtitle { color: var(--text-muted); margin: 0; }
+  .header-actions { display: flex; gap: 10px; }
+  button {
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: var(--card-bg);
+    color: var(--text);
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+  }
+  button:hover { background: var(--accent-light); }
+  .btn-primary { background: var(--accent); color: #fff; border: none; }
+  .btn-primary:hover { opacity: 0.9; background: var(--accent); }
+  .btn-danger { color: var(--danger); border-color: var(--danger); }
+
+  .toolbar {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 22px;
+  }
+  .toolbar input, .toolbar select {
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--text-muted)10;
+    color: var(--yellow);
+    font-size: 14px;
+  }
+  #archiveSearch { flex: 2; min-width: 200px; }
+  .toolbar select { flex: 1; min-width: 140px; }
+
+  .archive-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    gap: 20px;
+  }
+  .article-card {
+    /* background: var(--card-bg); */
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+  }
+  .article-card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0,0.12); }
+  .article-card img { width: 100%; height: 140px; object-fit: cover; }
+  .article-card-body { padding: 16px; flex: 1; display: flex; flex-direction: column; }
+  .tag {
+    display: inline-block;
+    background: var(--accent-light);
+    color: var(--accent);
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 8px;
+    width: fit-content;
+  }
+  .article-card h4 { margin: 0 0 6px; font-size: 17px; }
+  .meta { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; }
+  .excerpt { font-size: 14px; color: var(--text-muted); line-height: 1.5; flex: 1; }
+  .card-footer {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 12px; font-size: 12px; color: var(--text-muted);
+  }
+  .card-admin-actions { display: flex; gap: 6px; margin-top: 10px; }
+  .card-admin-actions button { padding: 4px 10px; font-size: 12px; }
+
+  .empty-state { text-align: center; color: var(--text-muted); padding: 40px; grid-column: 1/-1; }
+
+  .pagination { display: flex; justify-content: center; margin-top: 26px; }
+
+  /* Modal (view article) */
+  .article-modal {
+    display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55);
+    z-index: 999; justify-content: center; align-items: center; padding: 20px;
+  }
+  .article-modal.active { display: flex; }
+  .article-modal-content {
+    background: var(--card-bg); max-width: 640px; width: 100%; max-height: 85vh;
+    overflow-y: auto; border-radius: 12px; padding: 30px; position: relative;
+  }
+  .close-btn { position: absolute; top: 14px; right: 18px; font-size: 24px; cursor: pointer; color: var(--text-muted); }
+  #modalTitle { margin: 0 0 6px; }
+  #modalMeta { color: var(--text-muted); font-size: 13px; margin-bottom: 4px; }
+  #modalStats { color: var(--text-muted); font-size: 12px; margin-bottom: 16px; }
+  #modalImg { width: 100%; border-radius: 10px; margin-bottom: 16px; display: none; }
+  #modalBody { font-size: 15px; line-height: 1.8; }
+  .modal-actions { display: flex; gap: 10px; margin-top: 24px; border-top: 1px solid var(--border); padding-top: 16px; }
+
+  /* Add/Edit form modal */
+  .form-modal-content { max-width: 520px; }
+  .form-group { margin-bottom: 14px; }
+  .form-group label { display: block; font-size: 13px; margin-bottom: 5px; color: var(--text-muted); }
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%; padding: 9px 12px; border: 1px solid var(--border); border-radius: 8px;
+    background: var(--bg); color: var(--text); font-size: 14px; font-family: inherit;
+  }
+  .form-group textarea { resize: vertical; min-height: 110px; }
+  .form-error { color: var(--danger); font-size: 13px; margin-top: 8px; display: none; }
+
+  @media print {
+    body * { visibility: hidden; }
+    #modalTitle, #modalMeta, #modalImg, #modalBody, #modalTitle *, #modalBody * {
+      visibility: visible;
+    }
+    .article-modal-content { position: absolute; top: 0; left: 0; width: 100%; box-shadow: none; }
+    .modal-actions, .close-btn, #modalStats { display: none !important; }
+  }
+
   .gallery-grid{
     display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:start;
   }
@@ -1237,23 +1393,25 @@
       </div>
     </div>
   </section>
+
+
 <!-- archive section -->
   <section id="archive-section">
   <div class="archive-header">
     <div>
       <h2 class="archive-title">Archives &amp; Titles</h2>
-      <p class="archive-subtitle">Teachers ke likhe hue articles</p>
+      <p class="archive-subtitle">Articles written by our teachers</p>
     </div>
     <div class="header-actions">
-      <button id="themeToggle" title="Dark/Light mode">🌙 Theme</button>
+      <button id="themeToggle" title="Light mode">🌙 Theme</button>
       <button id="adminToggle">🔒 Admin Login</button>
-      <button id="addArticleBtn" class="btn-primary" style="display:none;">+ Naya Article</button>
+      <button id="addArticleBtn" class="btn-primary" style="display:none;">+ New Article</button>
     </div>
   </div>
 
   <div class="toolbar">
     <input type="text" id="archiveSearch" placeholder="Search by title or teacher name...">
-    <select id="categoryFilter"><option value="">Sabhi Subjects</option></select>
+    <select id="categoryFilter"><option value="All aubjects">All Subjects</option></select>
     <select id="sortSelect">
       <option value="newest">Newest First</option>
       <option value="oldest">Oldest First</option>
@@ -1374,7 +1532,7 @@
           <img src="images/team/chinki-bhatia.jpg" alt="Chinki Bhatia, Founder" loading="lazy" onerror="this.parentElement.classList.add('gallery-placeholder')">
         </div>
           <h4>Chinki Bhatia</h4>
-          <div class="role">Founder</div>
+          <div class="role">Founder and managing director</div>
           <p>A pharmacist by profession and neuroscientist by training, raised in Bahrain, with a PhD in neuroscience from the U.S. Now based in the U.S. and a mother of an 11-year-old, she brings creative, experience-based teaching methods to Saptrishi.</p>
           <details>
             <summary>Read full story</summary>
@@ -1413,8 +1571,8 @@
           <img src="images/team/sagar-singh.jpg" alt="Sagar Singh, Volunteer" loading="lazy" onerror="this.parentElement.classList.add('gallery-placeholder')">
         </div>
           <h4>Sagar Singh</h4>
-          <div class="role">Volunteer</div>
-          <p>A Medical Representative with a background in pharmacy, Sagar volunteers to teach science — helping children understand concepts in simple, practical, curiosity-sparking ways.</p>
+          <div class="role">Teacher</div>
+          <p>A Medical Representative with a background in pharmacy, Sagar teaches to teach science — helping children understand concepts in simple, practical, curiosity-sparking ways.</p>
           <details>
             <summary>Read full story</summary>
             <p>I believe that with the right guidance, mentorship and access to resources, every child has the potential to rise above their circumstances. My goal is to equip children with not just academic knowledge, but the confidence and tools to build a brighter future. Outside of work, I love travelling and exploring new places on bikes — every child in the slums carries a spark, and I'm here to help turn that spark into a flame.</p>
@@ -1426,11 +1584,24 @@
           <img src="images/team/ankur-shukla.jpg" alt="Ankur Shukla, Volunteer" loading="lazy" onerror="this.parentElement.classList.add('gallery-placeholder')">
         </div>
           <h4>Ankur Shukla</h4>
-          <div class="role">Volunteer</div>
+          <div class="role">Assistant Teacher</div>
           <p>Part of the dedicated volunteer network that keeps Saptrishi's classrooms, events and community drives running.</p>
           <details>
             <summary>Read full story</summary>
-            <p>My journey as a volunteer has been deeply rewarding. I have witnessed firsthand the transformative power of education and community support. By contributing my time and skills, I aim to create an environment where children can thrive academically and personally. Outside of volunteering, I enjoy reading and engaging in community service projects that uplift those around me.</p>
+            <p>My Ankur Shukla is a dedicated member of the saptrishi assistant team, contributing his time and efforts to support the centre’s educational activities, events, and community initiatives. He believes in teamwork, responsibility, and creating meaningful opportunities for children. Through his involvement, he helps saptrishi make its classrooms, activities, and community programmes more engaging and impactful.</p>
+          </details>
+          </div>
+
+          <div class="team-card" data-reveal>
+          <div class="gallery-item" data-reveal onclick="openLightbox(this)">
+          <img src="images/team/hariom-shukla.jpg" alt="Hariom Shukla, Volunteer" loading="lazy" onerror="this.parentElement.classList.add('gallery-placeholder')">
+        </div>
+          <h4>Hariom Shukla</h4>
+          <div class="role">Teacher</div>
+            <p>I am a BCA (IT) student and an aspiring Software Developer. I’m interested in learning new technologies. I also enjoy reading books, working with children, and sharing knowledge. I believe in continuous learning, creativity, and making a positive impact through my skills.</p>
+          <details>
+            <summary>Read full story</summary>
+            <p>Hariom is a passionate member of saptrishi Learning Centre who believes in learning, teaching, and giving back to society. He is interested in technology, reading, and continuous learning. He enjoys spending time with children, sharing knowledge, and supporting their educational and personal growth. Through saptrishi, he contributes his time, skills, and dedication towards creating better learning opportunities for children.</p>
           </details>
           </div>
 
@@ -1793,6 +1964,264 @@ if(menuBtn && navLinks){
     });
   }, {threshold:0.4});
   counters.forEach(c=>counterIO.observe(c));
+
+  const STORAGE_KEY = 'teacherArchiveArticles';
+const VIEWS_KEY = 'teacherArchiveViews';
+const ADMIN_PASSWORD = 'admin123'; // ise apne hisaab se badal dein
+const PAGE_SIZE = 6;
+
+let articles = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || [
+  {
+    id: 1,
+    teacher: "Mrs. Chinki Bhatia",
+    title: "Importance of Moral Education",
+    category: "Moral Science",
+    date: "2026-09-20",
+    image: "",
+    body: "Moral education helps students build character alongside academics. In today's fast-paced world, schools must focus not just on marks but on values like honesty, respect, and responsibility.<br><br>Teachers play a key role in shaping these values through daily interactions and example-setting."
+  },
+  {
+    id: 2,
+    teacher: "Mr. Pradeep Shukla",
+    title: "Digital Learning: A New Era",
+    category: "Technology",
+    date: "2026-09-15",
+    image: "",
+    body: "Technology has transformed how students learn and engage with content. Smart classrooms, online resources, and interactive tools make learning more effective and enjoyable for students of all levels."
+  }
+];
+
+let views = JSON.parse(localStorage.getItem(VIEWS_KEY) || '{}');
+let isAdmin = false;
+let currentPage = 1;
+let editingId = null;
+let activeArticleId = null;
+
+const grid = document.getElementById('archiveGrid');
+const searchInput = document.getElementById('archiveSearch');
+const categoryFilter = document.getElementById('categoryFilter');
+const sortSelect = document.getElementById('sortSelect');
+const loadMoreBtn = document.getElementById('loadMoreBtn');
+
+function saveArticles() { localStorage.setItem(STORAGE_KEY, JSON.stringify(articles)); }
+function saveViews() { localStorage.setItem(VIEWS_KEY, JSON.stringify(views)); }
+
+function readingTime(html) {
+  const text = html.replace(/<[^>]*>/g, ' ');
+  const words = text.trim().split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.round(words / 150));
+}
+
+function formatDate(d) {
+  return new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+
+function populateCategories() {
+  const cats = [...new Set(articles.map(a => a.category).filter(Boolean))];
+  categoryFilter.innerHTML = '<option value="">Sabhi Subjects</option>' +
+    cats.map(c => `<option value="${c}">${c}</option>`).join('');
+}
+
+function getFilteredSorted() {
+  const q = searchInput.value.toLowerCase();
+  const cat = categoryFilter.value;
+  let list = articles.filter(a =>
+    (a.title.toLowerCase().includes(q) || a.teacher.toLowerCase().includes(q)) &&
+    (cat === '' || a.category === cat)
+  );
+  if (sortSelect.value === 'newest') list.sort((a,b) => new Date(b.date) - new Date(a.date));
+  else if (sortSelect.value === 'oldest') list.sort((a,b) => new Date(a.date) - new Date(b.date));
+  else if (sortSelect.value === 'az') list.sort((a,b) => a.title.localeCompare(b.title));
+  return list;
+}
+
+function renderArticles() {
+  const list = getFilteredSorted();
+  const visible = list.slice(0, currentPage * PAGE_SIZE);
+  grid.innerHTML = '';
+
+  if (visible.length === 0) {
+    grid.innerHTML = '<div class="empty-state">Koi article nahi mila.</div>';
+    loadMoreBtn.style.display = 'none';
+    return;
+  }
+
+  visible.forEach(art => {
+    const card = document.createElement('div');
+    card.className = 'article-card';
+    card.innerHTML = `
+      ${art.image ? `<img src="${art.image}" alt="${art.title}">` : ''}
+      <div class="article-card-body">
+        ${art.category ? `<span class="tag">${art.category}</span>` : ''}
+        <h4>${art.title}</h4>
+        <div class="meta">${art.teacher} • ${formatDate(art.date)}</div>
+        <div class="excerpt">${art.body.replace(/<[^>]*>/g,' ').slice(0,100)}...</div>
+        <div class="card-footer">
+          <span>⏱ ${readingTime(art.body)} min read</span>
+          <span>👁 ${views[art.id] || 0} views</span>
+        </div>
+        ${isAdmin ? `<div class="card-admin-actions">
+          <button data-edit="${art.id}">Edit</button>
+          <button data-delete="${art.id}" class="btn-danger">Delete</button>
+        </div>` : ''}
+      </div>
+    `;
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('[data-edit]') || e.target.closest('[data-delete]')) return;
+      openArticle(art.id);
+    });
+    grid.appendChild(card);
+  });
+
+  grid.querySelectorAll('[data-edit]').forEach(btn =>
+    btn.addEventListener('click', (e) => { e.stopPropagation(); openForm(Number(btn.dataset.edit)); })
+  );
+  grid.querySelectorAll('[data-delete]').forEach(btn =>
+    btn.addEventListener('click', (e) => { e.stopPropagation(); deleteArticle(Number(btn.dataset.delete)); })
+  );
+
+  loadMoreBtn.style.display = visible.length < list.length ? 'inline-block' : 'none';
+}
+
+// ===== View article modal =====
+const articleModal = document.getElementById('articleModal');
+function openArticle(id) {
+  const art = articles.find(a => a.id === id);
+  if (!art) return;
+  activeArticleId = id;
+  views[id] = (views[id] || 0) + 1;
+  saveViews();
+
+  document.getElementById('modalCategory').textContent = art.category || '';
+  document.getElementById('modalCategory').style.display = art.category ? 'inline-block' : 'none';
+  document.getElementById('modalTitle').textContent = art.title;
+  document.getElementById('modalMeta').textContent = `${art.teacher} • ${formatDate(art.date)}`;
+  document.getElementById('modalStats').textContent = `⏱ ${readingTime(art.body)} min read • 👁 ${views[id]} views`;
+  const img = document.getElementById('modalImg');
+  if (art.image) { img.src = art.image; img.style.display = 'block'; } else { img.style.display = 'none'; }
+  document.getElementById('modalBody').innerHTML = art.body;
+
+  document.getElementById('editBtn').style.display = isAdmin ? 'inline-block' : 'none';
+  document.getElementById('deleteBtn').style.display = isAdmin ? 'inline-block' : 'none';
+
+  articleModal.classList.add('active');
+  renderArticles(); // refresh view counts on cards
+}
+document.getElementById('closeModal').addEventListener('click', () => articleModal.classList.remove('active'));
+articleModal.addEventListener('click', e => { if (e.target === articleModal) articleModal.classList.remove('active'); });
+
+document.getElementById('printBtn').addEventListener('click', () => window.print());
+document.getElementById('shareBtn').addEventListener('click', async () => {
+  const art = articles.find(a => a.id === activeArticleId);
+  const shareData = { title: art.title, text: `${art.title} - ${art.teacher}`, url: location.href };
+  if (navigator.share) {
+    try { await navigator.share(shareData); } catch(e) {}
+  } else {
+    navigator.clipboard.writeText(`${art.title} — ${art.teacher}\n${location.href}`);
+    alert('Link copy ho gaya!');
+  }
+});
+document.getElementById('editBtn').addEventListener('click', () => { articleModal.classList.remove('active'); openForm(activeArticleId); });
+document.getElementById('deleteBtn').addEventListener('click', () => { deleteArticle(activeArticleId); articleModal.classList.remove('active'); });
+
+// ===== Add/Edit form =====
+const formModal = document.getElementById('formModal');
+function openForm(id) {
+  editingId = id || null;
+  document.getElementById('formModalTitle').textContent = id ? 'Article Edit Karein' : 'Naya Article Add Karein';
+  document.getElementById('formError').style.display = 'none';
+  if (id) {
+    const art = articles.find(a => a.id === id);
+    document.getElementById('fTeacher').value = art.teacher;
+    document.getElementById('fTitle').value = art.title;
+    document.getElementById('fCategory').value = art.category || '';
+    document.getElementById('fImage').value = art.image || '';
+    document.getElementById('fBody').value = art.body;
+  } else {
+    ['fTeacher','fTitle','fCategory','fImage','fBody'].forEach(id => document.getElementById(id).value = '');
+  }
+  formModal.classList.add('active');
+}
+document.getElementById('addArticleBtn').addEventListener('click', () => openForm(null));
+document.getElementById('closeFormModal').addEventListener('click', () => formModal.classList.remove('active'));
+formModal.addEventListener('click', e => { if (e.target === formModal) formModal.classList.remove('active'); });
+
+document.getElementById('saveArticleBtn').addEventListener('click', () => {
+  const teacher = document.getElementById('fTeacher').value.trim();
+  const title = document.getElementById('fTitle').value.trim();
+  const category = document.getElementById('fCategory').value.trim();
+  const image = document.getElementById('fImage').value.trim();
+  const body = document.getElementById('fBody').value.trim();
+
+  if (!teacher || !title || !body) {
+    document.getElementById('formError').style.display = 'block';
+    return;
+  }
+
+  if (editingId) {
+    const art = articles.find(a => a.id === editingId);
+    Object.assign(art, { teacher, title, category, image, body });
+  } else {
+    articles.unshift({
+      id: Date.now(),
+      teacher, title, category, image, body,
+      date: new Date().toISOString().slice(0,10)
+    });
+  }
+  saveArticles();
+  populateCategories();
+  currentPage = 1;
+  renderArticles();
+  formModal.classList.remove('active');
+});
+
+function deleteArticle(id) {
+  if (!confirm('Kya aap sach me is article ko delete karna chahte hain?')) return;
+  articles = articles.filter(a => a.id !== id);
+  saveArticles();
+  populateCategories();
+  renderArticles();
+}
+
+// ===== Admin login =====
+document.getElementById('adminToggle').addEventListener('click', () => {
+  if (isAdmin) {
+    isAdmin = false;
+    document.getElementById('adminToggle').textContent = '🔒 Admin Login';
+    document.getElementById('addArticleBtn').style.display = 'none';
+  } else {
+    const pass = prompt('Admin password daalein:');
+    if (pass === ADMIN_PASSWORD) {
+      isAdmin = true;
+      document.getElementById('adminToggle').textContent = '🔓 Logout';
+      document.getElementById('addArticleBtn').style.display = 'inline-block';
+    } else if (pass !== null) {
+      alert('Galat password!');
+    }
+  }
+  renderArticles();
+});
+
+// ===== Dark mode =====
+document.getElementById('themeToggle').addEventListener('click', () => {
+  const html = document.documentElement;
+  const newTheme = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', newTheme);
+  localStorage.setItem('archiveTheme', newTheme);
+});
+if (localStorage.getItem('archiveTheme') === 'dark') {
+  document.documentElement.setAttribute('data-theme', 'dark');
+}
+
+// ===== Toolbar events =====
+searchInput.addEventListener('input', () => { currentPage = 1; renderArticles(); });
+categoryFilter.addEventListener('change', () => { currentPage = 1; renderArticles(); });
+sortSelect.addEventListener('change', () => { currentPage = 1; renderArticles(); });
+loadMoreBtn.addEventListener('click', () => { currentPage++; renderArticles(); });
+
+// ===== Init =====
+populateCategories();
+renderArticles();
 
   const donut = document.getElementById('donut');
   const donutIO = new IntersectionObserver((entries)=>{
