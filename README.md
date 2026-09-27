@@ -1,2 +1,2 @@
-# saptrishi-learning-centre
+# Saptrishi-learning-centre
 Official website of Saptrishi Learning Centre
