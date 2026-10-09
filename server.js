@@ -25,7 +25,7 @@ const DB_PATH = path.join(__dirname, 'data', 'saptrishi.db');
 // ---------- PAYMENT GATEWAY CONFIG ----------
 // Razorpay: Key ID is PUBLIC (safe to send to the browser). Get it from
 // Razorpay Dashboard → Settings → API Keys.
-const RAZORPAY_KEY_ID = process.env.RAZORPAY_KEY_ID || 'rzp_test_REPLACE_ME';
+const RAZORPAY_KEY_ID = process.env.RAZORPAY_KEY_ID || 'rzp_test_TlrIVj0yJSRv8b';
 
 // Paytm: MID and Merchant Key are SECRET — never expose these to the browser.
 // Set them as environment variables when you run the server, e.g.:
