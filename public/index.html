@@ -1060,6 +1060,16 @@
   @media (prefers-reduced-motion:reduce){
     *{animation:none !important;transition:none !important;}
   }
+  /* ===== DONATE MODAL PAY BUTTON ===== */
+  .pay-btn-group{display:flex;flex-direction:column;gap:10px;}
+  .btn-pay{width:100%;}
+  .btn-pay-razorpay{background:var(--indigo);color:#fff;border-color:var(--indigo);}
+  .btn-pay-razorpay:hover{background:var(--indigo-soft);}
+  .pay-alt-note{font-size:0.88rem;color:var(--ink-soft);margin:0;}
+  .pay-alt-note a{color:var(--brick);font-weight:700;}
+  html.dark-mode .btn-pay-razorpay{background:#F2A93B;color:#0E1428;border-color:#F2A93B;}
+  html.dark-mode .btn-pay-razorpay:hover{background:#D98A1E;}
+  html.dark-mode .pay-alt-note a{color:#F2A93B;}
 </style>
 </head>
 <body>
@@ -1086,6 +1096,7 @@
     <a href="#team" class="drawer-link" onclick="closeDrawer()">Team</a>
     <a href="#gallery" class="drawer-link" onclick="closeDrawer()">Gallery</a>
     <a href="#trust" class="drawer-link" onclick="closeDrawer()">Why Trust Us</a>
+    <a href="support-us.html" class="drawer-link">Support Us</a>
     <a href="teacher-archive.html" class="drawer-link" onclick="closeDrawer()">Our Archives</a>
 
   </div>
@@ -1093,10 +1104,7 @@
 
 <header>
   <div class="nav">
-    <div class="logo"><img src="images/logo/logo1.jpg" alt="" loading="lazy" onerror="this.src='images/logo/logo-placeholder.jpg'"></div>
-      
-      <span class="logo-text">Saptrishi Learning Centre<span>Kanpur, India</span></span>
-    </a>
+    <a class="logo" href="#top"><img src="images/logo/logo1.jpg" alt="" loading="lazy" onerror="this.src='images/logo/logo-placeholder.jpg'"><span class="logo-text">Saptrishi Learning Centre<span>Kanpur, India</span></span></a>
     <button class="theme-menu-btn" id="themeMenuBtn" aria-label="Open settings menu"><span></span><span></span><span></span></button>
     <nav class="links">
       <a href="#about"><span class="lang-en">Our Story</span><span class="lang-hi">हमारी कहानी</span></a>
@@ -1105,15 +1113,16 @@
       <a href="#team"><span class="lang-en">Team</span><span class="lang-hi">टीम</span></a>
       <a href="#gallery"><span class="lang-en">Gallery</span><span class="lang-hi">गैलरी</span></a>
       <a href="#trust"><span class="lang-en">Why Trust Us</span><span class="lang-hi">भरोसा क्यों करें</span></a>
+      <a href="support-us.html"><span class="lang-en">Support Us</span><span class="lang-hi">सहयोग करें</span></a>
     </nav>
     <div class="nav-right">
       <div class="lang-toggle" role="group" aria-label="Language">
         <button type="button" class="active" data-lang-btn="en">EN</button>
         <button type="button" data-lang-btn="hi">हिं</button>
       </div>
-      <button type="button" class="btn btn-primary btn-nav" onclick="openModal('donateModal')">
+      <a class="btn btn-primary btn-nav" href="support-us.html">
         <span class="lang-en">Donate Now</span><span class="lang-hi">दान करें</span>
-      </button>
+      </a>
       <button class="menu-btn" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
     </div>
   </div>
@@ -1147,9 +1156,9 @@
         <p class="hero-sub lang-en">We exist to ignite the spark of possibility in every child living in the shadows of our cities. Through holistic education and community support, we transform slum neighbourhoods into hubs of learning and hope.</p>
         <p class="hero-sub lang-hi">हम अपने शहरों की छाया में रहने वाले हर बच्चे में संभावनाओं की चिंगारी जगाने के लिए यहाँ हैं।</p>
         <div class="hero-ctas">
-          <button type="button" class="btn btn-primary" onclick="openModal('donateModal')">
+          <a class="btn btn-primary" href="support-us.html">
             <span class="lang-en">Donate Now</span><span class="lang-hi">दान करें</span>
-          </button>
+          </a>
           <button type="button" class="btn btn-ghost" onclick="openModal('volunteerModal')">
             <span class="lang-en">Become a Volunteer</span><span class="lang-hi">स्वयंसेवक बनें</span>
           </button>
@@ -1473,7 +1482,7 @@
       </div>
 
       <div class="cta-actions">
-        <button type="button" class="btn btn-outline btn-cta-white" onclick="openModal('donateModal')">Donate Now</button>
+        <a class="btn btn-outline btn-cta-white" href="support-us.html">Donate Now</a>
         <button type="button" class="btn btn-outline" onclick="openModal('volunteerModal')">Become a Volunteer</button>
         <div class="upi-badge">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg>
@@ -1598,8 +1607,9 @@
       <div>
         <h5>Get Involved</h5>
         <ul>
-          <li><a href="javascript:void(0)" onclick="openModal('donateModal')">Donate Now</a></li>
+          <li><a href="support-us.html">Donate Now</a></li>
           <li><a href="javascript:void(0)" onclick="openModal('volunteerModal')">Become a Volunteer</a></li>
+          <li><a href="support-us.html">Support Us</a></li>
           <li><a href="#">Field Trips &amp; Events</a></li>
         </ul>
       </div>
@@ -1765,6 +1775,11 @@ if(menuBtn && navLinks){
     lb.src = img.src;
     lb.alt = img.alt;
     openModal('lightboxModal');
+  }
+
+  // support-us.html se "Donate Now" dabane par popup khole
+  if(new URLSearchParams(window.location.search).get('donate') === '1'){
+    window.addEventListener('load', function(){ openModal('donateModal'); history.replaceState(null, '', window.location.pathname); });
   }
 
   function openModal(id){
@@ -2024,5 +2039,6 @@ if(menuBtn && navLinks){
 })();
 </script>
 
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </body>
 </html>

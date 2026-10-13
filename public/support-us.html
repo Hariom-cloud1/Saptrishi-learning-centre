@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Support Us | Saptrishi Learning Centre, Kanpur</title>
+<meta name="description" content="Support Saptrishi Learning Centre through UPI, direct bank transfer or online payment. Donations are tax-exempt with 80G and 12A benefits.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&amp;family=Work+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#232323; --ink-soft:#4a463f; --paper:#FBF6EC; --paper-raised:#FFFDF8;
+    --indigo:#1B2A4A; --indigo-soft:#2A3D63; --marigold:#F2A93B; --marigold-deep:#D98A1E;
+    --leaf:#4C7A5E; --brick:#B4552F; --border:#E4DAC4;
+    --shadow:0 10px 30px rgba(27,42,74,0.10); --radius:14px; font-size:16px;
+  }
+  html.dark-mode{
+    --ink:#EDEAE0; --ink-soft:#fbfaf6; --paper:black; --paper-raised:#060917;
+    --border:#2E3A60; --shadow:0 10px 30px rgba(0,0,0,0.5);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:'Work Sans',sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3{font-family:'Baloo 2','Work Sans',sans-serif;font-weight:700;color:var(--ink);line-height:1.15;margin:0;}
+  a{color:inherit;}
+  img{display:block;max-width:100%;}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 24px;}
+
+  header{position:sticky;top:0;z-index:50;background:rgba(251,246,236,0.92);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border-bottom:1px solid var(--border);}
+  html.dark-mode header{background:rgba(0,3,13,0.95);}
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:14px 24px;max-width:1180px;margin:0 auto;}
+  .logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+  .logo img{width:46px;height:46px;border-radius:50%;object-fit:cover;flex-shrink:0;}
+  .logo-text{font-family:'Baloo 2',sans-serif;font-weight:700;color:var(--indigo);font-size:1.08rem;}
+  .logo-text span{display:block;font-family:'Work Sans',sans-serif;font-weight:500;font-size:0.68rem;color:var(--ink-soft);letter-spacing:0.04em;}
+  html.dark-mode .logo-text{color:#b9b6aa;}
+  .nav-right{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+  .back{font-weight:600;font-size:0.92rem;text-decoration:none;}
+  .back:hover{color:var(--brick);}
+  .lang-toggle{display:flex;border:1.5px solid var(--indigo);border-radius:999px;overflow:hidden;font-weight:700;font-size:0.78rem;}
+  .lang-toggle button{border:none;background:transparent;padding:6px 12px;cursor:pointer;color:var(--indigo);font-family:'Work Sans',sans-serif;font-weight:700;}
+  .lang-toggle button.active{background:var(--indigo);color:#fff;}
+  html.dark-mode .lang-toggle{border-color:#2E3A60;}
+  html.dark-mode .lang-toggle button{color:#EDEAE0;}
+  html.dark-mode .lang-toggle button.active{background:#F2A93B;color:#0E1428;}
+  .theme-btn{border:1.5px solid var(--indigo);background:transparent;color:var(--indigo);border-radius:999px;padding:6px 12px;cursor:pointer;font-size:0.9rem;line-height:1;}
+  html.dark-mode .theme-btn{border-color:#2E3A60;color:#EDEAE0;}
+
+  .lang-hi{display:none;}
+  html[data-lang="hi"] .lang-en{display:none;}
+  html[data-lang="hi"] .lang-hi{display:inline;}
+
+  main{padding:56px 0 40px;}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:0.78rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--brick);margin-bottom:14px;}
+  .eyebrow::before{content:"";width:22px;height:2px;background:var(--marigold);display:inline-block;border-radius:2px;}
+  html.dark-mode .eyebrow{color:#F2A93B;}
+  h1{font-size:clamp(2.2rem,5vw,3.2rem);margin-bottom:10px;}
+  .lead{color:var(--ink-soft);font-size:1.05rem;max-width:56ch;margin:0 0 36px;}
+  h2.sub{font-size:1.5rem;margin-bottom:20px;}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 28px;border-radius:999px;font-weight:700;font-size:1rem;font-family:'Work Sans',sans-serif;text-decoration:none;cursor:pointer;border:2px solid transparent;min-height:48px;transition:transform .18s ease, box-shadow .18s ease, background .18s ease;}
+  .btn:hover{transform:translateY(-2px) scale(1.02);}
+  .btn-primary{background:var(--marigold);color:var(--indigo);box-shadow:0 8px 20px rgba(242,169,59,0.45);}
+  .btn-primary:hover{background:var(--marigold-deep);}
+  html.dark-mode .btn-primary{background:#F2A93B;color:#0E1428;}
+  :focus-visible{outline:3px solid var(--marigold-deep);outline-offset:2px;}
+
+  .support-grid{display:grid;grid-template-columns:1fr;gap:20px;align-items:start;}
+  @media (min-width:900px){.support-grid{grid-template-columns:1fr 1fr;}.support-card.wide{grid-column:1 / -1;}}
+  .support-card{background:var(--paper-raised);border:1px solid var(--border);border-left:6px solid var(--marigold);border-radius:var(--radius);padding:26px;box-shadow:var(--shadow);}
+  .support-card h3{font-size:1.2rem;margin:-26px -26px 18px;padding:10px 26px;background:var(--indigo);color:#fff;border-radius:calc(var(--radius) - 2px) calc(var(--radius) - 2px) 0 0;text-align:center;}
+  html.dark-mode .support-card h3{background:#1a2342;color:#F2A93B;}
+  .support-card.center{text-align:center;}
+  .support-card.center .support-actions{justify-content:center;}
+  .plan-widget{max-width:340px;margin:0 auto;text-align:left;background:var(--paper-raised);border:1px solid var(--border);border-radius:8px;padding:6px 18px 18px;box-shadow:var(--shadow);}
+  .plan-name{font-size:0.85rem;font-weight:600;margin:14px 0 6px;color:var(--ink);}
+  .plan-opt{display:block;position:relative;border:1px solid var(--border);border-radius:4px;padding:10px 44px 10px 12px;cursor:pointer;background:transparent;transition:border-color .15s ease, box-shadow .15s ease;}
+  .plan-opt input{position:absolute;right:14px;top:16px;width:16px;height:16px;margin:0;accent-color:var(--indigo);}
+  .plan-opt:has(input:checked){border-color:var(--marigold-deep);box-shadow:0 0 0 2px rgba(242,169,59,0.35);}
+  .plan-opt:focus-within{outline:3px solid var(--marigold-deep);outline-offset:2px;}
+  .plan-amt{display:block;font-weight:700;color:var(--ink);}
+  .plan-freq{display:block;font-size:0.72rem;color:var(--ink-soft);}
+  .plan-btn{width:100%;margin-top:20px;background:var(--indigo);color:#fff;border:0;border-radius:4px;padding:12px;font-weight:700;font-style:italic;font-family:'Work Sans',sans-serif;font-size:0.95rem;cursor:pointer;}
+  .plan-btn:hover{background:var(--indigo-soft);}
+  html.dark-mode .plan-btn{background:#F2A93B;color:#0E1428;}
+  .plan-status{min-height:1.2em;margin:10px 0 0;font-size:0.85rem;font-weight:600;color:var(--brick);text-align:center;}
+  .powered{text-align:center;font-size:0.72rem;color:var(--ink-soft);margin:6px 0 0;}
+  .support-card p{color:var(--ink-soft);margin:0 0 10px;font-size:0.97rem;}
+  .support-row{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:9px 0;border-bottom:1px dashed var(--border);}
+  .support-row:last-of-type{border-bottom:0;}
+  .support-label{color:var(--ink-soft);font-size:0.9rem;}
+  .support-value{font-weight:600;word-break:break-all;}
+  .copy-btn{border:none;border-radius:8px;padding:5px 12px;font-family:'Work Sans',sans-serif;font-weight:700;font-size:0.8rem;cursor:pointer;background:var(--border);color:var(--ink);transition:background .2s ease,color .2s ease;}
+  .copy-btn:hover{background:var(--marigold);color:var(--indigo);}
+  .copy-btn.copied{background:var(--leaf);color:#fff;}
+  html.dark-mode .copy-btn{background:#1d2748;color:#EDEAE0;}
+  .support-qr{width:180px;height:180px;object-fit:contain;background:#fff;border:1px solid var(--border);border-radius:10px;padding:6px;margin:14px 0 8px;}
+  .support-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:6px;}
+  .support-contact a{color:var(--brick);font-weight:700;text-decoration:none;}
+  .support-contact a:hover{text-decoration:underline;}
+  html.dark-mode .support-contact a{color:#F2A93B;}
+  .support-note{margin-top:28px;font-size:0.92rem;color:var(--ink-soft);border-top:1px solid var(--border);padding-top:18px;}
+  .support-note p{margin:0 0 6px;}
+
+  footer{background:var(--indigo);color:#B9B29C;padding:26px 0;margin-top:40px;font-size:0.85rem;}
+  html.dark-mode footer{background:#0A0F20;}
+  .foot{max-width:1180px;margin:0 auto;padding:0 24px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;}
+  footer a{text-decoration:none;}
+  footer a:hover{color:var(--marigold);}
+  @media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a class="logo" href="index.html">
+      <img src="images/logo/logo1.jpg" alt="Saptrishi Learning Centre logo" onerror="this.src='images/logo/logo-placeholder.jpg'">
+      <span class="logo-text">Saptrishi Learning Centre<span>Kanpur, India</span></span>
+    </a>
+    <div class="nav-right">
+      <a class="back" href="index.html"><span class="lang-en">← Back to home</span><span class="lang-hi">← होम पर वापस</span></a>
+      <div class="lang-toggle" role="group" aria-label="Language">
+        <button type="button" class="active" data-lang-btn="en">EN</button>
+        <button type="button" data-lang-btn="hi">हिं</button>
+      </div>
+      <button type="button" class="theme-btn" id="themeBtn" aria-label="Toggle dark mode">🌓</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="eyebrow"><span class="lang-en">Join Our Mission</span><span class="lang-hi">हमारे मिशन से जुड़ें</span></div>
+    <h1><span class="lang-en">Support Us</span><span class="lang-hi">हमारा सहयोग करें</span></h1>
+    <p class="lead">
+      <span class="lang-en">Your gift becomes a school bag, a meal or a mentor for a child in Kanpur. Every contribution, big or small, makes a difference.</span>
+      <span class="lang-hi">आपका दान कानपुर के किसी बच्चे के लिए स्कूल बैग, भोजन या मार्गदर्शक बन जाता है। छोटा हो या बड़ा, हर योगदान मायने रखता है।</span>
+    </p>
+
+    <h2 class="sub"><span class="lang-en">Payment Methods</span><span class="lang-hi">भुगतान के तरीके</span></h2>
+
+    <div class="support-grid">
+
+      <!-- Option 1: UPI -->
+      <div class="support-card">
+        <h3><span class="lang-en">Option 1: UPI</span><span class="lang-hi">विकल्प 1: UPI</span></h3>
+        <div class="support-row">
+          <span class="support-label"><span class="lang-en">UPI ID</span><span class="lang-hi">UPI आईडी</span></span>
+          <span class="support-value" id="upiId">yourname@bank</span>
+          <button type="button" class="copy-btn" onclick="copyText('upiId', this)"><span class="lang-en">Copy</span><span class="lang-hi">कॉपी</span></button>
+        </div>
+        <img class="support-qr" src="images/upi-qr.png" alt="Scan to donate via UPI">
+        <p><span class="lang-en">Scan with GPay, PhonePe, Paytm or any UPI app.</span><span class="lang-hi">GPay, PhonePe, Paytm या किसी भी UPI ऐप से स्कैन करें।</span></p>
+        <div class="support-actions">
+          <a class="btn btn-primary" id="upiPayLink" href="#"><span class="lang-en">Pay with UPI app</span><span class="lang-hi">UPI ऐप से भुगतान करें</span></a>
+        </div>
+      </div>
+
+      <!-- Option 2: Bank transfer -->
+      <div class="support-card">
+        <h3><span class="lang-en">Option 2: Direct Bank Transfer</span><span class="lang-hi">विकल्प 2: सीधे बैंक ट्रांसफर</span></h3>
+        <div class="support-row">
+          <span class="support-label"><span class="lang-en">Account name</span><span class="lang-hi">खाताधारक का नाम</span></span>
+          <span class="support-value" id="accName">Saptrishi Learning Centre</span>
+          <button type="button" class="copy-btn" onclick="copyText('accName', this)"><span class="lang-en">Copy</span><span class="lang-hi">कॉपी</span></button>
+        </div>
+        <div class="support-row">
+          <span class="support-label"><span class="lang-en">Account type</span><span class="lang-hi">खाते का प्रकार</span></span>
+          <span class="support-value">Current Account</span>
+        </div>
+        <div class="support-row">
+          <span class="support-label"><span class="lang-en">Account number</span><span class="lang-hi">खाता संख्या</span></span>
+          <span class="support-value" id="accNo">000000000000</span>
+          <button type="button" class="copy-btn" onclick="copyText('accNo', this)"><span class="lang-en">Copy</span><span class="lang-hi">कॉपी</span></button>
+        </div>
+        <div class="support-row">
+          <span class="support-label"><span class="lang-en">Bank</span><span class="lang-hi">बैंक</span></span>
+          <span class="support-value">Your Bank Name</span>
+        </div>
+        <div class="support-row">
+          <span class="support-label">IFSC</span>
+          <span class="support-value" id="ifscCode">ABCD0000000</span>
+          <button type="button" class="copy-btn" onclick="copyText('ifscCode', this)"><span class="lang-en">Copy</span><span class="lang-hi">कॉपी</span></button>
+        </div>
+      </div>
+
+      <!-- Option 3: Online payment (direct Razorpay link) -->
+      <div class="support-card center">
+        <h3><span class="lang-en">Option 3: Online Payment (One-time)</span><span class="lang-hi">विकल्प 3: ऑनलाइन भुगतान (एक बार)</span></h3>
+        <p><span class="lang-en">Pay by card, net banking or UPI through Razorpay and get your 80G receipt by email.</span><span class="lang-hi">Razorpay से कार्ड, नेट बैंकिंग या UPI द्वारा भुगतान करें और 80G रसीद ईमेल पर पाएँ।</span></p>
+        <div class="support-actions">
+          <!-- Yahan apna Razorpay Payment Page / Payment Link daalein (Razorpay Dashboard me banta hai) -->
+          <a class="btn btn-primary" id="razorpayLink" href="https://rzp.io/l/your-link" target="_blank" rel="noopener"><span class="lang-en">Donate Now</span><span class="lang-hi">अभी दान करें</span></a>
+        </div>
+      </div>
+
+      <!-- Option 4: Monthly support (Razorpay Subscription Button with plans) -->
+      <div class="support-card center">
+        <h3><span class="lang-en">Option 4: Monthly Support</span><span class="lang-hi">विकल्प 4: मासिक सहयोग</span></h3>
+        <div class="plan-widget" id="planWidget" role="radiogroup" aria-label="Monthly plans">
+          <!-- Plans neeche script me PLANS list se bante hain -->
+          <button type="button" class="plan-btn" id="planSubscribe"><span class="lang-en">Subscribe Now</span><span class="lang-hi">अभी सब्सक्राइब करें</span></button>
+          <p class="plan-status" id="planStatus" role="status" aria-live="polite"></p>
+          <p class="powered"><span class="lang-en">Secure payment via Razorpay</span><span class="lang-hi">Razorpay द्वारा सुरक्षित भुगतान</span></p>
+        </div>
+      </div>
+
+      <!-- Option 5: Receipt + contact -->
+      <div class="support-card support-contact wide">
+        <h3><span class="lang-en">Option 5: Receipt &amp; Contact</span><span class="lang-hi">विकल्प 5: रसीद और संपर्क</span></h3>
+        <p><span class="lang-en">For donation receipts, kindly email the transaction details to:</span><span class="lang-hi">दान की रसीद के लिए कृपया ट्रांज़ैक्शन की जानकारी इस ईमेल पर भेजें:</span></p>
+        <p><a href="mailto:youremail@example.org">youremail@example.org</a></p>
+        <p>
+          <span class="lang-en">Co-founder &amp; Manager:</span><span class="lang-hi">सह-संस्थापक और प्रबंधक:</span>
+          <a href="tel:+918353968403">+91 83539 68403</a><br>
+          <span class="lang-en">Volunteer Coordinator:</span><span class="lang-hi">स्वयंसेवक समन्वयक:</span>
+          <a href="tel:+918933051780">+91 89330 51780</a>
+        </p>
+      </div>
+
+    </div>
+
+    <div class="support-note">
+      <p><span class="lang-en">We accept donations only in Indian Rupees from Indian bank accounts.</span><span class="lang-hi">हम केवल भारतीय बैंक खातों से भारतीय रुपये में दान स्वीकार करते हैं।</span></p>
+      <p><strong><span class="lang-en">Note:</span><span class="lang-hi">नोट:</span></strong>
+        <span class="lang-en">Donations are eligible for 80G tax benefits and are tax-exempt under 12A.</span>
+        <span class="lang-hi">सभी दान 80G कर लाभ के पात्र हैं और 12A के तहत कर-मुक्त हैं।</span></p>
+      <!-- Jab Disclaimer page bane, ye line chalu karein:
+      <p><span class="lang-en">Please also read our <a href="disclaimer.html">Disclaimer</a>.</span></p> -->
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="foot">
+    <span>© 2026 Saptrishi Learning Centre. All rights reserved.</span>
+    <a href="index.html">← Home</a>
+  </div>
+</footer>
+
+<script>
+  // ---- Yahan apna UPI ID aur naam badlein (upar HTML me bhi UPI ID badlein) ----
+  var SUPPORT_UPI_ID = "yourname@bank";
+  var SUPPORT_PAYEE  = "Saptrishi Learning Centre";
+  // ---- Option 4: Monthly plans (naam, rakam aur Razorpay link yahan badlein) ----
+  // link = us plan ka Razorpay Subscription Link / Payment Page link (Razorpay Dashboard me banta hai)
+  var PLANS = [
+    { label: "Supporter",                                     amount: 500,   link: "" },
+    { label: "Backer",                                        amount: 1000,  link: "" },
+    { label: "Patron - Helps run a learning centre",          amount: 2500,  link: "" },
+    { label: "Core Patron - Sponsors meals and school kits",  amount: 5000,  link: "" },
+    { label: "Principal Patron - Powers long-term programmes", amount: 10000, link: "" }
+  ];
+
+  document.getElementById('upiId').textContent = SUPPORT_UPI_ID;
+  document.getElementById('upiPayLink').href = 'upi://pay?pa=' + encodeURIComponent(SUPPORT_UPI_ID) +
+    '&pn=' + encodeURIComponent(SUPPORT_PAYEE) + '&cu=INR';
+
+  (function(){
+    var box = document.getElementById('planWidget');
+    var btn = document.getElementById('planSubscribe');
+    var status = document.getElementById('planStatus');
+
+    PLANS.forEach(function(plan, i){
+      var title = document.createElement('div');
+      title.className = 'plan-name';
+      title.textContent = plan.label;
+
+      var opt = document.createElement('label');
+      opt.className = 'plan-opt';
+
+      var input = document.createElement('input');
+      input.type = 'radio'; input.name = 'plan'; input.value = i;
+
+      var amt = document.createElement('span');
+      amt.className = 'plan-amt';
+      amt.textContent = '\u20B9 ' + plan.amount.toLocaleString('en-IN') + '.00';
+
+      var freq = document.createElement('span');
+      freq.className = 'plan-freq';
+      freq.innerHTML = '<span class="lang-en">Frequency: Monthly</span><span class="lang-hi">अवधि: मासिक</span>';
+
+      opt.appendChild(input); opt.appendChild(amt); opt.appendChild(freq);
+      box.insertBefore(title, btn);
+      box.insertBefore(opt, btn);
+    });
+
+    btn.addEventListener('click', function(){
+      var chosen = box.querySelector('input[name="plan"]:checked');
+      var hi = document.documentElement.getAttribute('data-lang') === 'hi';
+      if(!chosen){
+        status.textContent = hi ? 'कृपया एक योजना चुनें।' : 'Please choose a plan first.';
+        return;
+      }
+      var plan = PLANS[Number(chosen.value)];
+      if(!plan.link){
+        status.textContent = hi ? 'मासिक भुगतान जल्द शुरू होगा। अभी कृपया कोई और विकल्प चुनें।' : 'Monthly payment is being set up. Please use another option for now.';
+        return;
+      }
+      status.textContent = '';
+      window.open(plan.link, '_blank', 'noopener');
+    });
+  })();
+
+  function copyText(id, btn){
+    var text = document.getElementById(id).textContent.trim();
+    function done(){ btn.classList.add('copied'); setTimeout(function(){ btn.classList.remove('copied'); }, 1500); }
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(done).catch(function(){ window.prompt('Copy:', text); });
+    } else { window.prompt('Copy:', text); }
+  }
+
+  // Language toggle
+  document.querySelectorAll('[data-lang-btn]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      document.documentElement.setAttribute('data-lang', btn.dataset.langBtn);
+      document.querySelectorAll('[data-lang-btn]').forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+    });
+  });
+
+  // Dark mode (same saved setting as the home page)
+  try{ if(localStorage.getItem('saptrishi-dark-mode') === '1') document.documentElement.classList.add('dark-mode'); }catch(e){}
+  document.getElementById('themeBtn').addEventListener('click', function(){
+    document.documentElement.classList.toggle('dark-mode');
+    try{ localStorage.setItem('saptrishi-dark-mode', document.documentElement.classList.contains('dark-mode') ? '1' : '0'); }catch(e){}
+  });
+</script>
+</body>
+</html>
