@@ -522,4 +522,68 @@ const server = http.createServer(async (req, res) => {
     // ---- GET /api/payment-status (client checks Razorpay/Paytm result was logged) ----
     if (pathname === '/api/payment-status' && req.method === 'GET') {
       const id = Number(url.searchParams.get('id'));
-      if (!id) return sendJSON(res, 400, { ok: false, error: 'Mis
+      if (!id) return sendJSON(res, 400, { ok: false, error: 'Missing id' });
+      const donation = getDonationById.get(id);
+      if (!donation) return sendJSON(res, 404, { ok: false, error: 'Not found' });
+      return sendJSON(res, 200, { ok: true, status: donation.payment_status });
+    }
+
+    // ---- POST /api/volunteer ----
+    if (pathname === '/api/volunteer' && req.method === 'POST') {
+      const body = await readBody(req);
+      const { name, email, phone = '', skills = '', message = '' } = body;
+      if (!name || !isValidEmail(email)) {
+        return sendJSON(res, 400, { ok: false, error: 'Name and a valid email are required.' });
+      }
+      insertVolunteer.run(String(name).trim(), String(email).trim(), String(phone), String(skills), String(message));
+      return sendJSON(res, 201, { ok: true, message: 'Thanks for volunteering! Our team will contact you soon.' });
+    }
+
+    // ---- POST /api/contact ----
+    if (pathname === '/api/contact' && req.method === 'POST') {
+      const body = await readBody(req);
+      const { name, email, message } = body;
+      if (!name || !isValidEmail(email) || !message) {
+        return sendJSON(res, 400, { ok: false, error: 'Name, valid email and message are required.' });
+      }
+      insertContact.run(String(name).trim(), String(email).trim(), String(message).trim());
+      return sendJSON(res, 201, { ok: true, message: 'Message received. We will get back to you soon.' });
+    }
+
+    // ---- GET /api/stats (public, aggregate only) ----
+    if (pathname === '/api/stats' && req.method === 'GET') {
+      const d = db.prepare('SELECT COUNT(*) AS c FROM donations').get();
+      const v = db.prepare('SELECT COUNT(*) AS c FROM volunteers').get();
+      const c = db.prepare('SELECT COUNT(*) AS c FROM contacts').get();
+      return sendJSON(res, 200, { ok: true, donations: d.c, volunteers: v.c, contacts: c.c });
+    }
+
+    // ---- GET /api/admin/data (protected) ----
+    if (pathname === '/api/admin/data' && req.method === 'GET') {
+      if (!checkAdmin(req)) {
+        return sendJSON(res, 401, { ok: false, error: 'Invalid or missing admin key.' });
+      }
+      const donations = db.prepare('SELECT * FROM donations ORDER BY id DESC').all();
+      const volunteers = db.prepare('SELECT * FROM volunteers ORDER BY id DESC').all();
+      const contacts = db.prepare('SELECT * FROM contacts ORDER BY id DESC').all();
+      return sendJSON(res, 200, { ok: true, donations, volunteers, contacts });
+    }
+
+    // ---- Static files (the website itself) ----
+    if (req.method === 'GET') {
+      return serveStatic(req, res, pathname);
+    }
+
+    sendJSON(res, 404, { ok: false, error: 'Not found' });
+  } catch (err) {
+    sendJSON(res, 500, { ok: false, error: err.message || 'Server error' });
+  }
+});
+
+server.listen(PORT, () => {
+  console.log(`Saptrishi server running → http://localhost:${PORT}`);
+  console.log(`Admin panel           → http://localhost:${PORT}/admin.html`);
+  console.log(`Database file         → ${DB_PATH}`);
+  console.log(`Thank-you mail        → ${mailer ? 'ON' : 'OFF (MAIL_USER / MAIL_APP_PASSWORD set karein)'}`);
+  console.log(`Razorpay webhook      → ${RAZORPAY_WEBHOOK_SECRET ? 'ON' : 'OFF (RAZORPAY_WEBHOOK_SECRET set karein)'}`);
+});
