@@ -1,9 +1,9 @@
 /**
  * Saptrishi Learning Centre — Backend Server
  * -------------------------------------------------
- * Pure Node.js (no npm install needed) using the built-in
- * `node:sqlite` module (Node 22.5+) for persistent storage,
- * and the built-in `http` module for the server itself.
+ * Node.js server using the built-in `node:sqlite` module (Node 22.5+)
+ * for storage and the built-in `http` module for the server itself.
+ * Only extra package: nodemailer  ->  npm i nodemailer
  *
  * Run:   node server.js
  * Then open: http://localhost:3000
@@ -13,6 +13,7 @@
 const http = require('node:http');
 const https = require('node:https');
 const crypto = require('node:crypto');
+const nodemailer = require('nodemailer');
 const fs = require('node:fs');
 const path = require('node:path');
 const { DatabaseSync } = require('node:sqlite');
@@ -26,6 +27,96 @@ const DB_PATH = path.join(__dirname, 'data', 'saptrishi.db');
 // Razorpay: Key ID is PUBLIC (safe to send to the browser). Get it from
 // Razorpay Dashboard → Settings → API Keys.
 const RAZORPAY_KEY_ID = process.env.RAZORPAY_KEY_ID || 'rzp_test_TlrIVj0yJSRv8b';
+
+// Razorpay Webhook secret (Dashboard → Account & Settings → Webhooks).
+// SECRET: sirf environment variable me rakhein, code me nahi.
+const RAZORPAY_WEBHOOK_SECRET = process.env.RAZORPAY_WEBHOOK_SECRET || '';
+
+// ---------- THANK-YOU EMAIL CONFIG ----------
+// Gmail me 2-Step Verification on karke "App Password" banayein.
+//   MAIL_USER=yourmail@gmail.com MAIL_APP_PASSWORD=xxxxxxxxxxxxxxxx node server.js
+const MAIL_USER = process.env.MAIL_USER || '';
+const MAIL_APP_PASSWORD = process.env.MAIL_APP_PASSWORD || '';
+const MAIL_FROM_NAME = 'Saptrishi Learning Centre';
+
+const mailer = (MAIL_USER && MAIL_APP_PASSWORD)
+  ? nodemailer.createTransport({
+      service: 'gmail',
+      auth: { user: MAIL_USER, pass: MAIL_APP_PASSWORD },
+    })
+  : null;
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, (c) => (
+    { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+  ));
+}
+
+// Payment hone ke baad donor ko thank-you mail bhejta hai.
+// Fail hone par sirf log karta hai, payment par koi asar nahi padta.
+async function sendThankYouMail({ to, name, amount, ref }) {
+  if (!mailer) {
+    console.warn('[mail] MAIL_USER / MAIL_APP_PASSWORD set nahi hai, mail skip.');
+    return;
+  }
+  if (!isValidEmail(to)) return;
+
+  const donor = (name && String(name).trim()) || 'Friend';
+  const amt = amount ? `₹${Number(amount).toLocaleString('en-IN')}` : '';
+  const amtHi = amt ? `${amt} के ` : '';
+  const amtEn = amt ? ` of ${amt}` : '';
+  const refLine = ref ? `\nPayment ID: ${ref}` : '';
+
+  const text =
+`प्रिय ${donor},
+
+आपके ${amtHi}सहयोग के लिए हृदय से धन्यवाद। 🙏
+आपकी मदद से हम बच्चों तक शिक्षा पहुँचा पाते हैं।
+
+Dear ${donor},
+
+Thank you for your contribution${amtEn}. Your support helps us keep education within reach for children who need it most.${refLine}
+
+With gratitude,
+${MAIL_FROM_NAME}`;
+
+  const html =
+`<div style="font-family:Arial,sans-serif;max-width:520px;margin:auto;line-height:1.6;color:#222">
+  <h2 style="color:#e67e22;margin-bottom:4px">धन्यवाद! / Thank you 🙏</h2>
+  <p>प्रिय ${escapeHtml(donor)},</p>
+  <p>आपके ${escapeHtml(amtHi)}सहयोग के लिए हृदय से धन्यवाद। आपकी मदद से हम बच्चों तक शिक्षा पहुँचा पाते हैं।</p>
+  <p>Dear ${escapeHtml(donor)},</p>
+  <p>Thank you for your contribution${escapeHtml(amtEn)}. Your support helps us keep education within reach for children who need it most.</p>
+  ${ref ? `<p style="font-size:13px;color:#666">Payment ID: ${escapeHtml(ref)}</p>` : ''}
+  <p>With gratitude,<br><b>${MAIL_FROM_NAME}</b></p>
+</div>`;
+
+  try {
+    await mailer.sendMail({
+      from: `"${MAIL_FROM_NAME}" <${MAIL_USER}>`,
+      to,
+      subject: 'धन्यवाद! Thank you for your support 🙏',
+      text,
+      html,
+    });
+    console.log(`[mail] thank-you bheja -> ${to}`);
+  } catch (e) {
+    console.error('[mail] bhejne me error:', e.message);
+  }
+}
+
+// ---------- MONTHLY SUPPORT PLANS (Support Us page, Option 4) ----------
+// Har plan ka Razorpay Subscription Link / Payment Page link environment variable me daalein, e.g.
+//   PLAN_LINK_500=https://rzp.io/l/xxxx PLAN_LINK_1000=https://rzp.io/l/yyyy node server.js
+// Link khali ho to us plan par "Subscribe Now" dabane se "being set up" message dikhega.
+// (Plan ka naam/rakam badalna ho to support-us.html ki PLANS list me bhi wahi rakam rakhein.)
+const MONTHLY_PLANS = [
+  { label: 'Supporter',                                      amount: 500,   link: process.env.PLAN_LINK_500   || '' },
+  { label: 'Backer',                                         amount: 1000,  link: process.env.PLAN_LINK_1000  || '' },
+  { label: 'Patron - Helps run a learning centre',           amount: 2500,  link: process.env.PLAN_LINK_2500  || '' },
+  { label: 'Core Patron - Sponsors meals and school kits',   amount: 5000,  link: process.env.PLAN_LINK_5000  || '' },
+  { label: 'Principal Patron - Powers long-term programmes', amount: 10000, link: process.env.PLAN_LINK_10000 || '' },
+];
 
 // Paytm: MID and Merchant Key are SECRET — never expose these to the browser.
 // Set them as environment variables when you run the server, e.g.:
@@ -81,6 +172,7 @@ const updateDonationPayment = db.prepare(
   `UPDATE donations SET payment_status = ?, payment_ref = ? WHERE id = ?`
 );
 const getDonationById = db.prepare(`SELECT * FROM donations WHERE id = ?`);
+const getDonationByRef = db.prepare(`SELECT * FROM donations WHERE payment_ref = ?`);
 const insertVolunteer = db.prepare(
   `INSERT INTO volunteers (name, email, phone, skills, message) VALUES (?, ?, ?, ?, ?)`
 );
@@ -121,6 +213,25 @@ function readBody(req) {
         reject(new Error('Invalid JSON'));
       }
     });
+    req.on('error', reject);
+  });
+}
+
+// Raw body (Buffer) — Razorpay webhook signature ke liye zaruri.
+function readRawBody(req) {
+  return new Promise((resolve, reject) => {
+    const parts = [];
+    let size = 0;
+    req.on('data', (chunk) => {
+      size += chunk.length;
+      if (size > 1e6) {
+        reject(new Error('Payload too large'));
+        req.destroy();
+        return;
+      }
+      parts.push(chunk);
+    });
+    req.on('end', () => resolve(Buffer.concat(parts)));
     req.on('error', reject);
   });
 }
@@ -196,6 +307,7 @@ const MIME = {
 function serveStatic(req, res, urlPath) {
   let filePath = urlPath === '/' ? '/index.html' : urlPath;
   filePath = path.normalize(filePath).replace(/^(\.\.[/\\])+/, ''); // prevent path traversal
+  if (!path.extname(filePath)) filePath += '.html'; // clean URLs: /support-us -> /support-us.html
   const fullPath = path.join(PUBLIC_DIR, filePath);
 
   if (!fullPath.startsWith(PUBLIC_DIR)) {
@@ -234,6 +346,52 @@ const server = http.createServer(async (req, res) => {
   }
 
   try {
+    // ---- POST /api/razorpay-webhook ----
+    // Razorpay Payment Page / Link se payment hote hi yahan event aata hai.
+    // Dashboard → Webhooks me URL: https://<aapka-domain>/api/razorpay-webhook
+    // Event: payment.captured
+    if (pathname === '/api/razorpay-webhook' && req.method === 'POST') {
+      const raw = await readRawBody(req);
+
+      if (!RAZORPAY_WEBHOOK_SECRET) {
+        console.error('[webhook] RAZORPAY_WEBHOOK_SECRET set nahi hai.');
+        return sendJSON(res, 500, { ok: false, error: 'Webhook not configured.' });
+      }
+
+      const signature = String(req.headers['x-razorpay-signature'] || '');
+      const expected = crypto.createHmac('sha256', RAZORPAY_WEBHOOK_SECRET).update(raw).digest('hex');
+      const sigOk =
+        signature.length === expected.length &&
+        crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expected));
+      if (!sigOk) {
+        return sendJSON(res, 400, { ok: false, error: 'Invalid signature.' });
+      }
+
+      let event;
+      try { event = JSON.parse(raw.toString('utf8')); }
+      catch (e) { return sendJSON(res, 400, { ok: false, error: 'Invalid JSON.' }); }
+
+      if (event.event === 'payment.captured') {
+        const p = (event.payload && event.payload.payment && event.payload.payment.entity) || {};
+        const amount = p.amount ? p.amount / 100 : null;
+        const email = p.email || '';
+        const notes = (p.notes && !Array.isArray(p.notes)) ? p.notes : {};
+        const nameKey = Object.keys(notes).find((k) => /name/i.test(k));
+        const name = (nameKey && notes[nameKey]) || 'Friend';
+
+        // Razorpay retry kare to dobara mail/record na bane.
+        if (p.id && !getDonationByRef.get(p.id)) {
+          insertDonation.run(
+            String(name), String(email), String(p.contact || ''),
+            amount, '', 'razorpay', 'paid', String(p.id)
+          );
+          await sendThankYouMail({ to: email, name, amount, ref: p.id });
+        }
+      }
+      // Hamesha 200 do, warna Razorpay baar-baar retry karega.
+      return sendJSON(res, 200, { ok: true });
+    }
+
     // ---- POST /api/donate ----
     if (pathname === '/api/donate' && req.method === 'POST') {
       const body = await readBody(req);
@@ -246,6 +404,9 @@ const server = http.createServer(async (req, res) => {
         amount ? Number(amount) : null, String(message),
         String(paymentMethod), String(paymentStatus), String(paymentRef)
       );
+      if (paymentStatus === 'paid') {
+        sendThankYouMail({ to: String(email).trim(), name: String(name).trim(), amount: amount ? Number(amount) : null, ref: String(paymentRef) });
+      }
       return sendJSON(res, 201, {
         ok: true,
         donationId: result.lastInsertRowid,
@@ -261,6 +422,7 @@ const server = http.createServer(async (req, res) => {
         ok: true,
         razorpayKeyId: RAZORPAY_KEY_ID,
         paytmEnabled: Boolean(PAYTM_MID && PAYTM_MERCHANT_KEY),
+        monthlyPlans: MONTHLY_PLANS,
       });
     }
 
@@ -344,6 +506,13 @@ const server = http.createServer(async (req, res) => {
       if (isValid && donationId) {
         const finalStatus = STATUS === 'TXN_SUCCESS' ? 'paid' : 'failed';
         updateDonationPayment.run(finalStatus, params.TXNID || '', donationId);
+
+        if (finalStatus === 'paid') {
+          const d = getDonationById.get(donationId);
+          if (d) {
+            sendThankYouMail({ to: d.email, name: d.name, amount: d.amount, ref: params.TXNID || '' });
+          }
+        }
       }
 
       res.writeHead(302, { Location: `/?payment=${isValid && STATUS === 'TXN_SUCCESS' ? 'success' : 'failed'}` });
@@ -353,66 +522,4 @@ const server = http.createServer(async (req, res) => {
     // ---- GET /api/payment-status (client checks Razorpay/Paytm result was logged) ----
     if (pathname === '/api/payment-status' && req.method === 'GET') {
       const id = Number(url.searchParams.get('id'));
-      if (!id) return sendJSON(res, 400, { ok: false, error: 'Missing id' });
-      const donation = getDonationById.get(id);
-      if (!donation) return sendJSON(res, 404, { ok: false, error: 'Not found' });
-      return sendJSON(res, 200, { ok: true, status: donation.payment_status });
-    }
-
-    // ---- POST /api/volunteer ----
-    if (pathname === '/api/volunteer' && req.method === 'POST') {
-      const body = await readBody(req);
-      const { name, email, phone = '', skills = '', message = '' } = body;
-      if (!name || !isValidEmail(email)) {
-        return sendJSON(res, 400, { ok: false, error: 'Name and a valid email are required.' });
-      }
-      insertVolunteer.run(String(name).trim(), String(email).trim(), String(phone), String(skills), String(message));
-      return sendJSON(res, 201, { ok: true, message: 'Thanks for volunteering! Our team will contact you soon.' });
-    }
-
-    // ---- POST /api/contact ----
-    if (pathname === '/api/contact' && req.method === 'POST') {
-      const body = await readBody(req);
-      const { name, email, message } = body;
-      if (!name || !isValidEmail(email) || !message) {
-        return sendJSON(res, 400, { ok: false, error: 'Name, valid email and message are required.' });
-      }
-      insertContact.run(String(name).trim(), String(email).trim(), String(message).trim());
-      return sendJSON(res, 201, { ok: true, message: 'Message received. We will get back to you soon.' });
-    }
-
-    // ---- GET /api/stats (public, aggregate only) ----
-    if (pathname === '/api/stats' && req.method === 'GET') {
-      const d = db.prepare('SELECT COUNT(*) AS c FROM donations').get();
-      const v = db.prepare('SELECT COUNT(*) AS c FROM volunteers').get();
-      const c = db.prepare('SELECT COUNT(*) AS c FROM contacts').get();
-      return sendJSON(res, 200, { ok: true, donations: d.c, volunteers: v.c, contacts: c.c });
-    }
-
-    // ---- GET /api/admin/data (protected) ----
-    if (pathname === '/api/admin/data' && req.method === 'GET') {
-      if (!checkAdmin(req)) {
-        return sendJSON(res, 401, { ok: false, error: 'Invalid or missing admin key.' });
-      }
-      const donations = db.prepare('SELECT * FROM donations ORDER BY id DESC').all();
-      const volunteers = db.prepare('SELECT * FROM volunteers ORDER BY id DESC').all();
-      const contacts = db.prepare('SELECT * FROM contacts ORDER BY id DESC').all();
-      return sendJSON(res, 200, { ok: true, donations, volunteers, contacts });
-    }
-
-    // ---- Static files (the website itself) ----
-    if (req.method === 'GET') {
-      return serveStatic(req, res, pathname);
-    }
-
-    sendJSON(res, 404, { ok: false, error: 'Not found' });
-  } catch (err) {
-    sendJSON(res, 500, { ok: false, error: err.message || 'Server error' });
-  }
-});
-
-server.listen(PORT, () => {
-  console.log(`Saptrishi server running → http://localhost:${PORT}`);
-  console.log(`Admin panel           → http://localhost:${PORT}/admin.html`);
-  console.log(`Database file         → ${DB_PATH}`);
-});
+      if (!id) return sendJSON(res, 400, { ok: false, error: 'Mis

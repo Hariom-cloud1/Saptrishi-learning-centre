@@ -163,7 +163,7 @@
         <h3><span class="lang-en">Option 2: Direct Bank Transfer</span><span class="lang-hi">विकल्प 2: सीधे बैंक ट्रांसफर</span></h3>
         <div class="support-row">
           <span class="support-label"><span class="lang-en">Account name</span><span class="lang-hi">खाताधारक का नाम</span></span>
-          <span class="support-value" id="accName">Saptrishi Learning Centre</span>
+          <span class="support-value" id="accName">Saptrishi Learning Centre Foundation</span>
           <button type="button" class="copy-btn" onclick="copyText('accName', this)"><span class="lang-en">Copy</span><span class="lang-hi">कॉपी</span></button>
         </div>
         <div class="support-row">
@@ -172,16 +172,16 @@
         </div>
         <div class="support-row">
           <span class="support-label"><span class="lang-en">Account number</span><span class="lang-hi">खाता संख्या</span></span>
-          <span class="support-value" id="accNo">000000000000</span>
+          <span class="support-value" id="accNo">105188700000209</span>
           <button type="button" class="copy-btn" onclick="copyText('accNo', this)"><span class="lang-en">Copy</span><span class="lang-hi">कॉपी</span></button>
         </div>
         <div class="support-row">
           <span class="support-label"><span class="lang-en">Bank</span><span class="lang-hi">बैंक</span></span>
-          <span class="support-value">Your Bank Name</span>
+          <span class="support-value">Yes Bank</span>
         </div>
         <div class="support-row">
           <span class="support-label">IFSC</span>
-          <span class="support-value" id="ifscCode">ABCD0000000</span>
+          <span class="support-value" id="ifscCode">YASB0001051</span>
           <button type="button" class="copy-btn" onclick="copyText('ifscCode', this)"><span class="lang-en">Copy</span><span class="lang-hi">कॉपी</span></button>
         </div>
       </div>
@@ -192,7 +192,7 @@
         <p><span class="lang-en">Pay by card, net banking or UPI through Razorpay and get your 80G receipt by email.</span><span class="lang-hi">Razorpay से कार्ड, नेट बैंकिंग या UPI द्वारा भुगतान करें और 80G रसीद ईमेल पर पाएँ।</span></p>
         <div class="support-actions">
           <!-- Yahan apna Razorpay Payment Page / Payment Link daalein (Razorpay Dashboard me banta hai) -->
-          <a class="btn btn-primary" id="razorpayLink" href="https://rzp.io/l/your-link" target="_blank" rel="noopener"><span class="lang-en">Donate Now</span><span class="lang-hi">अभी दान करें</span></a>
+          <a class="btn btn-primary" id="razorpayLink" href="https://rzp.io/rzp/1WyssGx" target="_blank" rel="noopener"><span class="lang-en">Donate Now</span><span class="lang-hi">अभी दान करें</span></a>
         </div>
       </div>
 
@@ -209,9 +209,7 @@
 
       <!-- Option 5: Receipt + contact -->
       <div class="support-card support-contact wide">
-        <h3><span class="lang-en">Option 5: Receipt &amp; Contact</span><span class="lang-hi">विकल्प 5: रसीद और संपर्क</span></h3>
-        <p><span class="lang-en">For donation receipts, kindly email the transaction details to:</span><span class="lang-hi">दान की रसीद के लिए कृपया ट्रांज़ैक्शन की जानकारी इस ईमेल पर भेजें:</span></p>
-        <p><a href="mailto:youremail@example.org">youremail@example.org</a></p>
+        
         <p>
           <span class="lang-en">Co-founder &amp; Manager:</span><span class="lang-hi">सह-संस्थापक और प्रबंधक:</span>
           <a href="tel:+918353968403">+91 83539 68403</a><br>
@@ -242,16 +240,16 @@
 
 <script>
   // ---- Yahan apna UPI ID aur naam badlein (upar HTML me bhi UPI ID badlein) ----
-  var SUPPORT_UPI_ID = "yourname@bank";
+  var SUPPORT_UPI_ID = "yespay.smessi10140413@yeasbankltd";
   var SUPPORT_PAYEE  = "Saptrishi Learning Centre";
   // ---- Option 4: Monthly plans (naam, rakam aur Razorpay link yahan badlein) ----
   // link = us plan ka Razorpay Subscription Link / Payment Page link (Razorpay Dashboard me banta hai)
   var PLANS = [
-    { label: "Supporter",                                     amount: 500,   link: "" },
-    { label: "Backer",                                        amount: 1000,  link: "" },
-    { label: "Patron - Helps run a learning centre",          amount: 2500,  link: "" },
-    { label: "Core Patron - Sponsors meals and school kits",  amount: 5000,  link: "" },
-    { label: "Principal Patron - Powers long-term programmes", amount: 10000, link: "" }
+    { label: "Supporter",                                     amount: 500,   link: "https://rzp.io/rzp/1WyssGx" },
+    { label: "Backer",                                        amount: 1000,  link: "https://rzp.io/rzp/1WyssGx" },
+    { label: "Patron - Helps run a learning centre",          amount: 2500,  link: "https://rzp.io/rzp/1WyssGx" },
+    { label: "Core Patron - Sponsors meals and school kits",  amount: 5000,  link: "https://rzp.io/rzp/1WyssGx" },
+    { label: "Principal Patron - Powers long-term programmes", amount: 10000, link: "https://rzp.io/rzp/1WyssGx" }
   ];
 
   document.getElementById('upiId').textContent = SUPPORT_UPI_ID;
