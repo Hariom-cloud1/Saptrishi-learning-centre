@@ -10,6 +10,7 @@
  * Admin page: http://localhost:3000/admin.html  (key: see ADMIN_KEY below)
  */
 
+
 const http = require('node:http');
 const https = require('node:https');
 const crypto = require('node:crypto');
@@ -19,9 +20,14 @@ const path = require('node:path');
 const { DatabaseSync } = require('node:sqlite');
 
 const PORT = process.env.PORT || 3000;
-const ADMIN_KEY = process.env.ADMIN_KEY || 'saptrishi2026'; // change this in production!
+const ADMIN_KEY = process.env.ADMIN_KEY || 'saptrishilearn@54321';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'saptrishilearn@54321'; // for /api/archive/verify and /api/articles POST/PUT/DELETE
 const PUBLIC_DIR = path.join(__dirname, 'public');
-const DB_PATH = path.join(__dirname, 'data', 'saptrishi.db');
+const DB_PATH = process.env.DB_PATH || path.join(__dirname, 'data', 'saptrishi.db');
+
+const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS ||
+  'https://saptrishilearn.org,https://www.saptrishilearn.org,http://localhost:3000')
+  .split(',').map((s) => s.trim()).filter(Boolean);
 
 // ---------- PAYMENT GATEWAY CONFIG ----------
 // Razorpay: Key ID is PUBLIC (safe to send to the browser). Get it from
@@ -180,17 +186,49 @@ const insertContact = db.prepare(
   `INSERT INTO contacts (name, email, message) VALUES (?, ?, ?)`
 );
 
+// ---------- TEACHERS ARCHIVE ----------
+db.exec(`
+  CREATE TABLE IF NOT EXISTS articles (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    teacher TEXT NOT NULL,
+    title TEXT NOT NULL,
+    category TEXT DEFAULT '',
+    image TEXT DEFAULT '',
+    body TEXT NOT NULL,
+    date TEXT NOT NULL,
+    views INTEGER DEFAULT 0
+  );
+`);
+
+const listArticles = db.prepare(`SELECT * FROM articles ORDER BY date DESC, id DESC`);
+const insertArticle = db.prepare(
+  `INSERT INTO articles (teacher, title, category, image, body, date) VALUES (?, ?, ?, ?, ?, ?)`
+);
+const updateArticle = db.prepare(
+  `UPDATE articles SET teacher = ?, title = ?, category = ?, image = ?, body = ? WHERE id = ?`
+);
+const deleteArticleById = db.prepare(`DELETE FROM articles WHERE id = ?`);
+const bumpArticleViews = db.prepare(`UPDATE articles SET views = views + 1 WHERE id = ?`);
+
+
 // ---------- HELPERS ----------
+function applyCors(req, res) {
+  const origin = req.headers.origin;
+  res.setHeader('Vary', 'Origin');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-Admin-Key');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  if (origin && ALLOWED_ORIGINS.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+}
+
 function sendJSON(res, status, data) {
   const body = JSON.stringify(data);
-  res.writeHead(status, {
-    'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type, X-Admin-Key',
-    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-  });
+  res.writeHead(status, { 'Content-Type': 'application/json' });
   res.end(body);
 }
+
+
 
 function readBody(req) {
   return new Promise((resolve, reject) => {
@@ -327,8 +365,8 @@ function serveStatic(req, res, urlPath) {
 }
 
 function checkAdmin(req) {
-  const key = req.headers['x-admin-key'] || new URL(req.url, 'http://x').searchParams.get('key');
-  return key === ADMIN_KEY;
+  const key = req.headers['x-admin-key'] || new URL(req.url, 'http://localhost:3000').searchParams.get('key');
+  return Boolean(ADMIN_KEY) && key === ADMIN_KEY;
 }
 
 // ---------- ROUTES ----------
@@ -336,12 +374,10 @@ const server = http.createServer(async (req, res) => {
   const url = new URL(req.url, `http://${req.headers.host}`);
   const pathname = url.pathname;
 
+  applyCors(req, res);
+
   if (req.method === 'OPTIONS') {
-    res.writeHead(204, {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers': 'Content-Type, X-Admin-Key',
-      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-    });
+    res.writeHead(204);
     return res.end();
   }
 
@@ -567,6 +603,57 @@ const server = http.createServer(async (req, res) => {
       const volunteers = db.prepare('SELECT * FROM volunteers ORDER BY id DESC').all();
       const contacts = db.prepare('SELECT * FROM contacts ORDER BY id DESC').all();
       return sendJSON(res, 200, { ok: true, donations, volunteers, contacts });
+    }
+    
+        // ---- Teachers Archive ----
+    if (pathname === '/api/articles' && req.method === 'GET') {
+      return sendJSON(res, 200, { ok: true, articles: listArticles.all() });
+    }
+
+    if (pathname === '/api/archive/verify' && req.method === 'POST') {
+      return checkAdmin(req)
+        ? sendJSON(res, 200, { ok: true })
+        : sendJSON(res, 401, { ok: false, error: 'Galat password.' });
+    }
+
+    if (pathname === '/api/articles' && req.method === 'POST') {
+      if (!checkAdmin(req)) return sendJSON(res, 401, { ok: false, error: 'Invalid admin key.' });
+      const { teacher, title, category = '', image = '', body } = await readBody(req);
+      if (!teacher || !title || !body) {
+        return sendJSON(res, 400, { ok: false, error: 'Teacher, title aur content zaroori hain.' });
+      }
+      const r = insertArticle.run(
+        String(teacher).trim(), String(title).trim(), String(category).trim(),
+        String(image).trim(), String(body), new Date().toISOString().slice(0, 10)
+      );
+      return sendJSON(res, 201, { ok: true, id: Number(r.lastInsertRowid) });
+    }
+
+    const artMatch = pathname.match(/^\/api\/articles\/(\d+)(\/view)?$/);
+    if (artMatch) {
+      const id = Number(artMatch[1]);
+
+      if (artMatch[2] && req.method === 'POST') {
+        bumpArticleViews.run(id);
+        return sendJSON(res, 200, { ok: true });
+      }
+      if (!artMatch[2] && req.method === 'PUT') {
+        if (!checkAdmin(req)) return sendJSON(res, 401, { ok: false, error: 'Invalid admin key.' });
+        const { teacher, title, category = '', image = '', body } = await readBody(req);
+        if (!teacher || !title || !body) {
+          return sendJSON(res, 400, { ok: false, error: 'Teacher, title aur content zaroori hain.' });
+        }
+        updateArticle.run(
+          String(teacher).trim(), String(title).trim(), String(category).trim(),
+          String(image).trim(), String(body), id
+        );
+        return sendJSON(res, 200, { ok: true });
+      }
+      if (!artMatch[2] && req.method === 'DELETE') {
+        if (!checkAdmin(req)) return sendJSON(res, 401, { ok: false, error: 'Invalid admin key.' });
+        deleteArticleById.run(id);
+        return sendJSON(res, 200, { ok: true });
+      }
     }
 
     // ---- Static files (the website itself) ----

@@ -273,33 +273,10 @@
 
 
 <script>
-const STORAGE_KEY = 'teacherArchiveArticles';
-const VIEWS_KEY = 'teacherArchiveViews';
-const ADMIN_PASSWORD = 'Saptrishi@8353'; // ise apne hisaab se badal dein
 const PAGE_SIZE = 6;
 
-let articles = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || [
-  {
-    id: 1,
-    teacher: "Mrs. Sharma",
-    title: "Importance of Moral Education",
-    category: "Moral Science",
-    date: "2026-09-20",
-    image: "",
-    body: "Moral education helps students build character alongside academics. In today's fast-paced world, schools must focus not just on marks but on values like honesty, respect, and responsibility.<br><br>Teachers play a key role in shaping these values through daily interactions and example-setting."
-  },
-  {
-    id: 2,
-    teacher: "Mr. Verma",
-    title: "Digital Learning: A New Era",
-    category: "Technology",
-    date: "2026-09-15",
-    image: "",
-    body: "Technology has transformed how students learn and engage with content. Smart classrooms, online resources, and interactive tools make learning more effective and enjoyable for students of all levels."
-  }
-];
-
-let views = JSON.parse(localStorage.getItem(VIEWS_KEY) || '{}');
+let articles = [];
+let adminKey = '';
 let isAdmin = false;
 let currentPage = 1;
 let editingId = null;
@@ -311,8 +288,33 @@ const categoryFilter = document.getElementById('categoryFilter');
 const sortSelect = document.getElementById('sortSelect');
 const loadMoreBtn = document.getElementById('loadMoreBtn');
 
-function saveArticles() { localStorage.setItem(STORAGE_KEY, JSON.stringify(articles)); }
-function saveViews() { localStorage.setItem(VIEWS_KEY, JSON.stringify(views)); }
+function esc(s) {
+  return String(s ?? '').replace(/[&<>"']/g, c =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+// ===== Server se baat karne ka helper =====
+async function api(path, opts = {}) {
+  const headers = { ...(opts.headers || {}) };
+  if (opts.body) headers['Content-Type'] = 'application/json';
+  if (adminKey) headers['X-Admin-Key'] = adminKey;
+  const res = await fetch(path, { ...opts, headers });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok || data.ok === false) throw new Error(data.error || ('Error ' + res.status));
+  return data;
+}
+
+async function loadArticles() {
+  try {
+    const data = await api('/api/articles');
+    articles = data.articles || [];
+  } catch (e) {
+    grid.innerHTML = '<div class="empty-state">Server se articles load nahi hue: ' + esc(e.message) + '</div>';
+    return;
+  }
+  populateCategories();
+  renderArticles();
+}
 
 function readingTime(html) {
   const text = html.replace(/<[^>]*>/g, ' ');
@@ -325,9 +327,11 @@ function formatDate(d) {
 }
 
 function populateCategories() {
+  const current = categoryFilter.value;
   const cats = [...new Set(articles.map(a => a.category).filter(Boolean))];
   categoryFilter.innerHTML = '<option value="">Sabhi Subjects</option>' +
-    cats.map(c => `<option value="${c}">${c}</option>`).join('');
+    cats.map(c => `<option value="${esc(c)}">${esc(c)}</option>`).join('');
+  categoryFilter.value = cats.includes(current) ? current : '';
 }
 
 function getFilteredSorted() {
@@ -337,9 +341,9 @@ function getFilteredSorted() {
     (a.title.toLowerCase().includes(q) || a.teacher.toLowerCase().includes(q)) &&
     (cat === '' || a.category === cat)
   );
-  if (sortSelect.value === 'newest') list.sort((a,b) => new Date(b.date) - new Date(a.date));
-  else if (sortSelect.value === 'oldest') list.sort((a,b) => new Date(a.date) - new Date(b.date));
-  else if (sortSelect.value === 'az') list.sort((a,b) => a.title.localeCompare(b.title));
+  if (sortSelect.value === 'newest') list.sort((a, b) => new Date(b.date) - new Date(a.date) || b.id - a.id);
+  else if (sortSelect.value === 'oldest') list.sort((a, b) => new Date(a.date) - new Date(b.date) || a.id - b.id);
+  else if (sortSelect.value === 'az') list.sort((a, b) => a.title.localeCompare(b.title));
   return list;
 }
 
@@ -358,15 +362,15 @@ function renderArticles() {
     const card = document.createElement('div');
     card.className = 'article-card';
     card.innerHTML = `
-      ${art.image ? `<img src="${art.image}" alt="${art.title}">` : ''}
+      ${art.image ? `<img src="${esc(art.image)}" alt="${esc(art.title)}">` : ''}
       <div class="article-card-body">
-        ${art.category ? `<span class="tag">${art.category}</span>` : ''}
-        <h4>${art.title}</h4>
-        <div class="meta">${art.teacher} • ${formatDate(art.date)}</div>
-        <div class="excerpt">${art.body.replace(/<[^>]*>/g,' ').slice(0,100)}...</div>
+        ${art.category ? `<span class="tag">${esc(art.category)}</span>` : ''}
+        <h4>${esc(art.title)}</h4>
+        <div class="meta">${esc(art.teacher)} • ${formatDate(art.date)}</div>
+        <div class="excerpt">${esc(art.body.replace(/<[^>]*>/g, ' ').slice(0, 100))}...</div>
         <div class="card-footer">
           <span>⏱ ${readingTime(art.body)} min read</span>
-          <span>👁 ${views[art.id] || 0} views</span>
+          <span>👁 ${art.views || 0} views</span>
         </div>
         ${isAdmin ? `<div class="card-admin-actions">
           <button data-edit="${art.id}">Edit</button>
@@ -397,14 +401,15 @@ function openArticle(id) {
   const art = articles.find(a => a.id === id);
   if (!art) return;
   activeArticleId = id;
-  views[id] = (views[id] || 0) + 1;
-  saveViews();
+
+  art.views = (art.views || 0) + 1;
+  api('/api/articles/' + id + '/view', { method: 'POST' }).catch(() => {});
 
   document.getElementById('modalCategory').textContent = art.category || '';
   document.getElementById('modalCategory').style.display = art.category ? 'inline-block' : 'none';
   document.getElementById('modalTitle').textContent = art.title;
   document.getElementById('modalMeta').textContent = `${art.teacher} • ${formatDate(art.date)}`;
-  document.getElementById('modalStats').textContent = `⏱ ${readingTime(art.body)} min read • 👁 ${views[id]} views`;
+  document.getElementById('modalStats').textContent = `⏱ ${readingTime(art.body)} min read • 👁 ${art.views} views`;
   const img = document.getElementById('modalImg');
   if (art.image) { img.src = art.image; img.style.display = 'block'; } else { img.style.display = 'none'; }
   document.getElementById('modalBody').innerHTML = art.body;
@@ -413,7 +418,7 @@ function openArticle(id) {
   document.getElementById('deleteBtn').style.display = isAdmin ? 'inline-block' : 'none';
 
   articleModal.classList.add('active');
-  renderArticles(); // refresh view counts on cards
+  renderArticles();
 }
 document.getElementById('closeModal').addEventListener('click', () => articleModal.classList.remove('active'));
 articleModal.addEventListener('click', e => { if (e.target === articleModal) articleModal.classList.remove('active'); });
@@ -423,14 +428,17 @@ document.getElementById('shareBtn').addEventListener('click', async () => {
   const art = articles.find(a => a.id === activeArticleId);
   const shareData = { title: art.title, text: `${art.title} - ${art.teacher}`, url: location.href };
   if (navigator.share) {
-    try { await navigator.share(shareData); } catch(e) {}
+    try { await navigator.share(shareData); } catch (e) {}
   } else {
     navigator.clipboard.writeText(`${art.title} — ${art.teacher}\n${location.href}`);
     alert('Link copy ho gaya!');
   }
 });
 document.getElementById('editBtn').addEventListener('click', () => { articleModal.classList.remove('active'); openForm(activeArticleId); });
-document.getElementById('deleteBtn').addEventListener('click', () => { deleteArticle(activeArticleId); articleModal.classList.remove('active'); });
+document.getElementById('deleteBtn').addEventListener('click', async () => {
+  const ok = await deleteArticle(activeArticleId);
+  if (ok) articleModal.classList.remove('active');
+});
 
 // ===== Add/Edit form =====
 const formModal = document.getElementById('formModal');
@@ -446,7 +454,7 @@ function openForm(id) {
     document.getElementById('fImage').value = art.image || '';
     document.getElementById('fBody').value = art.body;
   } else {
-    ['fTeacher','fTitle','fCategory','fImage','fBody'].forEach(id => document.getElementById(id).value = '');
+    ['fTeacher', 'fTitle', 'fCategory', 'fImage', 'fBody'].forEach(f => document.getElementById(f).value = '');
   }
   formModal.classList.add('active');
 }
@@ -454,58 +462,69 @@ document.getElementById('addArticleBtn').addEventListener('click', () => openFor
 document.getElementById('closeFormModal').addEventListener('click', () => formModal.classList.remove('active'));
 formModal.addEventListener('click', e => { if (e.target === formModal) formModal.classList.remove('active'); });
 
-document.getElementById('saveArticleBtn').addEventListener('click', () => {
+document.getElementById('saveArticleBtn').addEventListener('click', async () => {
   const teacher = document.getElementById('fTeacher').value.trim();
   const title = document.getElementById('fTitle').value.trim();
   const category = document.getElementById('fCategory').value.trim();
   const image = document.getElementById('fImage').value.trim();
   const body = document.getElementById('fBody').value.trim();
+  const errBox = document.getElementById('formError');
 
   if (!teacher || !title || !body) {
-    document.getElementById('formError').style.display = 'block';
+    errBox.textContent = 'Teacher name, title aur content bharna zaroori hai.';
+    errBox.style.display = 'block';
     return;
   }
 
-  if (editingId) {
-    const art = articles.find(a => a.id === editingId);
-    Object.assign(art, { teacher, title, category, image, body });
-  } else {
-    articles.unshift({
-      id: Date.now(),
-      teacher, title, category, image, body,
-      date: new Date().toISOString().slice(0,10)
-    });
+  try {
+    const payload = JSON.stringify({ teacher, title, category, image, body });
+    if (editingId) {
+      await api('/api/articles/' + editingId, { method: 'PUT', body: payload });
+    } else {
+      await api('/api/articles', { method: 'POST', body: payload });
+    }
+    formModal.classList.remove('active');
+    currentPage = 1;
+    await loadArticles();
+  } catch (e) {
+    errBox.textContent = 'Save nahi hua: ' + e.message;
+    errBox.style.display = 'block';
   }
-  saveArticles();
-  populateCategories();
-  currentPage = 1;
-  renderArticles();
-  formModal.classList.remove('active');
 });
 
-function deleteArticle(id) {
-  if (!confirm('Kya aap sach me is article ko delete karna chahte hain?')) return;
-  articles = articles.filter(a => a.id !== id);
-  saveArticles();
-  populateCategories();
-  renderArticles();
+async function deleteArticle(id) {
+  if (!confirm('Kya aap sach me is article ko delete karna chahte hain?')) return false;
+  try {
+    await api('/api/articles/' + id, { method: 'DELETE' });
+    await loadArticles();
+    return true;
+  } catch (e) {
+    alert('Delete nahi hua: ' + e.message);
+    return false;
+  }
 }
 
-// ===== Admin login =====
-document.getElementById('adminToggle').addEventListener('click', () => {
+// ===== Admin login (password server check karta hai) =====
+document.getElementById('adminToggle').addEventListener('click', async () => {
   if (isAdmin) {
     isAdmin = false;
+    adminKey = '';
     document.getElementById('adminToggle').textContent = '🔒 Admin Login';
     document.getElementById('addArticleBtn').style.display = 'none';
-  } else {
-    const pass = prompt('Admin password daalein:');
-    if (pass === ADMIN_PASSWORD) {
-      isAdmin = true;
-      document.getElementById('adminToggle').textContent = '🔓 Logout';
-      document.getElementById('addArticleBtn').style.display = 'inline-block';
-    } else if (pass !== null) {
-      alert('Galat password!');
-    }
+    renderArticles();
+    return;
+  }
+  const pass = prompt('Admin password daalein:');
+  if (pass === null) return;
+  adminKey = pass;
+  try {
+    await api('/api/archive/verify', { method: 'POST' });
+    isAdmin = true;
+    document.getElementById('adminToggle').textContent = '🔓 Logout';
+    document.getElementById('addArticleBtn').style.display = 'inline-block';
+  } catch (e) {
+    adminKey = '';
+    alert('Galat password!');
   }
   renderArticles();
 });
@@ -528,8 +547,7 @@ sortSelect.addEventListener('change', () => { currentPage = 1; renderArticles();
 loadMoreBtn.addEventListener('click', () => { currentPage++; renderArticles(); });
 
 // ===== Init =====
-populateCategories();
-renderArticles();
+loadArticles();
 </script>
 </body>
 </html>
