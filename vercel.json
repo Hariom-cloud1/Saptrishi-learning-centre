@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/api/:path*", "destination": "https://saptrishi-learning-centre.onrender.com/api/:path*" }
+  ]
+}
