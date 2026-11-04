@@ -1,9 +1,13 @@
 /**
  * Saptrishi Learning Centre — Backend Server
  * -------------------------------------------------
- * Node.js server using the built-in `node:sqlite` module (Node 22.5+)
- * for storage and the built-in `http` module for the server itself.
- * Only extra package: nodemailer  ->  npm i nodemailer
+ * Node.js server using Turso (hosted SQLite / libSQL) for storage and the
+ * built-in `http` module for the server itself.
+ * Extra packages:  npm i nodemailer @libsql/client
+ *
+ * Required env variables:
+ *   TURSO_DATABASE_URL   (libsql://...)
+ *   TURSO_AUTH_TOKEN
  *
  * Run:   node server.js
  * Then open: http://localhost:3000
@@ -17,13 +21,12 @@ const crypto = require('node:crypto');
 const nodemailer = require('nodemailer');
 const fs = require('node:fs');
 const path = require('node:path');
-const { DatabaseSync } = require('node:sqlite');
+const { createClient } = require('@libsql/client');
 
 const PORT = process.env.PORT || 3000;
-const ADMIN_KEY = process.env.ADMIN_KEY || 'saptrishilearn@54321';
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'saptrishilearn@54321'; // for /api/archive/verify and /api/articles POST/PUT/DELETE
+const ADMIN_KEY = process.env.ADMIN_KEY || '';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || '';
 const PUBLIC_DIR = path.join(__dirname, 'public');
-const DB_PATH = process.env.DB_PATH || path.join(__dirname, 'data', 'saptrishi.db');
 
 const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS ||
   'https://saptrishilearn.org,https://www.saptrishilearn.org,http://localhost:3000')
@@ -134,81 +137,92 @@ const PAYTM_ENV = process.env.PAYTM_ENV || 'staging';
 const PAYTM_HOST = PAYTM_ENV === 'production' ? 'securegw.paytm.in' : 'securegw-stage.paytm.in';
 const PUBLIC_BASE_URL = process.env.PUBLIC_BASE_URL || `http://localhost:${PORT}`;
 
-// ---------- DATABASE ----------
-fs.mkdirSync(path.dirname(DB_PATH), { recursive: true });
-const db = new DatabaseSync(DB_PATH);
+// ---------- DATABASE (Turso / libSQL) ----------
+const db = createClient({
+  url: process.env.TURSO_DATABASE_URL,
+  authToken: process.env.TURSO_AUTH_TOKEN,
+});
 
-db.exec(`
-  CREATE TABLE IF NOT EXISTS donations (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
-    email TEXT NOT NULL,
-    phone TEXT,
-    amount REAL,
-    message TEXT,
-    payment_method TEXT DEFAULT 'unpaid',
-    payment_status TEXT DEFAULT 'pending',
-    payment_ref TEXT,
-    created_at TEXT DEFAULT (datetime('now'))
+// Small helpers: sab queries async hain.
+const run = (sql, args = []) => db.execute({ sql, args });
+const rows = async (sql, args = []) => (await run(sql, args)).rows.map((r) => ({ ...r }));
+const one = async (sql, args = []) => (await rows(sql, args))[0];
+
+async function initDb() {
+  await db.executeMultiple(`
+    CREATE TABLE IF NOT EXISTS donations (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      email TEXT NOT NULL,
+      phone TEXT,
+      amount REAL,
+      message TEXT,
+      payment_method TEXT DEFAULT 'unpaid',
+      payment_status TEXT DEFAULT 'pending',
+      payment_ref TEXT,
+      created_at TEXT DEFAULT (datetime('now'))
+    );
+
+    CREATE TABLE IF NOT EXISTS volunteers (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      email TEXT NOT NULL,
+      phone TEXT,
+      skills TEXT,
+      message TEXT,
+      created_at TEXT DEFAULT (datetime('now'))
+    );
+
+    CREATE TABLE IF NOT EXISTS contacts (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      email TEXT NOT NULL,
+      message TEXT NOT NULL,
+      created_at TEXT DEFAULT (datetime('now'))
+    );
+
+    CREATE TABLE IF NOT EXISTS articles (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      teacher TEXT NOT NULL,
+      title TEXT NOT NULL,
+      category TEXT DEFAULT '',
+      image TEXT DEFAULT '',
+      body TEXT NOT NULL,
+      date TEXT NOT NULL,
+      views INTEGER DEFAULT 0
+    );
+  `);
+}
+// Har request se pehle ye promise await hota hai (cold start par bhi safe).
+const dbReady = initDb();
+dbReady.catch((e) => console.error('[db] init failed:', e.message));
+
+// ---- Queries ----
+const insertDonation = (name, email, phone, amount, message, method, status, ref) =>
+  run(
+    `INSERT INTO donations (name, email, phone, amount, message, payment_method, payment_status, payment_ref) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+    [name, email, phone, amount, message, method, status, ref]
   );
-
-  CREATE TABLE IF NOT EXISTS volunteers (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
-    email TEXT NOT NULL,
-    phone TEXT,
-    skills TEXT,
-    message TEXT,
-    created_at TEXT DEFAULT (datetime('now'))
-  );
-
-  CREATE TABLE IF NOT EXISTS contacts (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
-    email TEXT NOT NULL,
-    message TEXT NOT NULL,
-    created_at TEXT DEFAULT (datetime('now'))
-  );
-`);
-
-const insertDonation = db.prepare(
-  `INSERT INTO donations (name, email, phone, amount, message, payment_method, payment_status, payment_ref) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
-);
-const updateDonationPayment = db.prepare(
-  `UPDATE donations SET payment_status = ?, payment_ref = ? WHERE id = ?`
-);
-const getDonationById = db.prepare(`SELECT * FROM donations WHERE id = ?`);
-const getDonationByRef = db.prepare(`SELECT * FROM donations WHERE payment_ref = ?`);
-const insertVolunteer = db.prepare(
-  `INSERT INTO volunteers (name, email, phone, skills, message) VALUES (?, ?, ?, ?, ?)`
-);
-const insertContact = db.prepare(
-  `INSERT INTO contacts (name, email, message) VALUES (?, ?, ?)`
-);
+const updateDonationPayment = (status, ref, id) =>
+  run(`UPDATE donations SET payment_status = ?, payment_ref = ? WHERE id = ?`, [status, ref, id]);
+const getDonationById = (id) => one(`SELECT * FROM donations WHERE id = ?`, [id]);
+const getDonationByRef = (ref) => one(`SELECT * FROM donations WHERE payment_ref = ?`, [ref]);
+const insertVolunteer = (name, email, phone, skills, message) =>
+  run(`INSERT INTO volunteers (name, email, phone, skills, message) VALUES (?, ?, ?, ?, ?)`,
+    [name, email, phone, skills, message]);
+const insertContact = (name, email, message) =>
+  run(`INSERT INTO contacts (name, email, message) VALUES (?, ?, ?)`, [name, email, message]);
 
 // ---------- TEACHERS ARCHIVE ----------
-db.exec(`
-  CREATE TABLE IF NOT EXISTS articles (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    teacher TEXT NOT NULL,
-    title TEXT NOT NULL,
-    category TEXT DEFAULT '',
-    image TEXT DEFAULT '',
-    body TEXT NOT NULL,
-    date TEXT NOT NULL,
-    views INTEGER DEFAULT 0
-  );
-`);
-
-const listArticles = db.prepare(`SELECT * FROM articles ORDER BY date DESC, id DESC`);
-const insertArticle = db.prepare(
-  `INSERT INTO articles (teacher, title, category, image, body, date) VALUES (?, ?, ?, ?, ?, ?)`
-);
-const updateArticle = db.prepare(
-  `UPDATE articles SET teacher = ?, title = ?, category = ?, image = ?, body = ? WHERE id = ?`
-);
-const deleteArticleById = db.prepare(`DELETE FROM articles WHERE id = ?`);
-const bumpArticleViews = db.prepare(`UPDATE articles SET views = views + 1 WHERE id = ?`);
+const listArticles = () => rows(`SELECT * FROM articles ORDER BY date DESC, id DESC`);
+const insertArticle = (teacher, title, category, image, body, date) =>
+  run(`INSERT INTO articles (teacher, title, category, image, body, date) VALUES (?, ?, ?, ?, ?, ?)`,
+    [teacher, title, category, image, body, date]);
+const updateArticle = (teacher, title, category, image, body, id) =>
+  run(`UPDATE articles SET teacher = ?, title = ?, category = ?, image = ?, body = ? WHERE id = ?`,
+    [teacher, title, category, image, body, id]);
+const deleteArticleById = (id) => run(`DELETE FROM articles WHERE id = ?`, [id]);
+const bumpArticleViews = (id) => run(`UPDATE articles SET views = views + 1 WHERE id = ?`, [id]);
 
 
 // ---------- HELPERS ----------
@@ -382,6 +396,9 @@ const server = http.createServer(async (req, res) => {
   }
 
   try {
+    // Database tayyar hone tak ruko (tables bane hone chahiye).
+    await dbReady;
+
     // ---- POST /api/razorpay-webhook ----
     // Razorpay Payment Page / Link se payment hote hi yahan event aata hai.
     // Dashboard → Webhooks me URL: https://<aapka-domain>/api/razorpay-webhook
@@ -416,8 +433,8 @@ const server = http.createServer(async (req, res) => {
         const name = (nameKey && notes[nameKey]) || 'Friend';
 
         // Razorpay retry kare to dobara mail/record na bane.
-        if (p.id && !getDonationByRef.get(p.id)) {
-          insertDonation.run(
+        if (p.id && !(await getDonationByRef(p.id))) {
+          await insertDonation(
             String(name), String(email), String(p.contact || ''),
             amount, '', 'razorpay', 'paid', String(p.id)
           );
@@ -435,17 +452,18 @@ const server = http.createServer(async (req, res) => {
       if (!name || !isValidEmail(email)) {
         return sendJSON(res, 400, { ok: false, error: 'Name and a valid email are required.' });
       }
-      const result = insertDonation.run(
+      const result = await insertDonation(
         String(name).trim(), String(email).trim(), String(phone),
         amount ? Number(amount) : null, String(message),
         String(paymentMethod), String(paymentStatus), String(paymentRef)
       );
       if (paymentStatus === 'paid') {
-        sendThankYouMail({ to: String(email).trim(), name: String(name).trim(), amount: amount ? Number(amount) : null, ref: String(paymentRef) });
+        // Serverless par response ke baad kaam kat sakta hai, isliye await karte hain.
+        await sendThankYouMail({ to: String(email).trim(), name: String(name).trim(), amount: amount ? Number(amount) : null, ref: String(paymentRef) });
       }
       return sendJSON(res, 201, {
         ok: true,
-        donationId: result.lastInsertRowid,
+        donationId: Number(result.lastInsertRowid),
         message: paymentStatus === 'paid'
           ? 'Thank you! Your payment was received.'
           : 'Thank you! We will reach out with UPI/payment details shortly.',
@@ -473,11 +491,11 @@ const server = http.createServer(async (req, res) => {
         return sendJSON(res, 400, { ok: false, error: 'Name, valid email and amount are required.' });
       }
 
-      const result = insertDonation.run(
+      const result = await insertDonation(
         String(name).trim(), String(email).trim(), String(phone),
         Number(amount), '', 'paytm', 'initiated', ''
       );
-      const donationId = result.lastInsertRowid;
+      const donationId = Number(result.lastInsertRowid);
       const orderId = `SAPTRISHI_${donationId}_${Date.now()}`;
 
       const paytmParams = {
@@ -541,12 +559,12 @@ const server = http.createServer(async (req, res) => {
 
       if (isValid && donationId) {
         const finalStatus = STATUS === 'TXN_SUCCESS' ? 'paid' : 'failed';
-        updateDonationPayment.run(finalStatus, params.TXNID || '', donationId);
+        await updateDonationPayment(finalStatus, params.TXNID || '', donationId);
 
         if (finalStatus === 'paid') {
-          const d = getDonationById.get(donationId);
+          const d = await getDonationById(donationId);
           if (d) {
-            sendThankYouMail({ to: d.email, name: d.name, amount: d.amount, ref: params.TXNID || '' });
+            await sendThankYouMail({ to: d.email, name: d.name, amount: d.amount, ref: params.TXNID || '' });
           }
         }
       }
@@ -559,7 +577,7 @@ const server = http.createServer(async (req, res) => {
     if (pathname === '/api/payment-status' && req.method === 'GET') {
       const id = Number(url.searchParams.get('id'));
       if (!id) return sendJSON(res, 400, { ok: false, error: 'Missing id' });
-      const donation = getDonationById.get(id);
+      const donation = await getDonationById(id);
       if (!donation) return sendJSON(res, 404, { ok: false, error: 'Not found' });
       return sendJSON(res, 200, { ok: true, status: donation.payment_status });
     }
@@ -571,7 +589,7 @@ const server = http.createServer(async (req, res) => {
       if (!name || !isValidEmail(email)) {
         return sendJSON(res, 400, { ok: false, error: 'Name and a valid email are required.' });
       }
-      insertVolunteer.run(String(name).trim(), String(email).trim(), String(phone), String(skills), String(message));
+      await insertVolunteer(String(name).trim(), String(email).trim(), String(phone), String(skills), String(message));
       return sendJSON(res, 201, { ok: true, message: 'Thanks for volunteering! Our team will contact you soon.' });
     }
 
@@ -582,15 +600,15 @@ const server = http.createServer(async (req, res) => {
       if (!name || !isValidEmail(email) || !message) {
         return sendJSON(res, 400, { ok: false, error: 'Name, valid email and message are required.' });
       }
-      insertContact.run(String(name).trim(), String(email).trim(), String(message).trim());
+      await insertContact(String(name).trim(), String(email).trim(), String(message).trim());
       return sendJSON(res, 201, { ok: true, message: 'Message received. We will get back to you soon.' });
     }
 
     // ---- GET /api/stats (public, aggregate only) ----
     if (pathname === '/api/stats' && req.method === 'GET') {
-      const d = db.prepare('SELECT COUNT(*) AS c FROM donations').get();
-      const v = db.prepare('SELECT COUNT(*) AS c FROM volunteers').get();
-      const c = db.prepare('SELECT COUNT(*) AS c FROM contacts').get();
+      const d = await one('SELECT COUNT(*) AS c FROM donations');
+      const v = await one('SELECT COUNT(*) AS c FROM volunteers');
+      const c = await one('SELECT COUNT(*) AS c FROM contacts');
       return sendJSON(res, 200, { ok: true, donations: d.c, volunteers: v.c, contacts: c.c });
     }
 
@@ -599,15 +617,15 @@ const server = http.createServer(async (req, res) => {
       if (!checkAdmin(req)) {
         return sendJSON(res, 401, { ok: false, error: 'Invalid or missing admin key.' });
       }
-      const donations = db.prepare('SELECT * FROM donations ORDER BY id DESC').all();
-      const volunteers = db.prepare('SELECT * FROM volunteers ORDER BY id DESC').all();
-      const contacts = db.prepare('SELECT * FROM contacts ORDER BY id DESC').all();
+      const donations = await rows('SELECT * FROM donations ORDER BY id DESC');
+      const volunteers = await rows('SELECT * FROM volunteers ORDER BY id DESC');
+      const contacts = await rows('SELECT * FROM contacts ORDER BY id DESC');
       return sendJSON(res, 200, { ok: true, donations, volunteers, contacts });
     }
-    
-        // ---- Teachers Archive ----
+
+    // ---- Teachers Archive ----
     if (pathname === '/api/articles' && req.method === 'GET') {
-      return sendJSON(res, 200, { ok: true, articles: listArticles.all() });
+      return sendJSON(res, 200, { ok: true, articles: await listArticles() });
     }
 
     if (pathname === '/api/archive/verify' && req.method === 'POST') {
@@ -622,7 +640,7 @@ const server = http.createServer(async (req, res) => {
       if (!teacher || !title || !body) {
         return sendJSON(res, 400, { ok: false, error: 'Teacher, title aur content zaroori hain.' });
       }
-      const r = insertArticle.run(
+      const r = await insertArticle(
         String(teacher).trim(), String(title).trim(), String(category).trim(),
         String(image).trim(), String(body), new Date().toISOString().slice(0, 10)
       );
@@ -634,7 +652,7 @@ const server = http.createServer(async (req, res) => {
       const id = Number(artMatch[1]);
 
       if (artMatch[2] && req.method === 'POST') {
-        bumpArticleViews.run(id);
+        await bumpArticleViews(id);
         return sendJSON(res, 200, { ok: true });
       }
       if (!artMatch[2] && req.method === 'PUT') {
@@ -643,7 +661,7 @@ const server = http.createServer(async (req, res) => {
         if (!teacher || !title || !body) {
           return sendJSON(res, 400, { ok: false, error: 'Teacher, title aur content zaroori hain.' });
         }
-        updateArticle.run(
+        await updateArticle(
           String(teacher).trim(), String(title).trim(), String(category).trim(),
           String(image).trim(), String(body), id
         );
@@ -651,7 +669,7 @@ const server = http.createServer(async (req, res) => {
       }
       if (!artMatch[2] && req.method === 'DELETE') {
         if (!checkAdmin(req)) return sendJSON(res, 401, { ok: false, error: 'Invalid admin key.' });
-        deleteArticleById.run(id);
+        await deleteArticleById(id);
         return sendJSON(res, 200, { ok: true });
       }
     }
@@ -670,7 +688,7 @@ const server = http.createServer(async (req, res) => {
 server.listen(PORT, () => {
   console.log(`Saptrishi server running → http://localhost:${PORT}`);
   console.log(`Admin panel           → http://localhost:${PORT}/admin.html`);
-  console.log(`Database file         → ${DB_PATH}`);
+  console.log(`Database              → ${process.env.TURSO_DATABASE_URL ? 'Turso (' + process.env.TURSO_DATABASE_URL + ')' : 'TURSO_DATABASE_URL set nahi hai!'}`);
   console.log(`Thank-you mail        → ${mailer ? 'ON' : 'OFF (MAIL_USER / MAIL_APP_PASSWORD set karein)'}`);
   console.log(`Razorpay webhook      → ${RAZORPAY_WEBHOOK_SECRET ? 'ON' : 'OFF (RAZORPAY_WEBHOOK_SECRET set karein)'}`);
 });
